@@ -96,7 +96,6 @@
         $data['checksum']=$checksum;
         $data['make']="";
         $data['model']="";
-        $data['fwversion']="";
         $data['remark']="";
         $data['mode']="";
         $data['license']="CC0";
