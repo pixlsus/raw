@@ -256,7 +256,6 @@
         $message.="Admin: ".baseurl."/edit-admin.php?id=$id\r\n";
         
         foreach($result as $email) {
-            print_r($email);
             mail($email['email'],"new upload: ".$data['make']." - ".$data['model'],$message);
         }
     }    
