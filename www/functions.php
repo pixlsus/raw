@@ -89,7 +89,10 @@
 
         $fullpath=datapath."/".hash_id($id)."/".$id;
         mkdir($fullpath,0755,true);
-        move_uploaded_file($tmpfilename, $fullpath."/".$filename);
+        if (!move_uploaded_file($tmpfilename, $fullpath."/".$filename)) {
+            echo "local move $tmpfilename\n";
+            rename($tmpfilename, $fullpath."/".$filename);
+        }
 
         system("exiv2 -Pkt  ".$fullpath."/".$filename.">".$fullpath."/".$filename.".exif.txt");
 
