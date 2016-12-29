@@ -11,12 +11,12 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-	<title>raw.dtsyle.net</title>
+	<title>raw.pixls.us</title>
 	<link href="css/jquery-ui.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/datatables.min.css"/>
     </head>
     <body>
-        <h1>Welcome to raw.dtsyle.net Admin</h1>
+        <h1>Welcome to raw.pixls.us Admin</h1>
         <div class="ui-widget">
             <a href="edit-user.php">Edit Account</a>
         </div>
