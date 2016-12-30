@@ -24,12 +24,12 @@
 
     $rawpath=datapath."/".hash_id($data['id'])."/".$data['id'];
     if(filesize($rawpath."/".$data['filename'].".exif.txt") > 0 ) {
-        $exifdata="<a target='_blank' href='".baseurl."/getfile.php?type=exif&id=".$raw['id']."'>exifdata</a>";
+        $exifdata="<a target='_blank' href='".baseurl."/getfile.php?type=exif&id=".$data['id']."'>exifdata</a>";
     } else {
         $exifdata="no exifdata";
     }
 
-        $rawfile="<a href='".baseurl."/getfile.php?type=raw&id=".$raw['id']."'>".$raw['filename']."</a>";
+        $rawfile="<a href='".baseurl."/getfile.php?type=raw&id=".$data['id']."'>".$data['filename']."</a>";
 ?>
 <!doctype html>
 <html lang="en">
