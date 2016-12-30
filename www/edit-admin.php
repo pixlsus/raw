@@ -42,11 +42,11 @@
         <div class="ui-widget">
             rawfile: <?php echo $rawfile?><br>
             exif: <?php echo $exifdata?><br>
-	    <form action="modify-admin.php" method="post">
-	        <input type="hidden" id="id" name="id" value="<?php echo $data['id']?>" />
-	        <input type="hidden" id="checksum" name="checksum" value="<?php echo $data['checksum']?>" />
-	        <div>
-	            <label for="validated">Validated:</label>
+            <form action="modify-admin.php" method="post">
+                <input type="hidden" id="id" name="id" value="<?php echo $data['id']?>" />
+                <input type="hidden" id="checksum" name="checksum" value="<?php echo $data['checksum']?>" />
+                <div>
+                    <label for="validated">Validated:</label>
                     <input type="checkbox" name="validated" id="validated" <?php echo $validated?>><br>
                 </div>
                 <div>
