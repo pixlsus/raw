@@ -73,8 +73,17 @@
                     <label for="license">License:</label>
                     <input type="text" id="license" name="license" value="<?php echo $data['license']?>" />
                 </div>
-                <input type="submit" name="submit" id="submit" value="Update" >
+                <input type="submit" name="submit" id="submit" value="Update" />
             </form>
+            <form action="deletefile.php" method="post">
+                <input type="hidden" id="deleteid" name="deleteid" value="<?php echo $data['id']?>" />
+                <div>
+                    <label for="deletecheck">Really delete:</label>
+                    <input type="checkbox" name="deletecheck" id="deletecheck" />
+                </div>
+                <input type="submit" name="delete" id="delete" value="Delete raw" />
+            </form>
+
         </div>
         <script src="js/jquery.min.js"></script>
         <script src="js/jquery-ui.js"></script>

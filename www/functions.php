@@ -197,6 +197,23 @@
     }
 
     function raw_delete($id) {
+        $data=raw_getdata($id);
+        $path=datapath."/".hash_id($id)."/".$id;
+        if(is_dir($path)){
+            $entries=scandir($path);
+            foreach($entries as $entry){
+                if(is_file($path."/".$entry)){
+                    error_log ("$path/$entry");
+                    unlink($path."/".$entry);
+                }
+            }
+            rmdir($path);
+        }
+
+        $dbh = db_init();
+        $sth = $dbh->prepare('delete from raws where id=:id');
+        $result = $sth->execute(array(':id' => $id));
+        return($result);
     }
 
     function raw_modify($id,$data) {
