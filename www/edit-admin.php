@@ -1,7 +1,7 @@
 <?php
     include("../config.php");
     include("functions.php");
-    
+
     if(!isset($_SESSION['loggedin'])){
         exit(0);
     }
@@ -15,7 +15,7 @@
     if(!isset($data)){
         exit(0);
     }
-    
+
     if($data['validated']=="1") {
         $validated="checked";
     } else {
@@ -28,7 +28,7 @@
     } else {
         $exifdata="no exifdata";
     }
-    
+
     $rawfile="<a href='".baseurl."/data/".hash_id($data['id'])."/".$data['id']."/".$data['filename']."'>".$data['filename']."</a>";
 ?>
 <!doctype html>
@@ -60,6 +60,10 @@
                 <div>
                     <label for="mode">Mode:</label>
                     <input type="text" id="mode" name="mode" value="<?php echo $data['mode']?>" />
+                </div>
+                <div>
+                    <label for="checksum">Checksum:</label>
+                    <input type="text" id="checksum" name="checksum" value="<?php echo $data['checksum']?>" />
                 </div>
                 <div>
                     <label for="remark">Comment:</label>
