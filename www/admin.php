@@ -5,7 +5,7 @@
         $_SESSION['referer']=$_SERVER['REQUEST_URI'];
         header("Location: ".baseurl."/login.php");
         exit();
-    } 
+    }
 ?>
 <!doctype html>
 <html lang="en">
@@ -23,10 +23,10 @@
         <div class="ui-widget">
             <table id="repository" class="display" cellspacing="0" width="100%">
                 <thead>
-                    <tr><th>Validated</th><th>Make</th><th>Model</th><th>Mode</th><th>Remark</th><th>License</th><th>Checksum</th><th>Raw</th><th>Exif</th><th>Edit</th></tr>
+                    <tr><th>Validated</th><th>Make</th><th>Model</th><th>Mode</th><th>Remark</th><th>License</th><th>Checksum (sha1)</th><th>Raw</th><th>Exif</th><th>Edit</th></tr>
                 </thead>
                 <tfoot>
-                    <tr><th>Validated</th><th>Make</th><th>Model</th><th>Mode</th><th>Remark</th><th>License</th><th>Checksum</th><th>Raw</th><th>Exif</th><th>Edit</th></tr>
+                    <tr><th>Validated</th><th>Make</th><th>Model</th><th>Mode</th><th>Remark</th><th>License</th><th>Checksum (sha1)</th><th>Raw</th><th>Exif</th><th>Edit</th></tr>
                 </tfoot>
             </table>
         </div>
