@@ -5,13 +5,12 @@ CREATE TABLE `raws` (
   `make` char(255) NOT NULL,
   `model` char(255) NOT NULL,
   `remark` mediumtext NOT NULL,
-  `checksum` char(32) NOT NULL,
+  `checksum` char(40) NOT NULL,
   `mode` char(255) NOT NULL,
-  `license` char(40) NOT NULL,
+  `license` char(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `checksum` (`checksum`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
