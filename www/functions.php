@@ -25,28 +25,28 @@
         $result = $sth->fetchColumn();
         return($result);
     }
-    
+
     function user_add($username,$password) {
         $dbh = db_init();
         $sth = $dbh->prepare('insert into users(username,password)  values(:username,:password)');
         $result = $sth->execute(array(':username' => $username,':password' => password_hash($password,PASSWORD_DEFAULT)));
         return($result);
     }
-    
+
     function user_delete($username) {
         $dbh = db_init();
         $sth = $dbh->prepare('delete from users where username = :username');
         $result = $sth->execute(array(':username' => $username));
         return($result);
     }
-    
+
     function user_modify($username,$email,$notify) {
         $dbh = db_init();
         $sth = $dbh->prepare('update users set email=:email,notify=:notify where username=:username');
         $result = $sth->execute(array(':username' => $username, ':email' => $email,':notify' => $notify));
         return($result);
     }
-    
+
     function user_chpasswd($username,$oldpassword,$newpassword) {
         if(user_validate($username,$oldpassword)){
             $dbh = db_init();
@@ -54,9 +54,9 @@
             $result = $sth->execute(array(':username' => $username,':password' => password_hash($newpassword,PASSWORD_DEFAULT)));
             return($result);
         }
-        return(false);  
+        return(false);
     }
-    
+
     function user_validate($username,$password) {
         $dbh = db_init();
         $sth = $dbh->prepare('select password from users where username = :username');
@@ -88,7 +88,10 @@
         $id = $sth->fetchColumn();
 
         $fullpath=datapath."/".hash_id($id)."/".$id;
-        mkdir($fullpath,0755,true);
+        if (!mkdir($fullpath,0755,true)){
+            echo "fileupload failed (not enough filerights)";
+            exit (1);
+        };
         if (!move_uploaded_file($tmpfilename, $fullpath."/".$filename)) {
             echo "local move $tmpfilename\n";
             rename($tmpfilename, $fullpath."/".$filename);
@@ -106,7 +109,7 @@
         $bitspersample="";
         $compression="";
         $nefcompression="";
-      
+
         $fp=fopen($fullpath."/".$filename.".exif.txt","r");
         while (!feof($fp)) {
             $buffer=fgets($fp);
@@ -135,7 +138,7 @@
             if(preg_match("/^Exif.*.NEFCompression/",$buffer)){
                 $nefcompression=trim(substr($buffer,46));
             }
-      
+
             // panasonic modes
             if(preg_match("/^Exif.PanasonicRaw.ImageHeight/",$buffer)){
                 $ph=trim(substr($buffer,46));
@@ -145,12 +148,12 @@
             }
         }
         fclose($fp);
-     
+
         // Canon rawmodes
         if(isset($sraw) and $sraw!="n/a" ){
             $data['mode']=$sraw;
         }
-     
+
         // Nikon compression modes
         if(preg_match("/^nikon/i",$data['make'])){
             $data['mode']=$bitspersample."bit";
@@ -161,7 +164,7 @@
             }
             if($nefcompression!=""){
                 $data['mode'].=" ($nefcompression)";
-            }        
+            }
         }
 
         // Panasonic aspect ratio
@@ -172,7 +175,7 @@
                 if($ar<1) {
                     $ar=1/$ar;
                 }
-         
+
                 if(abs($ar/(4/3)-1.0)<$tol) {
                     $ars="4:3";
                 } elseif (abs($ar/(16/9)-1.0)<$tol) {
@@ -195,7 +198,7 @@
 
     function raw_delete($id) {
     }
-   
+
     function raw_modify($id,$data) {
         $dbh = db_init();
         foreach($data as $key => $value){
@@ -207,7 +210,7 @@
         }
         return(TRUE);
     }
-   
+
     function raw_check($id,$checksum){
         $dbh = db_init();
         $sth = $dbh->prepare('select count(id) from raws where id = :id and checksum=:checksum');
@@ -234,7 +237,7 @@
 
     function raw_getlast($limit) {
         $dbh = db_init();
-        //limit doesn't work with execute+array 
+        //limit doesn't work with execute+array
         $sth = $dbh->prepare('select * from raws order by id desc limit '.$limit);
         $sth->execute();
         $result = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -256,8 +259,8 @@
         $message.="Mode: ".$data['mode']."\r\n";
         $message.="Remark: ".$data['remark']."\r\n";
         $message.="Admin: ".baseurl."/edit-admin.php?id=$id\r\n";
-        
+
         foreach($result as $email) {
             mail($email['email'],"new upload: ".$data['make']." - ".$data['model'],$message);
         }
-    }    
+    }
