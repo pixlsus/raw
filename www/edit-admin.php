@@ -29,7 +29,15 @@
         $exifdata="no exifdata";
     }
 
-        $rawfile="<a href='".baseurl."/getfile.php?type=raw&id=".$data['id']."'>".$data['filename']."</a>";
+    $rawfile="<a href='".baseurl."/getfile.php?type=raw&id=".$data['id']."'>".$data['filename']."</a>";
+
+    $files=scandir($rawpath);
+    $preview=current(preg_grep("/.*-preview[0-9]\.jpg$/", $files));
+    if($preview!=""){
+        $previewimage="<img src='".baseurl."/getfile.php?type=preview&id=".$data['id']."' width='100%'>\n";
+    } else {
+        $previewimage="No preview image available<br>\n";
+    }
 ?>
 <!doctype html>
 <html lang="en">
@@ -75,6 +83,9 @@
                 </div>
                 <input type="submit" name="submit" id="submit" value="Update" />
             </form>
+            <br>
+            <?php echo $previewimage?>
+            <br>
             <form action="deletefile.php" method="post">
                 <input type="hidden" id="deleteid" name="deleteid" value="<?php echo $data['id']?>" />
                 <div>

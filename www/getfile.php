@@ -31,5 +31,13 @@
                     readfile($file);
                 }
                 break;
+            case "preview":
+                $files=scandir($datapath);
+                $preview=current(preg_grep("/.*-preview[0-9]\.jpg$/", $files));
+                if($preview!=""){
+                    header('Content-Type: image/jpeg');
+                    readfile($datapath."/".$preview);
+                }
+                break;
         }
     }
