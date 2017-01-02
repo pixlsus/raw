@@ -15,10 +15,10 @@
                 $make="unknown";
                 $model="unknown";
                 if($raw['make']!=""){
-                    $make=$raw['make'];
+                    $make=strtolower($raw['make']);
                 }
                 if($raw['model']!=""){
-                    $model=$raw['model'];
+                    $model=strtolower($raw['model']);
                 }
                 echo "adding ".datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename']." as ".$make."/".$model."/".$raw['filename']."\n";
                 $zip->addFile(datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'],$make."/".$model."/".$raw['filename']);
