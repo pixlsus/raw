@@ -5,7 +5,7 @@
     $id=$_GET['id'] ?? '';
     $type=$_GET['type'] ?? '';
 
-    if($type="archive"){
+    if($type=="archive"){
         $file=datapath."/raw_pixls_us_archive.zip";
         if(file_exists($file)){
             header('Content-Type: '.mime_content_type($file));
