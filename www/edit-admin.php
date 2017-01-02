@@ -3,6 +3,8 @@
     include("functions.php");
 
     if(!isset($_SESSION['loggedin'])){
+        $_SESSION['referer']=$_SERVER['REQUEST_URI'];
+        header("Location: ".baseurl."/login.php");
         exit(0);
     }
 
