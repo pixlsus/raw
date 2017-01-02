@@ -3,25 +3,25 @@
     include("functions.php");
 
     $_SESSION['upload']="";
-    
-    if( is_file($_FILES['file']['tmp_name']) and ($_FILES['file']['size'] > 0) and isset($_POST['rights']) and isset($_POST['edited']) ){
+
+    if( is_file($_FILES['file']['tmp_name']) and ($_FILES['file']['size'] > 0) and isset($_POST['rights']) and isset($_POST['edited']) and preg_match("/[a-zA-Z0-9-_.]/",$_FILES['file']['name']) and ! preg_match("/php/i",$_FILES['file']['name']) ) {
         $id=raw_add($_FILES['file']['tmp_name'],$_FILES['file']['name']);
         if($id){
             $data=raw_getdata($id);
         }
     }
-    
+
     if(!isset($data)){
         echo "File either exist or the cc0 / not modified checkboxes aren't checked";
         exit(0);
     }
-    
+
     // disable submit button if data is missing
     if($data['make']=="" or $data['model']==""){
         $disabled="disabled";
     } else {
         $disabled="";
-    }    
+    }
     $_SESSION['upload']=$data['checksum'];
 ?>
 <!doctype html>
