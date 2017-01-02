@@ -205,7 +205,6 @@
             $entries=scandir($path);
             foreach($entries as $entry){
                 if(is_file($path."/".$entry)){
-                    error_log ("$path/$entry");
                     unlink($path."/".$entry);
                 }
             }
