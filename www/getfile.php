@@ -5,6 +5,17 @@
     $id=$_GET['id'] ?? '';
     $type=$_GET['type'] ?? '';
 
+    if($type="archive"){
+        $file=datapath."/raw_pixls_us_archive.zip";
+        if(file_exists($file)){
+            header('Content-Type: '.mime_content_type($file));
+            header('Content-Disposition: attachment; filename="'.basename($file).'"');
+            header('Content-Length: ' . filesize($file));
+            readfile($file);
+        }
+        exit(0);
+    }
+
     if(!is_numeric($id)){
         echo "wierd shit is happening";
         exit (0);
