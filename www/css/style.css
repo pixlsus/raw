@@ -41,7 +41,7 @@ header#bar {
     box-shadow: none;
 }
 
-.intro h1, section h1, section h2 {
+.intro h1, section h1, section h2, section h3{
 	font-family: "Roboto Slab", Arvo, "Open Sans", sans-serif;
 	font-weight: 400;
 	font-size: 2rem;
