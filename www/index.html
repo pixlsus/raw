@@ -50,7 +50,17 @@
         <script>
 $(document).ready(function() {
     $('#repository').DataTable( {
-        "ajax": 'json/getrepository.php'
+        "ajax": 'json/getrepository.php',
+        "aoColumns": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            { "bSearchable": false },
+            null,
+            { "bSearchable": false }
+        ]
     } );
     $(".fc").click(function() {
         if ( $("#rights").is(':checked') & $("#edited").is(':checked') ) {
