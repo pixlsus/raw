@@ -10,7 +10,7 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
-p {
+p, .ui-widget {
     color: #777;
     font-family: 'Open Sans', sans-serif;
 	text-align: left;
