@@ -146,7 +146,11 @@ ul > li {
     margin-bottom: 0.5rem;
 }
 
+tbody td {
+	text-align: left;
+}
+
 td.column-checksum {
-	font-size: 0.65rem;
+	font-size: 0.75rem;
 	font-family: monospace;
 }
