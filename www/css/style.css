@@ -145,3 +145,8 @@ ul > li {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
 }
+
+.column-checksum {
+	font-size: 0.65rem;
+	font-family: monospace;
+}
