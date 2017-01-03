@@ -115,7 +115,7 @@
         $fp=fopen($fullpath."/".$filename.".exif.txt","r");
         while (!feof($fp)) {
             $buffer=fgets($fp);
-            if(preg_match("/^Exif.Image.Make/",$buffer)){
+            if(preg_match("/^Exif.Image.Make\s/",$buffer)){
                 $data['make']=trim(substr($buffer,46));
             }
             if(preg_match("/^Exif.Image.Model/",$buffer)){
@@ -127,8 +127,8 @@
                 $sraw=trim(substr($buffer,46));
             }
 
-            // nikon raw modes
-            if(preg_match("/^Exif.*.BitsPerSample.*[0-9]{2}$/",$buffer)){
+            // nikon raw modes, also used by leica
+            if(preg_match("/^Exif.*.BitsPerSample.*[0-9]{1,2}$/",$buffer)){
                 $bitspersample=trim(substr($buffer,46));
             }
             if(preg_match("/^Exif.Sub.*\.Compression/",$buffer)){
@@ -166,6 +166,17 @@
             }
             if($nefcompression!=""){
                 $data['mode'].=" ($nefcompression)";
+            }
+        }
+
+        // Leica compressions
+        if(preg_match("/^leica/i",$data['make'])){
+            if($bitspersample=="8"){
+                $data['mode']="compressed 8bit";
+            } else if ($bitspersample=="16" ){
+                $data['mode']="uncompressed 16bit";
+            } else {
+                $data['mode']="";
             }
         }
 
@@ -288,6 +299,7 @@
                 $message.="Make: ".$data['make']."\r\n";
                 $message.="Model: ".$data['model']."\r\n";
                 $message.="Mode: ".$data['mode']."\r\n";
+                $message.="License: ".$data['license']."\r\n";
                 $message.="Remark: ".$data['remark']."\r\n";
                 break;
         }
