@@ -13,6 +13,7 @@ body {
 p {
     color: #777;
     font-family: 'Open Sans', sans-serif;
+	text-align: left;
 }
 
 header {
