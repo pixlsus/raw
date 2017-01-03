@@ -73,7 +73,6 @@
 
 
 		<section class="row clearfix">
-			<div class="container">
 				<div class="ui-widget">
 
 					<h2 id='repo'>Repository</h2>
@@ -88,7 +87,6 @@
 					</table>
 
 				</div>
-			</div>
 		</section>
 
         <a href="getfile.php?type=archive">Full archive as zip</a>
@@ -99,6 +97,7 @@
         <script>
 $(document).ready(function() {
     $('#repository').DataTable( {
+		responsive: true,
         "ajax": 'json/getrepository.php',
         "aoColumns": [
             null,
