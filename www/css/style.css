@@ -37,6 +37,14 @@ input[type=checkbox] {
 	vertical-align: middle;
 }
 
+input[type=checkbox] + label {
+	font-style: italic;
+}
+
+input[type=checkbox]:checked + label {
+	font-style: normal;
+}
+
 header {
 	background-color: whitesmoke;
     padding: 1rem 0;
