@@ -10,10 +10,14 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
-p, .ui-widget {
+p {
     color: #777;
     font-family: 'Open Sans', sans-serif;
 	text-align: left;
+}
+
+.ui-widget {
+    font-family: 'Open Sans', sans-serif;
 }
 
 header {
