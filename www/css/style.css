@@ -39,7 +39,7 @@ input[type=checkbox] {
 
 input[type=checkbox] + label {
 	font-style: italic;
-	color: #ccc;
+	color: #999;
 }
 
 input[type=checkbox]:checked + label {
