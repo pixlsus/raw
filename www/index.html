@@ -49,8 +49,13 @@
 					</p>
 
 					<form action="upload.php" method="post" enctype="multipart/form-data">
-						<input class="fc" type="checkbox" name="rights" id="rights"> I declare that I own full rights to this file and I hereby release it under the <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a> licence into the public domain.<br>
-						<input class="fc" type="checkbox" name="edited" id="edited"> The file is manually copied from card/camera, without using any software like Nikon Transfer.<br>
+						<div>
+							<input class="fc" type="checkbox" name="rights" id="rights"> I declare that I own full rights to this file and I hereby release it under the <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a> licence into the public domain.
+						</div>
+						<div>
+							<input class="fc" type="checkbox" name="edited" id="edited"> The file is manually copied from card/camera, without using any software like Nikon Transfer.
+						</div>
+						<br>
 						<input type="file" name="file" id="file"><br>
 						<input type="submit" name="submit" id="submit" value="Upload" disabled>
 					</form>
