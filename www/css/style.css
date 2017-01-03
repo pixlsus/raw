@@ -69,6 +69,14 @@ section h2 {
     font-size: 1.5rem;
 }
 
+#repo {
+	margin-bottom: 1rem;
+}
+
+#repository_wrapper {
+	font-size: 0.8rem;
+}
+
 section h3 {
 	font-size: 1.25rem;
 }
