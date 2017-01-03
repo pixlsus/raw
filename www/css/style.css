@@ -24,6 +24,11 @@ p {
 form {
 	max-width: 30rem;
 	margin: auto;
+	text-align: left;
+}
+
+form > div {
+	margin-bottom: 0.5rem;
 }
 
 header {
