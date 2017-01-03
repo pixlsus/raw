@@ -153,4 +153,5 @@ tbody td {
 td.column-checksum {
 	font-size: 0.75rem;
 	font-family: monospace;
+	word-break: break-all;
 }
