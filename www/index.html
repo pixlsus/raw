@@ -15,7 +15,7 @@
 
         <h1>Submit a file</h1>
         <div class="ui-widget">
-            <p>If you can provide a raw file from a camera we're currently missing, or if you can provide a more useful photo from a camera model we already support (e.g. a photo of a color target), please upload that file  now.</p>
+            <p>If you can provide a raw file from a camera we're currently missing, if the sample we have is not under <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a>, or if you can provide a more useful photo from a camera model we already support (e.g. a photo of a color target), please upload that file now.</p>
             <form action="upload.php" method="post" enctype="multipart/form-data">
                 <input class="fc" type="checkbox" name="rights" id="rights"> I declare that I own full rights to this file and I hereby release it under the <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a> licence into the public domain.<br>
                 <input class="fc" type="checkbox" name="edited" id="edited"> The file is manually copied from card/camera, without using any software like Nikon Transfer.<br>
@@ -38,7 +38,7 @@
         <a href="getfile.php?type=archive">Full archive as zip</a>
 
         <script src="js/jquery.min.js"></script>
-        <script src="js/jquery-ui.js"></script>
+        <!--script src="js/jquery-ui.js"></script-->
         <script type="text/javascript" src="js/datatables.min.js"></script>
         <script>
 $(document).ready(function() {
