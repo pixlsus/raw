@@ -299,6 +299,7 @@
                 $message.="Make: ".$data['make']."\r\n";
                 $message.="Model: ".$data['model']."\r\n";
                 $message.="Mode: ".$data['mode']."\r\n";
+                $message.="License: ".$data['license']."\r\n";
                 $message.="Remark: ".$data['remark']."\r\n";
                 break;
         }
