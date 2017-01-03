@@ -39,10 +39,12 @@ input[type=checkbox] {
 
 input[type=checkbox] + label {
 	font-style: italic;
+	color: #ccc;
 }
 
 input[type=checkbox]:checked + label {
 	font-style: normal;
+	color: #777;
 }
 
 header {
