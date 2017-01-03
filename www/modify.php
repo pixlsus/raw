@@ -11,10 +11,10 @@
     $data['model']=$_POST['model'] ?? '';
     $data['remark']=$_POST['remark'] ?? '';
     $data['license']="CC0";
-    
+
     if(raw_check($id,$checksum)==1 and $checksum==$sd){
         raw_modify($id,$data);
         $_SESSION['upload']='';
-        notify($id);
+        notify($id,"new");
     }
     header("Location: ".baseurl);

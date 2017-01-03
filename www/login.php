@@ -5,7 +5,7 @@
     $referer=$_SESSION['referer'] ?? '';
     $username=$_POST['username'] ?? '';
     $password=$_POST['password'] ?? '';
-    
+
     if($password!="" and $username!="" and $referer!="") {
         if(user_validate($username,$password)) {
             $_SESSION['loggedin']="TRUE";

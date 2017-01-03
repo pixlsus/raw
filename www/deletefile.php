@@ -9,8 +9,10 @@
     }
 
     $id = $_POST['deleteid'] ?? '';
+    $reason = $_POST['deletereason'] ?? '';
 
     if(isset($_POST['deletecheck'])){
+        notify($id,"delete",$reason);
         raw_delete($id);
     }
     header("Location: ".baseurl."/admin.php");

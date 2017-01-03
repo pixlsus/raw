@@ -263,22 +263,41 @@
     }
 
 // notification
-    function notify($id) {
+    function notify($id,$action,$extra="") {
+        $data=raw_getdata($id);
+
+        if($_SESSION['username']){
+            $userdata=user_getdata($_SESSION['username']);
+        }
+        switch($action){
+            case "new":
+                $subject="[raw.pixls.us] New upload: ".$data['make']." - ".$data['model'];
+
+                $message="New upload\r\n\r\n";
+                $message.="Make: ".$data['make']."\r\n";
+                $message.="Model: ".$data['model']."\r\n";
+                $message.="Mode: ".$data['mode']."\r\n";
+                $message.="Remark: ".$data['remark']."\r\n";
+                $message.="Admin: ".baseurl."/edit-admin.php?id=$id\r\n";
+                break;
+            case "delete":
+                $subject="[raw.pixls.us] Delete entry: ".$data['make']." - ".$data['model'];
+
+                $message=$userdata['username']." <".$userdata['email']."> deleted\r\n";
+                $message.="Reason: ".$extra."\r\n\r\n";
+                $message.="Make: ".$data['make']."\r\n";
+                $message.="Model: ".$data['model']."\r\n";
+                $message.="Mode: ".$data['mode']."\r\n";
+                $message.="Remark: ".$data['remark']."\r\n";
+                break;
+        }
+
         $dbh = db_init();
         $sth = $dbh->prepare("select email from users where notify='1'");
         $sth->execute();
         $result = $sth->fetchAll(PDO::FETCH_ASSOC);
 
-        $data=raw_getdata($id);
-
-        $message="New upload\r\n\r\n";
-        $message.="Make: ".$data['make']."\r\n";
-        $message.="Model: ".$data['model']."\r\n";
-        $message.="Mode: ".$data['mode']."\r\n";
-        $message.="Remark: ".$data['remark']."\r\n";
-        $message.="Admin: ".baseurl."/edit-admin.php?id=$id\r\n";
-
         foreach($result as $email) {
-            mail($email['email'],"new upload: ".$data['make']." - ".$data['model'],$message);
+            mail($email['email'],$subject,$message);
         }
     }

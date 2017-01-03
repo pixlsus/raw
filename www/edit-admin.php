@@ -91,14 +91,30 @@
             <form action="deletefile.php" method="post">
                 <input type="hidden" id="deleteid" name="deleteid" value="<?php echo $data['id']?>" />
                 <div>
+                    <label for="deletereason">Reason for deletion:</label>
+                    <input type="text" id="deletereason" name="deletereason" />
+                </div>
+                <div>
                     <label for="deletecheck">Really delete:</label>
                     <input type="checkbox" name="deletecheck" id="deletecheck" />
                 </div>
-                <input type="submit" name="delete" id="delete" value="Delete raw" />
+                <input type="submit" name="delete" id="delete" value="Delete raw" disabled/>
             </form>
 
         </div>
         <script src="js/jquery.min.js"></script>
         <script src="js/jquery-ui.js"></script>
+        <script>
+$(document).ready(function() {
+    $("#deletereason").keyup(function() {
+        if ( $("#deletereason").val().length !=0  ) {
+            $("#delete").prop('disabled', false);
+        } else {
+            $("#delete").prop('disabled', true);
+        }
+    });
+} );
+        </script>
+
     </body>
 </html>
