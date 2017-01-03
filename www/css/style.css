@@ -35,11 +35,13 @@ input[type=checkbox] {
 	width: 1rem;
 	height: 1rem;
 	vertical-align: middle;
+	cursor: pointer;
 }
 
 input[type=checkbox] + label {
 	font-style: italic;
 	color: #999;
+	cursor: pointer;
 }
 
 input[type=checkbox]:checked + label {
