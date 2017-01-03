@@ -30,6 +30,8 @@
 	<meta charset="utf-8">
 	<title>raw.pixls.us</title>
 	<link href="css/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://pixls.us/styles/style.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
     </head>
     <body>
         <h1>Thank you for submitting</h1>
