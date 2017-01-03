@@ -8,42 +8,69 @@
         <link rel="stylesheet" type="text/css" href="https://pixls.us/styles/style.css"/>
         <link rel="stylesheet" type="text/css" href="css/style.css"/>
     </head>
+
     <body>
-        <h1>Welcome to raw.pixls.us</h1>
 
-        <div class="ui-widget">
-            <p>Yet another raw camera file repository.</p>
-        </div>
+		<header>
+			<div class="container">
+				<a href="https://pixls.us">
+					<img id="logo-header" src="https://pixls.us/images/pixls.us-logo-url.svg" alt="PIXLS.US logo">
+				</a>
+				<div id="about-header">RAW</div>
+			</div>
+		</header>
 
-        <h1>Submit a file</h1>
-        <div class="ui-widget">
-            <p>If you can provide a raw file from a camera we're currently missing, if the sample we have is not under <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a>, or if you can provide a more useful photo from a camera model we already support (e.g. a photo of a color target), please upload that file now.</p>
-            <p>Of the following brands we like to have:
-                <ul>
-                    <li><b>Panasonic</b>: all the crops (1:1, 4:3, 3:2, 16:9).</li>
-                    <li><b>Nikon</b>: all the combinations of compression and bitness settings, that is 12bit-compressed, 12bit-uncompressed, 12bit-lossless-compressed, 14bit-compressed, 14bit-uncompressed, 14bit-lossless-compressed.
-                    <li><b>Canon</b>: RAW, mRAW, sRAW.</li>
-                </ul>
-            </p>
-            <form action="upload.php" method="post" enctype="multipart/form-data">
-                <input class="fc" type="checkbox" name="rights" id="rights"> I declare that I own full rights to this file and I hereby release it under the <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a> licence into the public domain.<br>
-                <input class="fc" type="checkbox" name="edited" id="edited"> The file is manually copied from card/camera, without using any software like Nikon Transfer.<br>
-                <input type="file" name="file" id="file"><br>
-                <input type="submit" name="submit" id="submit" value="Upload" disabled>
-            </form>
-        </div>
 
-        <h1>Repository</h1>
-        <div class="ui-widget">
-            <table id="repository" class="display" cellspacing="0" width="100%">
-                <thead>
-                    <tr><th>Make</th><th>Model</th><th>Mode</th><th>Remark</th><th>License</th><th>Checksum (sha1)</th><th>Raw</th><th>Exif</th></tr>
-                </thead>
-                <tfoot>
-                    <tr><th>Make</th><th>Model</th><th>Mode</th><th>Remark</th><th>License</th><th>Checksum (sha1)</th><th>Raw</th><th>Exif</th></tr>
-                </tfoot>
-            </table>
-        </div>
+
+		<section class="row clearfix">
+			<div class="container">
+				<div class="column full ui-widget">
+
+					<h2>Submit a file</h2>
+
+					<p>If you can provide a raw file from a camera we're currently missing, if the sample we have is not under <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a>, or if you can provide a more useful photo from a camera model we already support (e.g. a photo of a color target), please upload that file now.</p>
+
+					<p>Of the following brands we like to have:
+						<ul>
+							<li><b>Panasonic</b>: all the crops (1:1, 4:3, 3:2, 16:9).</li>
+							<li><b>Nikon</b>: all the combinations of compression and bitness settings, that is 12bit-compressed, 12bit-uncompressed, 12bit-lossless-compressed, 14bit-compressed, 14bit-uncompressed, 14bit-lossless-compressed.
+							<li><b>Canon</b>: RAW, mRAW, sRAW.</li>
+						</ul>
+					</p>
+
+					<form action="upload.php" method="post" enctype="multipart/form-data">
+						<input class="fc" type="checkbox" name="rights" id="rights"> I declare that I own full rights to this file and I hereby release it under the <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a> licence into the public domain.<br>
+						<input class="fc" type="checkbox" name="edited" id="edited"> The file is manually copied from card/camera, without using any software like Nikon Transfer.<br>
+						<input type="file" name="file" id="file"><br>
+						<input type="submit" name="submit" id="submit" value="Upload" disabled>
+					</form>
+
+				</div>
+			</div>
+		</section>
+
+
+		<section class="row clearfix">
+			<div class="container">
+				<div class="ui-widget">
+
+					<h2>Repository</h2>
+
+					<table id="repository" class="display" cellspacing="0" width="100%">
+						<thead>
+							<tr><th>Make</th><th>Model</th><th>Mode</th><th>Remark</th><th>License</th><th>Checksum (sha1)</th><th>Raw</th><th>Exif</th></tr>
+						</thead>
+						<tfoot>
+							<tr><th>Make</th><th>Model</th><th>Mode</th><th>Remark</th><th>License</th><th>Checksum (sha1)</th><th>Raw</th><th>Exif</th></tr>
+						</tfoot>
+					</table>
+
+				</div>
+			</div>
+		</section>
+
+
+
         <a href="getfile.php?type=archive">Full archive as zip</a>
 
         <script src="js/jquery.min.js"></script>
