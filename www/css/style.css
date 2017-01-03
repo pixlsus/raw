@@ -31,6 +31,12 @@ form > div {
 	margin-bottom: 0.5rem;
 }
 
+input[type=checkbox] {
+	width: 1rem;
+	height: 1rem;
+	vertical-align: middle;
+}
+
 header {
 	background-color: whitesmoke;
     padding: 1rem 0;
