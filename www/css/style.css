@@ -75,6 +75,8 @@ section h2 {
 
 #repository_wrapper {
 	font-size: 0.8rem;
+	max-width: 1366px;
+	margin: auto;
 }
 
 section h3 {
