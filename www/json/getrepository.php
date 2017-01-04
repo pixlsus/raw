@@ -25,8 +25,7 @@
                           $raw['mode'],
                           $raw['remark'],
                           $raw['license'],
-                          $raw['checksum'],
-                          "<a href='".baseurl."/getfile.php?type=raw&id=".$raw['id']."'>".$raw['filename']."</a>",
+                          "<a href='".baseurl."/getfile.php?type=raw&id=".$raw['id']."'>".$raw['filename']."</a> (<a href='".baseurl."/getfile.php?type=sha1sum&id=".$raw['id']."'>sha1</a>)",
                           $exifdata);
         }
     }

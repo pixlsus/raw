@@ -50,5 +50,10 @@
                     readfile($datapath."/".$preview);
                 }
                 break;
+            case "sha1sum":
+                header('Content-Type: text/plain');
+                header('Content-Disposition: attachment; filename="'.$data['filename'].".sha1");
+                echo $data['checksum']."  ".$data['filename'];
+                break;
         }
     }
