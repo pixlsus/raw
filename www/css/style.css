@@ -29,6 +29,7 @@ form {
 
 form > div {
 	margin-bottom: 0.5rem;
+	line-height: 1rem;
 }
 
 input[type=checkbox] {
