@@ -159,3 +159,8 @@ td.column-checksum {
 	font-family: monospace;
 	word-break: break-all;
 }
+
+.checksumdata {
+	font-size: 0.7rem;
+	font-family: monospace;
+}
