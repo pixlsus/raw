@@ -23,7 +23,7 @@
             if( $raw['license'] == "CC0" ){
                 $lic = "<a href='https://creativecommons.org/publicdomain/zero/1.0/' title='Creative Commons 0 - Public Domain' class='cc'>co</a>";
             }else if( $raw['license'] == "by-nc-sa/4.0" ){
-                $lic = "<a href='http://creativecommons.org/licenses/by-nc-sa/4.0/' title='Creative Commons - Attribution, Non-Commercial, ShareAlike 4.0' class='cc'>c bna</a>";
+                $lic = "<a href='http://creativecommons.org/licenses/by-nc-sa/4.0/' title='Creative Commons - Attribution, Non-Commercial, ShareAlike 4.0' class='cc'>cbna</a>";
             }else{
                 $lic = $raw['license'];
             }
