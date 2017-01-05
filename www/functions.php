@@ -17,6 +17,27 @@
         return(implode("/",str_split(substr(str_pad($id,hashdepth,"0"),-hashdepth))));
     }
 
+    function aspectratio($width,$height,$tolerance=0.1) {
+        $ar=$width/$height;
+        if($ar<1) {
+            $ar=1/$ar;
+        }
+        if(abs($ar/(4/3)-1.0)<$tolerance) {
+            $ars="4:3";
+        } elseif (abs($ar/(16/9)-1.0)<$tolerance) {
+            $ars="16:9";
+        } elseif (abs($ar/(3/2)-1.0)<$tolerance) {
+            $ars="3:2";
+        } elseif (abs($ar/(1/1)-1.0)<$tolerance) {
+            $ars="1:1";
+        } elseif (abs($ar/(5/4)-1.0)<$tolerance) {
+            $ars="5:4";
+        } else {
+            // really wierd stuff
+            $ars=$ar;
+        }
+    }
+
 // user related functions
     function user_exist($username){
         $dbh = db_init();
@@ -183,25 +204,7 @@
         // Panasonic aspect ratio
         if(preg_match("/^panasonic/i",$data['make'])) {
             if(isset($ph) and isset($pw)) {
-                $tol=0.1;
-                $ar=$pw/$ph;
-                if($ar<1) {
-                    $ar=1/$ar;
-                }
-
-                if(abs($ar/(4/3)-1.0)<$tol) {
-                    $ars="4:3";
-                } elseif (abs($ar/(16/9)-1.0)<$tol) {
-                    $ars="16:9";
-                } elseif (abs($ar/(3/2)-1.0)<$tol) {
-                    $ars="3:2";
-                } elseif (abs($ar/(1/1)-1.0)<$tol) {
-                    $ars="1:1";
-                } else {
-                    // really wierd stuff
-                    $ars=$ar;
-                }
-                $data['mode']=$ars;
+                $data['mode']=aspectratio($pw,$ph);
             }
         }
 
