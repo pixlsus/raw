@@ -17,7 +17,8 @@
             if(filesize($rawpath."/".$raw['filename'].".exif.txt") > 0 ) {
                 $exifdata="<a target='_blank' href='".baseurl."/getfile.php?type=exif&id=".$raw['id']."'>exifdata</a>";
             } else {
-                $exifdata="no exifdata";
+                //$exifdata="no exifdata";
+                $exifdata="";
             }
 
             if( $raw['license'] == "CC0" ){
