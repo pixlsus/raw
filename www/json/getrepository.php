@@ -20,11 +20,20 @@
                 $exifdata="no exifdata";
             }
 
+            if( $raw['license'] == "CC0" ){
+                $lic = "<a href='https://creativecommons.org/publicdomain/zero/1.0/' title='Creative Commons 0 - Public Domain'><i class='cc cc-cc'></i><i class='cc cc-zero'></i></a>";
+            }else if( $raw['license'] == "by-nc-sa/4.0" ){
+                $lic = "<a href='https://creativecommons.org/licenses/by-nc/4.0/' title='Creative Commons - By Attribution, Non-Commercial'><i class='cc cc-cc'></i><i class='cc cc-by'></i><i class='cc cc-nc'></i></a>";
+            }else{
+                $lic = $raw['license'];
+            }
+
             $data[]=array($raw['make'],
                           $raw['model'],
                           $raw['mode'],
                           $raw['remark'],
-                          $raw['license'],
+                          $lic,
+                          //$raw['license'],
                           //"<a href='".baseurl."/getfile.php?type=raw&id=".$raw['id']."'>".$raw['filename']."</a> (<a href='".baseurl."/getfile.php?type=sha1sum&id=".$raw['id']."'>sha1</a>)<br><div class='checksumdata'>". $raw['checksum'] ."</div>",
                           "<a href='".baseurl."/getfile.php?type=raw&id=".$raw['id']."'>".$raw['filename']."</a><div class='checksumdata'>". $raw['checksum'] ."</div>",
                           $exifdata);
