@@ -148,6 +148,7 @@ section.footer {
 ul {
 	max-width: 30rem;
 	margin: auto;
+	color: #777;
 }
 
 ul > li {
