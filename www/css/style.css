@@ -175,3 +175,7 @@ td.column-checksum {
 	padding: 0.5rem;
 	box-shadow: 0 5px 8px -3px #ddd;
 }
+
+a.cc {
+	color: #999;
+}
