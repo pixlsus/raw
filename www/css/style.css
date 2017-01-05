@@ -50,6 +50,10 @@ input[type=checkbox]:checked + label {
 	color: #777;
 }
 
+input#submit {
+	margin-top: 0.5rem;
+}
+
 header {
 	background-color: whitesmoke;
     padding: 1rem 0;
