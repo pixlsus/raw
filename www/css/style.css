@@ -33,6 +33,7 @@ form > div {
 
 input[type=checkbox] {
 	width: 0.8rem;
+	height: 0.8rem;
 	vertical-align: middle;
 	cursor: pointer;
 }
