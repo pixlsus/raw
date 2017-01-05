@@ -29,6 +29,26 @@
 					<h2 id='submit-a-file'>Submit a file</h2>
 					</div>
 
+
+				<div class='column half'>
+
+					<h3 id='upload'>Upload</h3>
+
+					<form action="upload.php" method="post" enctype="multipart/form-data">
+						<div>
+							<input class="fc" type="checkbox" name="rights" id="rights">
+							<label for="rights">I declare that I own full rights to this file and I hereby release it under the <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a> licence into the public domain.</label>
+						</div>
+						<div>
+							<input class="fc" type="checkbox" name="edited" id="edited">
+							<label for="edited"> The file is manually copied from card/camera, without using any software like Nikon Transfer.</label>
+						</div>
+						<input type="file" name="file" id="file"><br>
+						<input type="submit" name="submit" id="submit" value="Upload" disabled>
+					</form>
+
+				</div>
+
 				<div class='column half'>
 					<p>If you can provide a raw file from a camera we're currently missing, if the sample we have is not under <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a>, or if you can provide a more useful photo from a camera model we already support (e.g. a photo of a color target), please upload that file now.</p>
 
@@ -52,24 +72,6 @@
 						<li><b>Leica</b>: Both compressed and uncompressed.</li>
 						<li><b>Pentax</b>: Both PEF and DNG.</li>
 					</ul>
-
-				</div>
-				<div class='column half'>
-
-					<h3 id='upload'>Upload</h3>
-
-					<form action="upload.php" method="post" enctype="multipart/form-data">
-						<div>
-							<input class="fc" type="checkbox" name="rights" id="rights">
-							<label for="rights">I declare that I own full rights to this file and I hereby release it under the <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a> licence into the public domain.</label>
-						</div>
-						<div>
-							<input class="fc" type="checkbox" name="edited" id="edited">
-							<label for="edited"> The file is manually copied from card/camera, without using any software like Nikon Transfer.</label>
-						</div>
-						<input type="file" name="file" id="file"><br>
-						<input type="submit" name="submit" id="submit" value="Upload" disabled>
-					</form>
 
 				</div>
 			</div>
