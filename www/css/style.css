@@ -164,3 +164,9 @@ td.column-checksum {
 	font-size: 0.7rem;
 	font-family: monospace;
 }
+
+.form-upload {
+	border: solid 1px #ddd;
+	padding: 0.5rem;
+	box-shadow: 0 5px 8px -3px #ddd;
+}
