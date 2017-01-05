@@ -101,12 +101,13 @@ header a {
 #logo-header {
     margin: 0 auto;
     width: 200px;
+	height: 4rem;
 }
 
 @media (min-width: 40rem){
     #about-header {
         display: inline;
-        font-size: 7.5rem;
+        /* font-size: 7.5rem; */
     }
 
     #logo-header {
@@ -117,7 +118,7 @@ header a {
 }
 @media (min-width: 64rem){
     #about-header {
-        font-size: 9rem;
+        /* font-size: 9rem; */
     }
     #logo-header {
         height: 8rem;
