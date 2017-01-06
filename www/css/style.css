@@ -55,6 +55,19 @@ input#submit {
 	margin-top: 0.5rem;
 }
 
+input.fc {
+	display: block;
+	width: 100%;
+}
+
+label.fc-label {
+
+	font-size: 1.5rem;
+	margin-bottom: 0.15rem;
+	display: block;
+	color: #999;
+}
+
 header {
 	background-color: whitesmoke;
     padding: 1rem 0;

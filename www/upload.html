@@ -56,23 +56,23 @@
                     <input type="hidden" id="id" name="id" value="<?php echo $data['id']?>" />
                     <input type="hidden" id="checksum" name="checksum" value="<?php echo $data['checksum']?>" />
                         <div>
-                            <label for="make">Make:</label>
+                            <label for="make" class='fc-label'>Make:</label>
                             <input class="fc" type="text" id="make" name="make" value="<?php echo $data['make']?>" />
                         </div>
                         <div>
-                            <label for="model">Model:</label>
+                            <label for="model" class='fc-label'>Model:</label>
                             <input class="fc" type="text" id="model" name="model" value="<?php echo $data['model']?>" />
                         </div>
                         <div>
-                            <label for="mode-dummy">Mode:</label>
+                            <label for="mode-dummy" class='fc-label'>Mode:</label>
                             <input class="fc" type="text" id="mode-dummy" name="mode-dummy" value="<?php echo $data['mode']?>" disabled/>
                         </div>
                         <div>
-                            <label for="remark">Comment:</label>
-                            <input type="text" id="remark" name="remark" value="<?php echo $data['remark']?>" />
+                            <label for="remark" class='fc-label'>Comment:</label>
+                            <input class="fc" type="text" id="remark" name="remark" value="<?php echo $data['remark']?>" />
+                        </div>
+                        <input type="submit" name="submit" id="submit" value="Update" <?php echo $disabled?> >
                     </form>
-                </div>
-                <input type="submit" name="submit" id="submit" value="Update" <?php echo $disabled?> >
             </form>
         </div>
         <script src="js/jquery.min.js"></script>
