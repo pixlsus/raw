@@ -55,12 +55,12 @@ input#submit {
 	margin-top: 0.5rem;
 }
 
-input.fc {
+input.fcc {
 	display: block;
 	width: 100%;
 }
 
-label.fc-label {
+label.fcc-label {
 	font-size: 1.5rem;
 	margin-bottom: 0.25rem;
 	display: block;
