@@ -1,4 +1,5 @@
 <?php
+
     include("../config.php");
     include("functions.php");
 
@@ -34,29 +35,44 @@
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
     </head>
     <body>
-        <h1>Thank you for submitting</h1>
-        <div class="ui-widget">
-	    <p>If you have access a missing camera, please submit a raw file.</p>
-	    <form action="modify.php" method="post">
-	        <input type="hidden" id="id" name="id" value="<?php echo $data['id']?>" />
-	        <input type="hidden" id="checksum" name="checksum" value="<?php echo $data['checksum']?>" />
-                <div>
-                    <label for="make">Make:</label>
-                    <input class="fc" type="text" id="make" name="make" value="<?php echo $data['make']?>" />
-                </div>
-                <div>
-                    <label for="model">Model:</label>
-                    <input class="fc" type="text" id="model" name="model" value="<?php echo $data['model']?>" />
-                </div>
-                <div>
-                    <label for="mode-dummy">Mode:</label>
-                    <input class="fc" type="text" id="mode-dummy" name="mode-dummy" value="<?php echo $data['mode']?>" disabled/>
-                </div>
-                <div>
-                    <label for="remark">Comment:</label>
-                    <input type="text" id="remark" name="remark" value="<?php echo $data['remark']?>" />
-                </div>
-                <input type="submit" name="submit" id="submit" value="Update" <?php echo $disabled?> >
+		<header>
+			<div class="container">
+				<a href="https://pixls.us">
+					<img id="logo-header" src="https://pixls.us/images/pixls.us-logo-url.svg" alt="PIXLS.US logo">
+				</a>
+				<div id="about-header">RAW</div>
+			</div>
+		</header>
+
+        <section class="row clearfix">
+            <div class='container'>
+            <h1>Thank you for submitting!</h1>
+                <div class="column full ui-widget">
+                    <p>
+                        Please take a moment to correct or fill-in any missing fields below,
+                        then press 'Update':
+                    </p>
+                <form action="modify.php" method="post">
+                    <input type="hidden" id="id" name="id" value="<?php echo $data['id']?>" />
+                    <input type="hidden" id="checksum" name="checksum" value="<?php echo $data['checksum']?>" />
+                        <div>
+                            <label for="make" class='fc-label'>Make:</label>
+                            <input class="fc" type="text" id="make" name="make" value="<?php echo $data['make']?>" />
+                        </div>
+                        <div>
+                            <label for="model" class='fc-label'>Model:</label>
+                            <input class="fc" type="text" id="model" name="model" value="<?php echo $data['model']?>" />
+                        </div>
+                        <div>
+                            <label for="mode-dummy" class='fc-label'>Mode:</label>
+                            <input class="fc" type="text" id="mode-dummy" name="mode-dummy" value="<?php echo $data['mode']?>" disabled/>
+                        </div>
+                        <div>
+                            <label for="remark" class='fc-label'>Comment:</label>
+                            <input class="fc" type="text" id="remark" name="remark" value="<?php echo $data['remark']?>" />
+                        </div>
+                        <input type="submit" name="submit" id="submit" value="Update" <?php echo $disabled?> >
+                    </form>
             </form>
         </div>
         <script src="js/jquery.min.js"></script>

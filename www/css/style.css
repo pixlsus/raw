@@ -28,7 +28,7 @@ form {
 }
 
 form > div {
-	margin-bottom: 0.5rem;
+	margin-bottom: 0.75rem;
 	line-height: 1rem;
 }
 
@@ -61,11 +61,10 @@ input.fc {
 }
 
 label.fc-label {
-
 	font-size: 1.5rem;
 	margin-bottom: 0.15rem;
 	display: block;
-	color: #999;
+	color: #aaa;
 }
 
 header {
