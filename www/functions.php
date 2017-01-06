@@ -183,9 +183,7 @@
             // Panasonic aspect ratio
             if(preg_match("/^panasonic/i",$data['make'])) {
                 if(isset($exifdata['Exif']['PanasonicRaw']['ImageWidth']) and isset($exifdata['Exif']['PanasonicRaw']['ImageHeight'])) {
-                    echo "<pre>oi mate!</pre>";
                     $data['mode']=aspectratio($exifdata['Exif']['PanasonicRaw']['ImageWidth'],$exifdata['Exif']['PanasonicRaw']['ImageHeight']);
-
                 }
             }
 
