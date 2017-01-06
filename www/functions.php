@@ -162,6 +162,7 @@
 
             // nikon raw modes
             if(preg_match("/^nikon/i",$data['make'])){
+                $ar="";
                 foreach($exifdata['Exif'] as $key => $value){
                     if(isset($value['NewSubfileType']) and $value['NewSubfileType']=="Primary image"){
                         $data['mode']=$value['BitsPerSample']."bit";
@@ -170,16 +171,17 @@
                         } else if ($value['Compression']=="Uncompressed" ){
                             $data['mode'].="-uncompressed";
                         }
+                        $ar=aspectratio($value['ImageWidth'],$value['ImageLength']);
                     }
                 }
                 if(isset($exifdata['Exif']['Nikon3']['NEFCompression'])){
                     $data['mode'].=" (".$exifdata['Exif']['Nikon3']['NEFCompression'].")";
                 }
+                $data['mode'].=" ".$ar;
             }
 
             // Panasonic aspect ratio
             if(preg_match("/^panasonic/i",$data['make'])) {
-                echo "<pre>meep!".print_r($exifdata)."meep!</pre>";
                 if(isset($exifdata['Exif']['PanasonicRaw']['ImageWidth']) and isset($exifdata['Exif']['PanasonicRaw']['ImageHeight'])) {
                     echo "<pre>oi mate!</pre>";
                     $data['mode']=aspectratio($exifdata['Exif']['PanasonicRaw']['ImageWidth'],$exifdata['Exif']['PanasonicRaw']['ImageHeight']);
@@ -202,7 +204,6 @@
                 }
             }
         }
-        echo "<pre>meep!".print_r($data)."meep!</pre>";
 
         raw_modify($id,$data);
         return($id);
