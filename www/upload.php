@@ -10,20 +10,16 @@
         if($id){
             $data=raw_getdata($id);
         }
+
+        // disable submit button if data is missing
+        if($data['make']=="" or $data['model']==""){
+            $disabled="disabled";
+        } else {
+            $disabled="";
+        }
+        $_SESSION['upload']=$data['checksum'];
     }
 
-    //if(!isset($data)){
-    //    echo "File either exist or the cc0 / not modified checkboxes aren't checked";
-    //    exit(0);
-    //}
-
-    // disable submit button if data is missing
-    if($data['make']=="" or $data['model']==""){
-        $disabled="disabled";
-    } else {
-        $disabled="";
-    }
-    $_SESSION['upload']=$data['checksum'];
 ?>
 <!doctype html>
 <html lang="en">
