@@ -279,6 +279,22 @@
         return($result);
     }
 
+    function raw_getnumberofsamples() {
+        $dbh = db_init();
+        $sth = $dbh->prepare('select count(*) from raws where validated=1');
+        $sth->execute();
+        $result = $sth->fetchColumn();
+        return($result);
+    }
+
+    function raw_getnumberofcameras() {
+        $dbh = db_init();
+        $sth = $dbh->prepare('select  count(distinct(concat(make,model))) from raws where validated=1');
+        $sth->execute();
+        $result = $sth->fetchColumn();
+        return($result);
+    }
+
 // notification
     function notify($id,$action,$extra="") {
         $data=raw_getdata($id);
