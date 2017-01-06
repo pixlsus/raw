@@ -82,10 +82,11 @@
 
         <section class="row clearfix">
             <div class='container'>
-            <h1>Uh Oh</h1>
+            <h1>D'oh!</h1>
                 <div class="column full ui-widget">
                     <p>
-                    The file either already exists or the CC0/modified checkboxes weren't checked.
+                    The file either already exists, the CC0/modified checkboxes weren't checked,
+                    or you forgot to choose a file.
                     Please <a href='//raw.pixls.us'>go back</a> and try again.
                     </p>
                 </div>
