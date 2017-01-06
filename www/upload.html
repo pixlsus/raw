@@ -56,20 +56,20 @@
                     <input type="hidden" id="id" name="id" value="<?php echo $data['id']?>" />
                     <input type="hidden" id="checksum" name="checksum" value="<?php echo $data['checksum']?>" />
                         <div>
-                            <label for="make" class='fc-label'>Make</label>
-                            <input class="fc" type="text" id="make" name="make" value="<?php echo $data['make']?>" />
+                            <label for="make" class='fcc-label'>Make</label>
+                            <input class="fcc" type="text" id="make" name="make" value="<?php echo $data['make']?>" />
                         </div>
                         <div>
-                            <label for="model" class='fc-label'>Model</label>
-                            <input class="fc" type="text" id="model" name="model" value="<?php echo $data['model']?>" />
+                            <label for="model" class='fcc-label'>Model</label>
+                            <input class="fcc" type="text" id="model" name="model" value="<?php echo $data['model']?>" />
                         </div>
                         <div>
-                            <label for="mode-dummy" class='fc-label'>Mode</label>
-                            <input class="fc" type="text" id="mode-dummy" name="mode-dummy" value="<?php echo $data['mode']?>" disabled/>
+                            <label for="mode-dummy" class='fcc-label'>Mode</label>
+                            <input class="fcc" type="text" id="mode-dummy" name="mode-dummy" value="<?php echo $data['mode']?>" disabled/>
                         </div>
                         <div>
-                            <label for="remark" class='fc-label'>Comment</label>
-                            <input class="fc" type="text" id="remark" name="remark" value="<?php echo $data['remark']?>" />
+                            <label for="remark" class='fcc-label'>Comment</label>
+                            <input class="fcc" type="text" id="remark" name="remark" value="<?php echo $data['remark']?>" />
                         </div>
                         <input type="submit" name="submit" id="submit" value="Update" <?php echo $disabled?> >
                     </form>
@@ -79,7 +79,7 @@
         <script src="js/jquery-ui.js"></script>
         <script>
 $(document).ready(function() {
-    $(".fc").keyup(function() {
+    $(".fcc").keyup(function() {
         if ( $("#make").val().length !=0  & $("#model").val().length != 0 ) {
             $("#submit").prop('disabled', false);
         } else {
