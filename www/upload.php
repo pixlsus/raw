@@ -86,6 +86,7 @@
                 <div class="column full ui-widget">
                     <p>
                     The file either already exists or the CC0/modified checkboxes weren't checked.
+                    Please <a href='//raw.pixls.us'>go back</a> and try again.
                     </p>
                 </div>
             </div>
