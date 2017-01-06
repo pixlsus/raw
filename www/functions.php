@@ -36,6 +36,18 @@
             // really wierd stuff
             $ars=$ar;
         }
+        return($ars);
+    }
+
+    // found on the internets (http://stackoverflow.com/questions/9635968/convert-dot-syntax-like-this-that-other-to-multi-dimensional-array-in-php)
+    function assignArrayByPath(&$arr, $path, $value, $separator='.') {
+        $keys = explode($separator, $path);
+
+        foreach ($keys as $key) {
+            $arr = &$arr[$key];
+        }
+
+        $arr = $value;
     }
 
 // user related functions
@@ -129,84 +141,68 @@
         $data['mode']="";
         $data['license']="CC0";
 
-        $bitspersample="";
-        $compression="";
-        $nefcompression="";
-
+        $exifdata=array();
         $fp=fopen($fullpath."/".$filename.".exif.txt","r");
         while (!feof($fp)) {
             $buffer=fgets($fp);
-            if(preg_match("/^Exif.Image.Make\s/",$buffer)){
-                $data['make']=trim(substr($buffer,46));
-            }
-            if(preg_match("/^Exif.Image.Model/",$buffer)){
-                $data['model']=trim(substr($buffer,46));
-            }
-
-            // canon raw settings
-            if(preg_match("/^Exif.CanonCs.SRAWQuality/",$buffer)){
-                $sraw=trim(substr($buffer,46));
-            }
-
-            // nikon raw modes, also used by leica
-            if(preg_match("/^Exif.*.BitsPerSample.*[0-9]{1,2}$/",$buffer)){
-                $bitspersample=trim(substr($buffer,46));
-            }
-            if(preg_match("/^Exif.Sub.*\.Compression/",$buffer)){
-                $tmp=trim(substr($buffer,46));
-                if(!preg_match("/JPEG/",$tmp)){
-                    $compression=$tmp;
-                }
-            }
-            if(preg_match("/^Exif.*.NEFCompression/",$buffer)){
-                $nefcompression=trim(substr($buffer,46));
-            }
-
-            // panasonic modes
-            if(preg_match("/^Exif.PanasonicRaw.ImageHeight/",$buffer)){
-                $ph=trim(substr($buffer,46));
-            }
-            if(preg_match("/^Exif.PanasonicRaw.ImageWidth/",$buffer)){
-                $pw=trim(substr($buffer,46));
+            if (preg_match("/([a-zA-Z0-9-_.\/:]+)\s+(.*)/",$buffer,$matches)) {
+                assignArrayByPath($exifdata,$matches[1],$matches[2],".");
             }
         }
         fclose($fp);
 
-        // Canon rawmodes
-        if(isset($sraw) and $sraw!="n/a" ){
-            $data['mode']=$sraw;
-        }
+        if(count($exifdata) >0){
+            $data['make'] = $exifdata['Exif']['Image']['Make'] ?? "";
+            $data['model'] = $exifdata['Exif']['Image']['Model'] ?? "";
 
-        // Nikon compression modes
-        if(preg_match("/^nikon/i",$data['make'])){
-            $data['mode']=$bitspersample."bit";
-            if($compression=="Nikon NEF Compressed"){
-                $data['mode'].="-compressed";
-            } else if ($compression=="Uncompressed" ){
-                $data['mode'].="-uncompressed";
+            // canon raw settings
+            if(preg_match("/^canon/i",$data['make'])){
+                $data['mode']=$exifdata['Exif']['CanonCs']['SRAWQuality'] ?? "";
             }
-            if($nefcompression!=""){
-                $data['mode'].=" ($nefcompression)";
-            }
-        }
 
-        // Leica compressions
-        if(preg_match("/^leica/i",$data['make'])){
-            if($bitspersample=="8"){
-                $data['mode']="compressed 8bit";
-            } else if ($bitspersample=="16" ){
-                $data['mode']="uncompressed 16bit";
-            } else {
-                $data['mode']="";
+            // nikon raw modes
+            if(preg_match("/^nikon/i",$data['make'])){
+                foreach($exifdata['Exif'] as $key => $value){
+                    if(isset($value['NewSubfileType']) and $value['NewSubfileType']=="Primary image"){
+                        $data['mode']=$value['BitsPerSample']."bit";
+                        if($value['Compression']=="Nikon NEF Compressed"){
+                            $data['mode'].="-compressed";
+                        } else if ($value['Compression']=="Uncompressed" ){
+                            $data['mode'].="-uncompressed";
+                        }
+                    }
+                }
+                if(isset($exifdata['Exif']['Nikon3']['NEFCompression'])){
+                    $data['mode'].=" (".$exifdata['Exif']['Nikon3']['NEFCompression'].")";
+                }
             }
-        }
 
-        // Panasonic aspect ratio
-        if(preg_match("/^panasonic/i",$data['make'])) {
-            if(isset($ph) and isset($pw)) {
-                $data['mode']=aspectratio($pw,$ph);
+            // Panasonic aspect ratio
+            if(preg_match("/^panasonic/i",$data['make'])) {
+                echo "<pre>meep!".print_r($exifdata)."meep!</pre>";
+                if(isset($exifdata['Exif']['PanasonicRaw']['ImageWidth']) and isset($exifdata['Exif']['PanasonicRaw']['ImageHeight'])) {
+                    echo "<pre>oi mate!</pre>";
+                    $data['mode']=aspectratio($exifdata['Exif']['PanasonicRaw']['ImageWidth'],$exifdata['Exif']['PanasonicRaw']['ImageHeight']);
+
+                }
+            }
+
+            // Leica compressions
+            if(preg_match("/^leica/i",$data['make'])){
+                foreach($exifdata['Exif'] as $key => $value){
+                    if(isset($value['NewSubfileType']) and $value['NewSubfileType']=="Primary image"){
+                        if($value['BitsPerSample']=="8"){
+                            $data['mode']="compressed 8bit";
+                        } else if ($value['BitsPerSample']=="16" ){
+                            $data['mode']="uncompressed 16bit";
+                        } else {
+                            $data['mode']="";
+                        }
+                    }
+                }
             }
         }
+        echo "<pre>meep!".print_r($data)."meep!</pre>";
 
         raw_modify($id,$data);
         return($id);
@@ -214,6 +210,7 @@
 
     function raw_delete($id) {
         $data=raw_getdata($id);
+
         $path=datapath."/".hash_id($id)."/".$id;
         if(is_dir($path)){
             $entries=scandir($path);
@@ -280,7 +277,7 @@
     function notify($id,$action,$extra="") {
         $data=raw_getdata($id);
 
-        if($_SESSION['username']){
+        if(isset($_SESSION['username'])){
             $userdata=user_getdata($_SESSION['username']);
         }
         switch($action){
