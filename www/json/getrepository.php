@@ -17,7 +17,7 @@
                 $exifdata="";
             }
 
-            switch($raw['licence']){
+            switch($raw['license']){
                 case "CC0":
                     $lic = "<a href='https://creativecommons.org/publicdomain/zero/1.0/' title='Creative Commons 0 - Public Domain' class='cc'>co</a>";
                     break;
