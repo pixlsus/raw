@@ -5,6 +5,13 @@
     $id=$_GET['id'] ?? '';
     $type=$_GET['type'] ?? '';
 
+    if($id=='' and $type=='' and isset($_SERVER['PATH_INFO'])){
+        if(preg_match("/\/([0-9]+)\/([a-z]+)\/(.*)/",$_SERVER['PATH_INFO'],$matches)){
+            $id=$matches[1];
+            $type=$matches[2];
+        }
+    }
+
     if($type=="archive"){
         $file=datapath."/raw_pixls_us_archive.zip";
         if(file_exists($file)){

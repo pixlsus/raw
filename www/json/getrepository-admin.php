@@ -15,7 +15,7 @@
 
             $rawpath=datapath."/".hash_id($raw['id'])."/".$raw['id'];
             if(filesize($rawpath."/".$raw['filename'].".exif.txt") > 0 ) {
-                $exifdata="<a target='_blank' href='".baseurl."/getfile.php?type=exif&id=".$raw['id']."'>exifdata</a>";
+                $exifdata="<a target='_blank' href='".baseurl."/getfile.php/".$raw['id']."/exif/".$raw['filename'].".exif.txt'>exifdata</a>";
             } else {
                 $exifdata="no exifdata";
             }
@@ -26,7 +26,7 @@
                           $raw['remark'],
                           $raw['license'],
                           $raw['checksum'],
-                          "<a href='".baseurl."/getfile.php?type=raw&id=".$raw['id']."'>".$raw['filename']."</a>",
+                          "<a href='".baseurl."/getfile.php/".$raw['id']."/raw/".$raw['filename']."'>".$raw['filename']."</a>",
                           $exifdata,
                           "<a href='".baseurl."/edit-admin.php?id=".$raw['id']."'>edit</a>");
         }

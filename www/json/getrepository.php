@@ -13,7 +13,7 @@
             $filesize=human_filesize(filesize($rawpath."/".$raw['filename']));
 
             if(filesize($rawpath."/".$raw['filename'].".exif.txt") > 0 ) {
-                $exifdata="<a target='_blank' href='".baseurl."/getfile.php?type=exif&id=".$raw['id']."'>exifdata</a>";
+                $exifdata="<a target='_blank' href='".baseurl."/getfile.php/".$raw['id']."/exif/".$raw['filename'].".exif.txt'>exifdata</a>";
             } else {
                 $exifdata="";
             }
@@ -35,7 +35,7 @@
                           $raw['mode'],
                           $raw['remark'],
                           $lic,
-                          "<a href='".baseurl."/getfile.php?type=raw&id=".$raw['id']."'>".$raw['filename']."</a><div class='checksumdata'>". $raw['checksum'] ."(".$filesize.")</div>",
+                          "<a href='".baseurl."/getfile.php/".$raw['id']."/raw/".$raw['filename']."'>".$raw['filename']."</a><div class='checksumdata'>". $raw['checksum'] ."(".$filesize.")</div>",
                           $exifdata);
         }
     }
