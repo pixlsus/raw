@@ -5,4 +5,4 @@
     header("Content-Type: image/svg+xml");
 
     $cameras=raw_getnumberofcameras();
-    readfile("https://img.shields.io/badge/cameras-".$cameras."-green.svg");
+    readfile("http://img.shields.io/badge/cameras-".$cameras."-green.svg");

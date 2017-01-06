@@ -5,4 +5,4 @@
     header("Content-Type: image/svg+xml");
 
     $samples=raw_getnumberofsamples();
-    readfile("https://img.shields.io/badge/samples-".$samples."-green.svg");
+    readfile("http://img.shields.io/badge/samples-".$samples."-green.svg");
