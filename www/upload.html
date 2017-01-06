@@ -18,9 +18,12 @@
 		</header>
 
         <section class="row clearfix">
-            <h1>Thank you for submitting</h1>
+            <h1>Thank you for submitting!</h1>
             <div class="column full ui-widget">
-            <p>If you have access a missing camera, please submit a raw file.</p>
+                <p>
+                    Please take a moment to correct or fill-in any missing fields below,
+                    then press 'Update':
+                </p>
             <form action="modify.php" method="post">
                 <input type="hidden" id="id" name="id" value="<?php echo $data['id']?>" />
                 <input type="hidden" id="checksum" name="checksum" value="<?php echo $data['checksum']?>" />
@@ -40,7 +43,7 @@
                         <label for="remark">Comment:</label>
                         <input type="text" id="remark" name="remark" value="<?php echo $data['remark']?>" />
                     </div>
-                    <input type="submit" name="submit" id="submit" value="Update" <?php echo $disabled?> >
+                    <input type="submit" name="submit" id="submit" value="Update">
                 </form>
             </div>
         </section>
