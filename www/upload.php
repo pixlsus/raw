@@ -12,10 +12,10 @@
         }
     }
 
-    if(!isset($data)){
-        echo "File either exist or the cc0 / not modified checkboxes aren't checked";
-        exit(0);
-    }
+    //if(!isset($data)){
+    //    echo "File either exist or the cc0 / not modified checkboxes aren't checked";
+    //    exit(0);
+    //}
 
     // disable submit button if data is missing
     if($data['make']=="" or $data['model']==""){
@@ -44,6 +44,7 @@
 			</div>
 		</header>
 
+        <?php if(isset($data)) : ?>
         <section class="row clearfix">
             <div class='container'>
             <h1>Thank you for submitting!</h1>
@@ -52,9 +53,9 @@
                         Please take a moment to correct or fill-in any missing fields below,
                         then press 'Update':
                     </p>
-                <form action="modify.php" method="post">
-                    <input type="hidden" id="id" name="id" value="<?php echo $data['id']?>" />
-                    <input type="hidden" id="checksum" name="checksum" value="<?php echo $data['checksum']?>" />
+                    <form action="modify.php" method="post">
+                        <input type="hidden" id="id" name="id" value="<?php echo $data['id']?>" />
+                        <input type="hidden" id="checksum" name="checksum" value="<?php echo $data['checksum']?>" />
                         <div>
                             <label for="make" class='fc-label'>Make</label>
                             <input class="fc" type="text" id="make" name="make" value="<?php echo $data['make']?>" />
@@ -73,8 +74,27 @@
                         </div>
                         <input type="submit" name="submit" id="submit" value="Update" <?php echo $disabled?> >
                     </form>
-            </form>
-        </div>
+                </div>
+            </div>
+        </section>
+
+        <?php else : ?>
+
+        <section class="row clearfix">
+            <div class='container'>
+            <h1>Uh Oh</h1>
+                <div class="column full ui-widget">
+                    <p>
+                    The file either already exists or the CC0/modified checkboxes weren't checked.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <?php endif; ?>
+
+
+
         <script src="js/jquery.min.js"></script>
         <script src="js/jquery-ui.js"></script>
         <script>
