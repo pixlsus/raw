@@ -10,6 +10,7 @@
         if($raw['validated'] == "1" ){
 
             $rawpath=datapath."/".hash_id($raw['id'])."/".$raw['id'];
+            $filesize=human_filesize(filesize($rawpath."/".$raw['filename']));
 
             if(filesize($rawpath."/".$raw['filename'].".exif.txt") > 0 ) {
                 $exifdata="<a target='_blank' href='".baseurl."/getfile.php?type=exif&id=".$raw['id']."'>exifdata</a>";
@@ -34,7 +35,7 @@
                           $raw['mode'],
                           $raw['remark'],
                           $lic,
-                          "<a href='".baseurl."/getfile.php?type=raw&id=".$raw['id']."'>".$raw['filename']."</a><div class='checksumdata'>". $raw['checksum'] ."</div>",
+                          "<a href='".baseurl."/getfile.php?type=raw&id=".$raw['id']."'>".$raw['filename']."</a><div class='checksumdata'>". $raw['checksum'] ."(".$filesize.")</div>",
                           $exifdata);
         }
     }
