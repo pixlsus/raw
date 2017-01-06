@@ -187,7 +187,13 @@
                 $data['mode'].=" ".$ar;
             }
 
-            // Panasonic aspect ratio
+            // Panasonic stuff
+            if($data['make'] == '' and isset($exifdata['Exif']['PanasonicRaw']['Make'])){
+                $data['make']=$exifdata['Exif']['PanasonicRaw']['Make'];
+            }
+            if($data['model'] == '' and isset($exifdata['Exif']['PanasonicRaw']['Model'])){
+                $data['model']=$exifdata['Exif']['PanasonicRaw']['Model'];
+            }
             if(preg_match("/^panasonic/i",$data['make'])) {
                 if(isset($exifdata['Exif']['PanasonicRaw']['ImageWidth']) and isset($exifdata['Exif']['PanasonicRaw']['ImageHeight'])) {
                     $data['mode']=aspectratio($exifdata['Exif']['PanasonicRaw']['ImageWidth'],$exifdata['Exif']['PanasonicRaw']['ImageHeight']);
