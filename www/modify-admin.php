@@ -21,8 +21,14 @@
     $data['mode']=$_POST['mode'] ?? '';
     $data['remark']=$_POST['remark'] ?? '';
     $data['license']=$_POST['license'] ?? '';
-    
+
     if(raw_check($id,$checksum)==1){
         raw_modify($id,$data);
     }
+    $cameras=raw_getnumberofcameras();
+    file_put_contents("button-cameras.svg", file_get_contents("https://img.shields.io/badge/cameras-".$cameras."-green.svg?maxAge=3600"));
+    $samples=raw_getnumberofsamples();
+    file_put_contents("button-samples.svg", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.svg?maxAge=3600"));
+
+
     header("Location: ".baseurl."/admin.php");
