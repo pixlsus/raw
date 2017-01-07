@@ -4,8 +4,7 @@
     include("functions.php");
 
     $_SESSION['upload']="";
-
-    if( isset($_FILES) and is_file($_FILES['file']['tmp_name']) and ($_FILES['file']['size'] > 0) and isset($_POST['rights']) and isset($_POST['edited']) and preg_match("/[a-zA-Z0-9-_.]/",$_FILES['file']['name']) and ! preg_match("/php/i",$_FILES['file']['name']) ) {
+    if( isset($_FILES['file']) and is_file($_FILES['file']['tmp_name']) and ($_FILES['file']['size'] > 0) and isset($_POST['rights']) and isset($_POST['edited']) and preg_match("/[a-zA-Z0-9-_.]/",$_FILES['file']['name']) and ! preg_match("/php/i",$_FILES['file']['name']) ) {
         $id=raw_add($_FILES['file']['tmp_name'],$_FILES['file']['name']);
         if($id){
             $data=raw_getdata($id);
