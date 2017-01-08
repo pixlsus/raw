@@ -164,7 +164,13 @@
 
             // canon raw settings
             if(preg_match("/^canon/i",$data['make'])){
-                $data['mode']=$exifdata['Exif']['CanonCs']['SRAWQuality'] ?? "";
+                if(isset($exifdata['Exif']['CanonCs']['SRAWQuality']) and $exifdata['Exif']['CanonCs']['SRAWQuality']!="n/a"){
+                    $data['mode']=$exifdata['Exif']['CanonCs']['SRAWQuality'];
+                } elseif (isset($exifdata['Exif']['CanonCs']['Quality'])){
+                    $data['mode']=$exifdata['Exif']['CanonCs']['Quality'];
+                } else {
+                    $data['mode']="";
+                }
             }
 
             // nikon raw modes
