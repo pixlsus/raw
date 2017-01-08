@@ -18,11 +18,13 @@
                 $make="unknown";
                 $model="unknown";
                 if($raw['make']!=""){
-                    $make=$cameradata[$raw['make']][$raw['model']]['make'];
+                    $make=$cameradata[$raw['make']][$raw['model']]['make'] ?? $cameradata[$raw['make']]['make'] ?? $raw['make'];
                 }
                 if($raw['model']!=""){
-                    $model=$cameradata[$raw['make']][$raw['model']]['model'];
+                    $model=$cameradata[$raw['make']][$raw['model']]['model'] ?? $raw['model'];
                 }
+                $make = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $make);
+                $model = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $model);
                 echo "adding ".datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename']." as ".$make."/".$model."/".$raw['filename']."\n";
                 $zip->addFile(datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'],$make."/".$model."/".$raw['filename']);
             }

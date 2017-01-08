@@ -69,6 +69,7 @@
             if($ID){
                 $preferedmake=(string)$ID[0]->attributes()->make;
                 $preferedmodel=(string)$ID[0]->attributes()->model;
+                $data[$exifmake]['make']=$preferedmake;
                 $uniquemodel=(string)$ID[0];
                 $data[$exifmake][$uniquemodel]['make']=$preferedmake;
                 $data[$exifmake][$uniquemodel]['model']=$preferedmodel;
