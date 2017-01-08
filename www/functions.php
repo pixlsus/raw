@@ -57,6 +57,46 @@
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
     }
 
+    function parsecamerasxml(){
+        $xml=simplexml_load_file(datapath."/cameras.xml");
+        $cameras=$xml->xpath("//Camera");
+
+        foreach($cameras as $camera){
+            $exifmake=(string)$camera->attributes()->make;
+            $exifmodel=(string)$camera->attributes()->model;
+
+            $ID=$xml->xpath("//Camera[@make='$exifmake'][@model='$exifmodel']/ID");
+            if($ID){
+                $preferedmake=(string)$ID[0]->attributes()->make;
+                $preferedmodel=(string)$ID[0]->attributes()->model;
+                $uniquemodel=(string)$ID[0];
+                $data[$exifmake][$uniquemodel]['make']=$preferedmake;
+                $data[$exifmake][$uniquemodel]['model']=$preferedmodel;
+            } else {
+                $preferedmake=$exifmake;
+                $preferedmodel=$exifmodel;
+            }
+
+            $data[$exifmake][$exifmodel]['make']=$preferedmake;
+            $data[$exifmake][$exifmodel]['model']=$preferedmodel;
+
+            $aliases=$xml->xpath("//Camera[@make='$exifmake'][@model='$exifmodel']/Aliases/Alias");
+            if($aliases){
+                foreach($aliases as $alias){
+                    $preferedmodel=(string)$alias[0]->attributes()->id;
+                    if($preferedmodel!=""){
+                        $data[$exifmake][(string)$alias[0]]['make']=$preferedmake;
+                        $data[$exifmake][(string)$alias[0]]['model']=$preferedmodel;
+                    } else {
+                        $data[$exifmake][(string)$alias[0]]['make']=$preferedmake;
+                        $data[$exifmake][(string)$alias[0]]['model']=(string)$alias[0];
+                    }
+                }
+            }
+        }
+        return($data);
+    }
+
 // user related functions
     function user_exist($username){
         $dbh = db_init();
