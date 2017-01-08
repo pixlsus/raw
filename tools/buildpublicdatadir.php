@@ -16,7 +16,7 @@
     $data=raw_getalldata();
 
     if(is_dir(publicdatapath)){
-        deltree(publicdatapath);
+        delTree(publicdatapath);
     }
     mkdir(publicdatapath);
 
