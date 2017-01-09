@@ -52,7 +52,7 @@
                           $raw['remark'],
                           $lic,
                           $raw['date'],
-                          "<a href='".baseurl."/getfile.php/".$raw['id']."/raw/".$raw['filename']."'>".$raw['filename']."</a><div class='checksumdata' title='SHA1 Checksum'>". $raw['checksum'] ."(".$filesize.")</div>",
+                          "<a href='".baseurl."/getfile.php/".$raw['id']."/raw/".$raw['filename']."'>".$raw['filename']."</a><div class='checksumdata'><span title='SHA1 Checksum'>". $raw['checksum'] ."</span> (".$filesize.")</div>",
                           $exifdata);
         }
     }
