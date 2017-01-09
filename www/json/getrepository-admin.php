@@ -23,9 +23,12 @@
                           $raw['make'],
                           $raw['model'],
                           $raw['mode'],
+                          $raw['aspectratio'],
+                          $raw['bitspersample'],
                           $raw['remark'],
                           $raw['license'],
                           $raw['checksum'],
+                          $raw['date'],
                           "<a href='".baseurl."/getfile.php/".$raw['id']."/raw/".$raw['filename']."'>".$raw['filename']."</a>",
                           $exifdata,
                           "<a href='".baseurl."/edit-admin.php?id=".$raw['id']."'>edit</a>");

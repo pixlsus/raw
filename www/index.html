@@ -91,10 +91,10 @@
 
 				<table id="repository" class="display" cellspacing="0" width="100%">
 					<thead>
-						<tr><th>Make</th><th>Model</th><th>Mode</th><th>Remark</th><th>License</th><th>Raw</th><th>Exif</th></tr>
+						<tr><th>Make</th><th>Model</th><th>Mode</th><th>Remark</th><th>License</th><th>Date</th><th>Raw</th><th>Exif</th></tr>
 					</thead>
 					<tfoot>
-						<tr><th>Make</th><th>Model</th><th>Mode</th><th>Remark</th><th>License</th><th>Raw</th><th>Exif</th></tr>
+						<tr><th>Make</th><th>Model</th><th>Mode</th><th>Remark</th><th>License</th><th>Date</th><th>Raw</th><th>Exif</th></tr>
 					</tfoot>
 				</table>
 
@@ -117,7 +117,8 @@ $(document).ready(function() {
             null,
             null,
             null,
-			{ 'className': "column-rawfile" },
+            null,
+			{ 'className': "column-rawfile" ,"bSearchable": false },
             { "bSearchable": false }
 		]
     } );

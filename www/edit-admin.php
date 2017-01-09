@@ -72,6 +72,14 @@
                     <input type="text" id="mode" name="mode" value="<?php echo $data['mode']?>" />
                 </div>
                 <div>
+                    <label for="aspectratio">Aspect ratio:</label>
+                    <input type="text" id="aspectratio" name="aspectratio" value="<?php echo $data['aspectratio']?>" />
+                </div>
+                <div>
+                    <label for="bitspersample">Bits per sample:</label>
+                    <input type="text" id="bitspersample" name="bitspersample" value="<?php echo $data['bitspersample']?>" />
+                </div>
+                <div>
                     <label for="checksum">Checksum:</label>
                     <input type="text" id="checksum" name="checksum" value="<?php echo $data['checksum']?>" />
                 </div>

@@ -21,6 +21,8 @@
     $data['mode']=$_POST['mode'] ?? '';
     $data['remark']=$_POST['remark'] ?? '';
     $data['license']=$_POST['license'] ?? '';
+    $data['aspectratio']=$_POST['aspectratio'] ?? '';
+    $data['bitspersample']=$_POST['bitspersample'] ?? '';
 
     if(raw_check($id,$checksum)==1){
         raw_modify($id,$data);

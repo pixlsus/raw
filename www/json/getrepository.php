@@ -18,6 +18,22 @@
                 $exifdata="";
             }
 
+            $mode="";
+            if($raw['bitspersample']!=""){
+                $mode.=$raw['bitspersample']."bit";
+            }
+            if($raw['mode']!=""){
+                $mode.=" ".$raw['mode'];
+            }
+            if($raw['aspectratio']!=""){
+                if($mode==""){
+                    $mode=$raw['aspectratio'];
+                } else {
+                    $mode.=" (".$raw['aspectratio'].")";
+                }
+            }
+            $mode=trim($mode);
+
             switch($raw['license']){
                 case "CC0":
                     $lic = "<a href='https://creativecommons.org/publicdomain/zero/1.0/' title='Creative Commons 0 - Public Domain' class='cc'>co</a>";
@@ -32,9 +48,10 @@
 
             $data[]=array($raw['make'],
                           $raw['model'],
-                          $raw['mode'],
+                          $mode,
                           $raw['remark'],
                           $lic,
+                          $raw['date'],
                           "<a href='".baseurl."/getfile.php/".$raw['id']."/raw/".$raw['filename']."'>".$raw['filename']."</a><div class='checksumdata'>". $raw['checksum'] ."(".$filesize.")</div>",
                           $exifdata);
         }
