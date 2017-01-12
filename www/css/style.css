@@ -193,3 +193,12 @@ td.column-checksum {
 a.cc {
 	color: #999;
 }
+
+.small {
+	font-size: 0.9rem;
+	margin-bottom: 0.5rem;
+}
+
+.small > li {
+	margin: 0.2rem;
+}
