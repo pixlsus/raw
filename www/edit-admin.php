@@ -27,7 +27,7 @@
         $tmpdata['make']=$newdata['make'] ?? "";
         $tmpdata['model']=$newdata['model'] ?? "";
         $tmpdata['mode']=$newdata['mode'] ?? "";
-        $tmpdata['aspectratio']=$newdata['aspectration'] ?? "";
+        $tmpdata['aspectratio']=$newdata['aspectratio'] ?? "";
         $tmpdata['bitspersample']=$newdata['bitspersample'] ?? "";
     }
 
