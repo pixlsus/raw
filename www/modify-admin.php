@@ -25,7 +25,9 @@
     $data['bitspersample']=$_POST['bitspersample'] ?? '';
 
     if(raw_check($id,$checksum)==1){
+        $olddata=raw_getdata($id);
         raw_modify($id,$data);
+        notify($id,"modify",$olddata);
     }
     $cameras=raw_getnumberofcameras();
     #file_put_contents("button-cameras.svg", file_get_contents("https://img.shields.io/badge/cameras-".$cameras."-green.svg?maxAge=3600"));

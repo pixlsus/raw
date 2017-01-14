@@ -378,6 +378,8 @@
                 $message.="Mode: ".$data['mode']."\r\n";
                 $message.="Remark: ".$data['remark']."\r\n";
                 $message.="Admin: ".baseurl."/edit-admin.php?id=$id\r\n";
+                $message.="Aspect ratio: ".$data['aspectratio']."\r\n";
+                $message.="Bits per sample: ".$data['bitspersample']."\r\n";
                 break;
             case "delete":
                 $subject="[raw.pixls.us] Delete entry: ".$data['make']." - ".$data['model'];
@@ -389,6 +391,31 @@
                 $message.="Mode: ".$data['mode']."\r\n";
                 $message.="License: ".$data['license']."\r\n";
                 $message.="Remark: ".$data['remark']."\r\n";
+                $message.="Aspect ratio: ".$data['aspectratio']."\r\n";
+                $message.="Bits per sample: ".$data['bitspersample']."\r\n";
+                break;
+            case "modify":
+                $subject="[raw.pixls.us] Modify entry: ".$data['make']." - ".$data['model'];
+
+                $message=$userdata['username']." <".$userdata['email']."> modified\r\n";
+                $message.="\r\nFrom:\r\n";
+                $message.="Make: ".$extra['make']."\r\n";
+                $message.="Model: ".$extra['model']."\r\n";
+                $message.="Mode: ".$extra['mode']."\r\n";
+                $message.="License: ".$extra['license']."\r\n";
+                $message.="Validated: ".$extra['validated']."\r\n";
+                $message.="Aspect ratio: ".$extra['aspectratio']."\r\n";
+                $message.="Bits per sample: ".$extra['bitspersample']."\r\n";
+                $message.="Remark: ".$extra['remark']."\r\n";
+                $message.="\r\nTo:\r\n";
+                $message.="Make: ".$data['make']."\r\n";
+                $message.="Model: ".$data['model']."\r\n";
+                $message.="Mode: ".$data['mode']."\r\n";
+                $message.="License: ".$data['license']."\r\n";
+                $message.="Remark: ".$data['remark']."\r\n";
+                $message.="Validated: ".$data['validated']."\r\n";
+                $message.="Aspect ratio: ".$data['aspectratio']."\r\n";
+                $message.="Bits per sample: ".$data['bitspersample']."\r\n";
                 break;
         }
 
