@@ -189,6 +189,7 @@
         $data['mode']="";
         $data['license']="CC0";
         $data['date']=date("Y-m-d");
+        $data['filesize']=filesize($fullpath."/".$filename);
 
         $exifdata=array();
         $fp=fopen($fullpath."/".$filename.".exif.txt","r");

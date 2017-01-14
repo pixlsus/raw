@@ -10,7 +10,7 @@
         if($raw['validated'] == "1" ){
 
             $rawpath=datapath."/".hash_id($raw['id'])."/".$raw['id'];
-            $filesize=human_filesize(filesize($rawpath."/".$raw['filename']));
+            $filesize=human_filesize($raw['filesize']);
 
             if(filesize($rawpath."/".$raw['filename'].".exif.txt") > 0 ) {
                 $exifdata="<a target='_blank' href='".baseurl."/getfile.php/".$raw['id']."/exif/".$raw['filename'].".exif.txt'>exifdata</a>";

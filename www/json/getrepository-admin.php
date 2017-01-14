@@ -6,12 +6,15 @@
 
     if(isset($_SESSION['loggedin'])){
         $raws=raw_getalldata();
+
         foreach($raws as $raw){
             if($raw['validated']=="0"){
                 $validate=" ";
             } else {
                 $validate="X";
             }
+
+            $filesize=human_filesize($raw['filesize']);
 
             $rawpath=datapath."/".hash_id($raw['id'])."/".$raw['id'];
             if(filesize($rawpath."/".$raw['filename'].".exif.txt") > 0 ) {
@@ -28,6 +31,7 @@
                           $raw['remark'],
                           $raw['license'],
                           $raw['checksum'],
+                          $filesize,
                           $raw['date'],
                           "<a href='".baseurl."/getfile.php/".$raw['id']."/raw/".$raw['filename']."'>".$raw['filename']."</a>",
                           $exifdata,
