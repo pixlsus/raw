@@ -376,6 +376,12 @@
                     $data['mode']="";
                 }
             }
+
+            //software created raws
+            if(isset($exifdata['Exif']['Image']['Software']) and preg_match('/^HDRMerge/',$exifdata['Exif']['Image']['Software'])){
+                $data['model']=$data['make']." ".$data['model'];
+                $data['make']="HDRMerge";
+            }
         }
         return($data);
     }
