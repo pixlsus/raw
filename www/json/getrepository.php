@@ -23,12 +23,6 @@
                 $model=$cameradata[$raw['make']][$raw['model']]['model'] ?? $raw['model'];
             }
 
-            if(filesize($rawpath."/".$raw['filename'].".exif.txt") > 0 ) {
-                $exifdata="<a target='_blank' href='".baseurl."/getfile.php/".$raw['id']."/exif/".$raw['filename'].".exif.txt'>exifdata</a>";
-            } else {
-                $exifdata="";
-            }
-
             $mode="";
             if($raw['bitspersample']!=""){
                 $mode.=$raw['bitspersample']."bit";
@@ -55,6 +49,12 @@
                 default:
                     $lic = $raw['license'];
                     break;
+            }
+
+            if(filesize($rawpath."/".$raw['filename'].".exif.txt") > 0 ) {
+                $exifdata="<a target='_blank' href='".baseurl."/getfile.php/".$raw['id']."/exif/".$raw['filename'].".exif.txt'>exifdata</a>";
+            } else {
+                $exifdata="";
             }
 
             $data[]=array($make,
