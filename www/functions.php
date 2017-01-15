@@ -224,7 +224,7 @@
         $dbh = db_init();
         foreach($data as $key => $value){
             $sth = $dbh->prepare('update raws set '.strtolower($key).'=:value where id=:id');
-            $result = $sth->execute(array(':id' => $id, ':value' => $value));
+            $result = $sth->execute(array(':id' => $id, ':value' => trim($value)));
             if(!$result) {
                 return(FALSE);
             }
@@ -329,6 +329,9 @@
                     $data['mode']=$exifdata['Exif']['CanonCs']['Quality'];
                 } else {
                     $data['mode']="";
+                }
+                if(isset($exifdata['Exif']['Image']['Software']) and preg_match("/^CHDK/",$exifdata['Exif']['Image']['Software'])){
+                    $data['mode'].=" ".$exifdata['Exif']['Image']['Software'];
                 }
             }
 
