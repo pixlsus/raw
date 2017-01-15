@@ -341,9 +341,9 @@
                 foreach($exifdata['Exif'] as $key => $value){
                     if(isset($value['NewSubfileType']) and $value['NewSubfileType']=="Primary image"){
                         if($value['Compression']=="Nikon NEF Compressed"){
-                            $data['mode'].="compressed";
+                            $data['mode']="compressed";
                         } else if ($value['Compression']=="Uncompressed" ){
-                            $data['mode'].="uncompressed";
+                            $data['mode']="uncompressed";
                         }
                         $data['aspectratio']=aspectratio($value['ImageWidth'],$value['ImageLength']);
                     }
