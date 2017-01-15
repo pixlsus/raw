@@ -305,6 +305,12 @@
             $data['make'] = $exifdata['Exif']['Image']['Make'] ?? "";
             $data['model'] = $exifdata['Exif']['Image']['Model'] ?? "";
 
+            foreach($exifdata['Exif'] as $key => $value){
+                if(isset($value['BitsPerSample']) and is_numeric($value['BitsPerSample'])){
+                            $data['bitspersample']=$value['BitsPerSample'] ?? '';
+                }
+            }
+
             // canon raw settings
             if(preg_match("/^canon/i",$data['make'])){
                 if(isset($exifdata['Exif']['CanonCs']['SRAWQuality']) and $exifdata['Exif']['CanonCs']['SRAWQuality']!="n/a"){
@@ -321,14 +327,12 @@
                 $ar="";
                 foreach($exifdata['Exif'] as $key => $value){
                     if(isset($value['NewSubfileType']) and $value['NewSubfileType']=="Primary image"){
-                        $data['bitspersample']=$value['BitsPerSample'];
                         if($value['Compression']=="Nikon NEF Compressed"){
                             $data['mode'].="compressed";
                         } else if ($value['Compression']=="Uncompressed" ){
                             $data['mode'].="uncompressed";
                         }
                         $data['aspectratio']=aspectratio($value['ImageWidth'],$value['ImageLength']);
-
                     }
                 }
                 if(isset($exifdata['Exif']['Nikon3']['NEFCompression'])){
@@ -351,27 +355,13 @@
 
             // Leica compressions
             if(preg_match("/^leica/i",$data['make'])){
-                foreach($exifdata['Exif'] as $key => $value){
-                    if(isset($value['NewSubfileType']) and $value['NewSubfileType']=="Primary image"){
-                        if($value['BitsPerSample']=="8"){
-                            $data['mode']="compressed";
-                            $data['bitspersample']="8";
-                        } else if ($value['BitsPerSample']=="16" ){
-                            $data['mode']="uncompressed";
-                            $data['bitspersample']="16";
-                        } else {
-                            $data['mode']="";
-                        }
-                    }
-                }
-            }
-
-            // Sony bitspersample
-            if(preg_match("/^sony/i",$data['make'])){
-                foreach($exifdata['Exif'] as $key => $value){
-                    if(isset($value['NewSubfileType']) and $value['NewSubfileType']=="Primary image"){
-                            $data['bitspersample']=$value['BitsPerSample'] ?? '';
-                    }
+                if($data['bitspersample']=="8"){
+                    $data['mode']="compressed";
+                } else if ($value['bitspersample']=="16" ){
+                    $data['mode']="uncompressed";
+                    $data['bitspersample']="16";
+                } else {
+                    $data['mode']="";
                 }
             }
         }
