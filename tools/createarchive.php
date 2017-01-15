@@ -5,6 +5,7 @@
 
     file_put_contents(datapath."/cameras.xml",file_get_contents("https://raw.githubusercontent.com/darktable-org/rawspeed/develop/data/cameras.xml"));
     $cameradata=parsecamerasxml();
+    file_put_contents(datapath."/cameradata.serialize",serialize($cameradata));
 
     $zip = new ZipArchive;
     $result = $zip->open(datapath.'/raw_pixls_us_archive.tmp.zip', ZipArchive::CREATE);
