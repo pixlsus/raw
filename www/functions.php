@@ -311,6 +311,16 @@
                 }
             }
 
+            if(isset($exifdata['Exif']['Image']['ImageWidth']) and isset($exifdata['Exif']['Image']['ImageLength'])){
+                $data['aspectratio']=aspectratio($exifdata['Exif']['Image']['ImageWidth'],$exifdata['Exif']['Image']['ImageLength']);
+            } else {
+                foreach($exifdata['Exif'] as $key => $value){
+                    if(isset($value['ImageWidth']) and isset($value['ImageLength'])){
+                        $data['aspectratio']=aspectratio($value['ImageWidth'],$value['ImageLength']);
+                    }
+                }
+            }
+
             // canon raw settings
             if(preg_match("/^canon/i",$data['make'])){
                 if(isset($exifdata['Exif']['CanonCs']['SRAWQuality']) and $exifdata['Exif']['CanonCs']['SRAWQuality']!="n/a"){
@@ -359,7 +369,6 @@
                     $data['mode']="compressed";
                 } else if ($value['bitspersample']=="16" ){
                     $data['mode']="uncompressed";
-                    $data['bitspersample']="16";
                 } else {
                     $data['mode']="";
                 }
