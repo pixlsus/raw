@@ -31,13 +31,34 @@
             </table>
         </div>
 
-        <script src="js/jquery.min.js"></script>
-        <script src="js/jquery-ui.js"></script>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.js"></script>
         <script type="text/javascript" src="js/datatables.min.js"></script>
+        <script type="text/javascript" src="js/file-size.js"></script>
         <script>
 $(document).ready(function() {
     $('#repository').DataTable( {
-        "ajax": 'json/getrepository-admin.php'
+        "ajax": 'json/getrepository-admin.php',
+        "aoColumns": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+			null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+		],
+                    "columnDefs": [
+                { "type": "file-size", targets: 9 }
+            ]
+
     } );
     $(".fc").click(function() {
         if ( $("#rights").is(':checked') & $("#edited").is(':checked') ) {
