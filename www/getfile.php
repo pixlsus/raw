@@ -40,6 +40,13 @@
                     readfile($file);
                 }
                 break;
+            case "exiftool":
+                $file=$datapath."/".$data['filename'].".exiftool.txt";
+                if(file_exists($file)){
+                    header('Content-Type: text/plain');
+                    readfile($file);
+                }
+                break;
             case "raw":
                 $file=$datapath."/".$data['filename'];
                 if(file_exists($file)){

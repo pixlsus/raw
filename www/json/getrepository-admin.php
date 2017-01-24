@@ -17,11 +17,15 @@
             $filesize=human_filesize($raw['filesize']);
 
             $rawpath=datapath."/".hash_id($raw['id'])."/".$raw['id'];
+
+            $exifdata="";
             if(filesize($rawpath."/".$raw['filename'].".exif.txt") > 0 ) {
-                $exifdata="<a target='_blank' href='".baseurl."/getfile.php/".$raw['id']."/exif/".$raw['filename'].".exif.txt'>exifdata</a>";
-            } else {
-                $exifdata="no exifdata";
+                $exifdata.="<a target='_blank' href='".baseurl."/getfile.php/".$raw['id']."/exif/".$raw['filename'].".exif.txt'>exiv2</a>";
             }
+            if(filesize($rawpath."/".$raw['filename'].".exiftool.txt") > 0 ) {
+                $exifdata.=" <a target='_blank' href='".baseurl."/getfile.php/".$raw['id']."/exiftool/".$raw['filename'].".exiftool.txt'>exiftool</a>";
+            }
+
             $data[]=array($validate,
                           $raw['make'],
                           $raw['model'],
