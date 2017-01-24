@@ -7,5 +7,5 @@
 
     foreach($data as $raw){
         $file=datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'];
-        system('exiftool -G -s -a -m -u "'.$file.'">"'.$file.'.exiftool.txt"');
+        system('exiftool -G -s -a -m -u "'.$file.'"|grep -vE "^\[(ExifTool|File)\]">"'.$file.'.exiftool.txt"');
     }
