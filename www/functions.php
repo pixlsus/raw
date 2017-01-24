@@ -178,9 +178,9 @@
             rename($tmpfilename, $fullpath."/".$filename);
         }
 
-        system("exiv2 -Pkt  ".$fullpath."/".$filename.">".$fullpath."/".$filename.".exif.txt");
+        system('exiv2 -Pkt  "'.$fullpath.'/'.$filename.'">"'.$fullpath.'/'.$filename.'.exif.txt"');
         //extracting best quality jpeg preview
-        system("exiv2 -ep$(exiv2 -pp ".$fullpath."/".$filename."|grep jpeg |tail -1|sed \"s/Preview \([1-9]\{1\}\).*/\\1/g\") ".$fullpath."/".$filename);
+        system('exiv2 -ep$(exiv2 -pp "'.$fullpath.'/'.$filename.'"|grep jpeg |tail -1|sed "s/Preview \([1-9]\{1\}\).*/\\1/g") "'.$fullpath.'/'.$filename.'"');
 
         $data['checksum']=$checksum;
         $data['make']="";
