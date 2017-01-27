@@ -23,6 +23,7 @@
     $data['license']=$_POST['license'] ?? '';
     $data['aspectratio']=$_POST['aspectratio'] ?? '';
     $data['bitspersample']=$_POST['bitspersample'] ?? '';
+    $data['pixels']=$_POST['pixels'] ?? '';
 
     if(raw_check($id,$checksum)==1){
         $olddata=raw_getdata($id);

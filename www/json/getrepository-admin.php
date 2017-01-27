@@ -36,6 +36,7 @@
                           $raw['license'],
                           $raw['checksum'],
                           $filesize,
+                          $raw['pixels'],
                           $raw['date'],
                           "<a href='".baseurl."/getfile.php/".$raw['id']."/raw/".$raw['filename']."'>".$raw['filename']."</a>",
                           $exifdata,

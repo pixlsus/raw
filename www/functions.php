@@ -313,20 +313,19 @@
             $data['make'] = $exifdata['Exif']['Image']['Make'] ?? $exifdata['exiftool']['EXIF:Make'] ?? "";
             $data['model'] = $exifdata['Exif']['Image']['Model'] ?? $exifdata['exiftool']['EXIF:Model'] ?? "";
 
-            foreach($exifdata['Exif'] as $key => $value){
-                if(isset($value['BitsPerSample']) and is_numeric($value['BitsPerSample'])){
-                            $data['bitspersample']=$value['BitsPerSample'] ?? '';
+            // bits per sample
+            if(isset($exifdata['Exif'])){
+                foreach($exifdata['Exif'] as $key => $value){
+                    if(isset($value['BitsPerSample']) and is_numeric($value['BitsPerSample'])){
+                        $data['bitspersample']=$value['BitsPerSample'] ?? '';
+                    }
                 }
             }
 
-            if(isset($exifdata['Exif']['Image']['ImageWidth']) and isset($exifdata['Exif']['Image']['ImageLength'])){
-                $data['aspectratio']=aspectratio($exifdata['Exif']['Image']['ImageWidth'],$exifdata['Exif']['Image']['ImageLength']);
-            } else {
-                foreach($exifdata['Exif'] as $key => $value){
-                    if(isset($value['ImageWidth']) and isset($value['ImageLength'])){
-                        $data['aspectratio']=aspectratio($value['ImageWidth'],$value['ImageLength']);
-                    }
-                }
+            if(isset($exifdata['exiftool']['Composite:ImageSize'])){
+                $dimensions=explode("x",$exifdata['exiftool']['Composite:ImageSize']);
+                $data['pixels']=round(($dimensions[0]*$dimensions[1])/1000000.0,2);
+                $data['aspectratio']=aspectratio($dimensions[0],$dimensions[1]);
             }
 
             // canon raw settings
@@ -376,10 +375,12 @@
 
             // Leica compressions
             if(preg_match("/^leica/i",$data['make'])){
-                if($data['bitspersample']=="8"){
-                    $data['mode']="compressed";
-                } else if ($value['bitspersample']=="16" ){
-                    $data['mode']="uncompressed";
+                if(isset($data['bitspersample'])){
+                    if($data['bitspersample']=="8"){
+                        $data['mode']="compressed";
+                    } elseif ($data['bitspersample']=="16" ){
+                        $data['mode']="uncompressed";
+                    }
                 } else {
                     $data['mode']="";
                 }

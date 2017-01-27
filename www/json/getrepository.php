@@ -60,6 +60,7 @@
             $data[]=array($make,
                           $model,
                           $mode,
+                          $raw['pixels'],
                           $raw['remark'],
                           $lic,
                           $raw['date'],

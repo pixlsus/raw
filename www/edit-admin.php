@@ -22,13 +22,14 @@
         exit(0);
     }
     if($parseexif == "true" ){
-        $exifdata=raw_readexif(datapath."/".hash_id($id)."/".$id."/".$data['filename'].".exif.txt");
+        $exifdata=raw_readexif(datapath."/".hash_id($id)."/".$id."/".$data['filename']);
         $newdata=raw_parseexif($exifdata);
         $tmpdata['make']=$newdata['make'] ?? "";
         $tmpdata['model']=$newdata['model'] ?? "";
         $tmpdata['mode']=$newdata['mode'] ?? "";
         $tmpdata['aspectratio']=$newdata['aspectratio'] ?? "";
         $tmpdata['bitspersample']=$newdata['bitspersample'] ?? "";
+        $tmpdata['pixels']=$newdata['pixels'] ?? "";
     }
 
     if($data['validated']=="1") {
@@ -93,6 +94,10 @@
                 <div>
                     <label for="aspectratio">Aspect ratio:</label>
                     <input type="text" id="aspectratio" name="aspectratio" value="<?php echo $tmpdata['aspectratio']?>" /><?php if($parseexif) echo " was : ".$data['aspectratio'] ?>
+                </div>
+                <div>
+                    <label for="pixels">Pixels:</label>
+                    <input type="text" id="pixels" name="pixels" value="<?php echo $tmpdata['pixels']?>" /><?php if($parseexif) echo " was : ".$data['pixels'] ?>
                 </div>
                 <div>
                     <label for="bitspersample">Bits per sample:</label>
