@@ -38,10 +38,13 @@
     }
 
     $rawpath=datapath."/".hash_id($data['id'])."/".$data['id'];
+
+    $exifdata="";
     if(filesize($rawpath."/".$data['filename'].".exif.txt") > 0 ) {
-        $exifdata="<a target='_blank' href='".baseurl."/getfile.php?type=exif&id=".$data['id']."'>exifdata</a>";
-    } else {
-        $exifdata="no exifdata";
+        $exifdata.="<a target='_blank' href='".baseurl."/getfile.php/".$data['id']."/exif/".$data['filename'].".exif.txt'>exiv2</a>";
+    }
+    if(filesize($rawpath."/".$data['filename'].".exiftool.txt") > 0 ) {
+        $exifdata.=" <a target='_blank' href='".baseurl."/getfile.php/".$data['id']."/exiftool/".$data['filename'].".exiftool.txt'>exiftool</a>";
     }
 
     $rawfile="<a href='".baseurl."/getfile.php?type=raw&id=".$data['id']."'>".$data['filename']."</a>";

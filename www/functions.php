@@ -180,6 +180,7 @@
 
         system('exiv2 -Pkt "'.$fullpath.'/'.$filename.'">"'.$fullpath.'/'.$filename.'.exif.txt"');
         system('exiftool -G -s -a -m -u "'.$fullpath.'/'.$filename.'"|grep -vE "^\[(ExifTool|File)\]">"'.$fullpath.'/'.$filename.'.exiftool.txt"');
+        system('exiftool -G -s -a -m -u -php"'.$fullpath.'/'.$filename.'">"'.$fullpath.'/'.$filename.'.exiftool.txt"');
         //extracting best quality jpeg preview
         system('exiv2 -ep$(exiv2 -pp "'.$fullpath.'/'.$filename.'"|grep jpeg |tail -1|sed "s/Preview \([1-9]\{1\}\).*/\\1/g") "'.$fullpath.'/'.$filename.'"');
 
