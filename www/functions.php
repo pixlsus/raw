@@ -180,7 +180,7 @@
 
         system('exiv2 -Pkt "'.$fullpath.'/'.$filename.'">"'.$fullpath.'/'.$filename.'.exif.txt"');
         system('exiftool -G -s -a -m -u "'.$fullpath.'/'.$filename.'"|grep -vE "^\[(ExifTool|File)\]">"'.$fullpath.'/'.$filename.'.exiftool.txt"');
-        system('exiftool -G -s -a -m -u -php "'.$fullpath.'/'.$filename.'">"'.$fullpath.'/'.$filename.'.exiftool.txt"');
+        system('exiftool -G -s -a -m -u -json "'.$fullpath.'/'.$filename.'">"'.$fullpath.'/'.$filename.'.exiftool.json"');
         //extracting best quality jpeg preview
         system('exiv2 -ep$(exiv2 -pp "'.$fullpath.'/'.$filename.'"|grep jpeg |tail -1|sed "s/Preview \([1-9]\{1\}\).*/\\1/g") "'.$fullpath.'/'.$filename.'"');
 
@@ -194,7 +194,7 @@
         $data['filesize']=filesize($fullpath."/".$filename);
         raw_modify($id,$data);
 
-        $exifdata=raw_readexif($fullpath."/".$filename.".exif.txt","r");
+        $exifdata=raw_readexif($fullpath."/".$filename,"r");
         if($exifdata) {
             $data=raw_parseexif($exifdata);
             raw_modify($id,$data);
@@ -284,9 +284,12 @@
     }
 
     function raw_readexif($filename) {
-        if(is_readable($filename) and filesize($filename) > 0){
-            $exifdata=array();
-            $fp=fopen($filename,"r");
+        $exiv2=$filename.".exif.txt";
+        $exiftool=$filename.".exiftool.json";
+        $exifdata=array();
+
+        if(is_readable($exiv2) and filesize($exiv2) > 0){
+            $fp=fopen($exiv2,"r");
 
             while (!feof($fp)) {
                 $buffer=fgets($fp);
@@ -295,17 +298,20 @@
                 }
             }
             fclose($fp);
-            return($exifdata);
         }
-        return(FALSE);
+        if(is_readable($exiftool) and filesize($exiftool) > 1000){
+            $jsondata=json_decode(file_get_contents($exiftool));
+            $exifdata['exiftool']=(array)$jsondata[0];
+        }
+        return($exifdata);
     }
 
     function raw_parseexif($exifdata) {
         $data=array();
 
         if(count($exifdata) >0){
-            $data['make'] = $exifdata['Exif']['Image']['Make'] ?? "";
-            $data['model'] = $exifdata['Exif']['Image']['Model'] ?? "";
+            $data['make'] = $exifdata['Exif']['Image']['Make'] ?? $exifdata['exiftool']['EXIF:Make'] ?? "";
+            $data['model'] = $exifdata['Exif']['Image']['Model'] ?? $exifdata['exiftool']['EXIF:Model'] ?? "";
 
             foreach($exifdata['Exif'] as $key => $value){
                 if(isset($value['BitsPerSample']) and is_numeric($value['BitsPerSample'])){
