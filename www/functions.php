@@ -326,8 +326,10 @@
             $h1=0;
             if(isset($exifdata['Exif'])){
                 foreach($exifdata['Exif'] as $key => $value){
-                    $w1=max($w1,$value['ImageWidth'] ?? 0);
-                    $h1=max($h1,$value['ImageLength'] ?? $value['ImageHeight'] ?? 0);
+                    //          | default               | Fuji
+                    $w1=max($w1,$value['ImageWidth'] ?? $value['PixelXDimension']*3 ?? 0);
+                    //          | default                | pansonic               | Fuji
+                    $h1=max($h1,$value['ImageLength'] ?? $value['ImageHeight'] ?? $value['PixelYDimension']*3 ?? 0);
                 }
             }
             // put width/height in a known order
