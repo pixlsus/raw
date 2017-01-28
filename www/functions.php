@@ -326,10 +326,10 @@
             $h1=0;
             if(isset($exifdata['Exif'])){
                 foreach($exifdata['Exif'] as $key => $value){
-                    //          | default               | Fuji
-                    $w1=max($w1,$value['ImageWidth'] ?? $value['PixelXDimension']*3 ?? 0);
-                    //          | default                | pansonic               | Fuji
-                    $h1=max($h1,$value['ImageLength'] ?? $value['ImageHeight'] ?? $value['PixelYDimension']*3 ?? 0);
+                    //          | default
+                    $w1=max($w1,$value['ImageWidth'] ?? 0);
+                    //          | default                | pansonic
+                    $h1=max($h1,$value['ImageLength'] ?? $value['ImageHeight'] ?? 0);
                 }
             }
             // put width/height in a known order
@@ -399,6 +399,14 @@
                 } else {
                     $data['mode']="";
                 }
+            }
+
+            // Fuji pixels
+            if(preg_match("/^fujifilm/i",$data['make'])){
+                $width=$exifdata['Exif']['Photo']['PixelXDimension']*3;
+                $height=$exifdata['Exif']['Photo']['PixelYDimension']*3;
+                $data['pixels']=round(($width*$height)/1000000.0,2);
+                $data['aspectratio']=aspectratio($width,$height);
             }
 
             //software created raws
