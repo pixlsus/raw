@@ -322,11 +322,24 @@
                 }
             }
 
+            $w1=0;
+            $h1=0;
+            if(isset($exifdata['Exif'])){
+                foreach($exifdata['Exif'] as $key => $value){
+                    $w1=max($w1,$value['ImageWidth'] ?? 0);
+                    $h1=max($h1,$value['ImageLength'] ?? $value['ImageHeight'] ?? 0);
+                }
+            }
+            // put width/height in a known order
+            $w2=max($w1,$h1);
+            $h2=min($w1,$h1);
             if(isset($exifdata['exiftool']['Composite:ImageSize'])){
                 $dimensions=explode("x",$exifdata['exiftool']['Composite:ImageSize']);
-                $data['pixels']=round(($dimensions[0]*$dimensions[1])/1000000.0,2);
-                $data['aspectratio']=aspectratio($dimensions[0],$dimensions[1]);
+                $w2=max($w2,max($dimensions[0],$dimensions[1]));
+                $h2=max($h2,min($dimensions[0],$dimensions[1]));
             }
+            $data['pixels']=round(($w2*$h2)/1000000.0,2);
+            $data['aspectratio']=aspectratio($w2,$h2);
 
             // canon raw settings
             if(preg_match("/^canon/i",$data['make'])){
