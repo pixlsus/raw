@@ -42,3 +42,12 @@
         }
     }
     file_put_contents(publicdatapath."/timestamp.txt",time());
+
+    $cameras=raw_getnumberofcameras();
+    file_put_contents("../www/button-cameras.svg", file_get_contents("https://img.shields.io/badge/cameras-".$cameras."-green.svg?maxAge=3600"));
+    file_put_contents("../www/button-cameras.png", file_get_contents("https://img.shields.io/badge/cameras-".$cameras."-green.png?maxAge=3600"));
+    #system("wget https://img.shields.io/badge/samples-".$cameras."-green.png?maxAge=3600 -O button-cameras.png");
+    $samples=raw_getnumberofsamples();
+    file_put_contents("../www/button-samples.svg", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.svg?maxAge=3600"));
+    file_put_contents("../www/button-samples.png", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.png?maxAge=3600"));
+    #system("wget https://img.shields.io/badge/samples-".$samples."-green.png?maxAge=3600 -O button-samples.png");

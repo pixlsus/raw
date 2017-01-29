@@ -30,12 +30,5 @@
         raw_modify($id,$data);
         notify($id,"modify",$olddata);
     }
-    $cameras=raw_getnumberofcameras();
-    #file_put_contents("button-cameras.svg", file_get_contents("https://img.shields.io/badge/cameras-".$cameras."-green.svg?maxAge=3600"));
-    system("wget https://img.shields.io/badge/samples-".$cameras."-green.png?maxAge=3600 -O button-cameras.png");
-    $samples=raw_getnumberofsamples();
-    #file_put_contents("button-samples.svg", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.svg?maxAge=3600"));
-    system("wget https://img.shields.io/badge/samples-".$samples."-green.png?maxAge=3600 -O button-samples.png");
-
 
     header("Location: ".baseurl."/admin.php");
