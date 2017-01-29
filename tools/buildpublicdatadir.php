@@ -19,7 +19,6 @@
         delTree(publicdatapath);
     }
     mkdir(publicdatapath);
-    file_put_contents(publicdatapath."/timestamp.txt",time());
 
     foreach($data as $raw){
         if($raw['validated']==1){
@@ -42,3 +41,4 @@
             symlink(datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'],publicdatapath."/".$make."/".$model."/".$raw['filename']);
         }
     }
+    file_put_contents(publicdatapath."/timestamp.txt",time());
