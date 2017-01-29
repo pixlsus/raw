@@ -6,7 +6,7 @@
         try {
             $dbh=new pdo(dbdsn,dbuser,dbpw);
         } catch (PDOException $e) {
-            echo 'Connection failed: ' . $e->getMessage();
+            error_log('Connection failed: ' . $e->getMessage());
             exit(0);
         }
         return($dbh);
