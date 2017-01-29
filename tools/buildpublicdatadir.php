@@ -19,6 +19,7 @@
         delTree(publicdatapath);
     }
     mkdir(publicdatapath);
+    file_put_contents(publicdatapath."/timestamp.txt",time());
 
     foreach($data as $raw){
         if($raw['validated']==1){
