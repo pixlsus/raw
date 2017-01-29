@@ -401,6 +401,19 @@
                 }
             }
 
+            // Sony compressions
+            if(preg_match("/^sony/i",$data['make'])){
+                if(isset($exifdata['Exif']['Photo']['CompressedBitsPerPixel'])){
+                    if($exifdata['Exif']['Photo']['CompressedBitsPerPixel']=="8"){
+                        $data['mode']="compressed";
+                    } elseif ($exifdata['Exif']['Photo']['CompressedBitsPerPixel']=="16" ){
+                        $data['mode']="uncompressed";
+                    }
+                } else {
+                    $data['mode']="";
+                }
+            }
+
             // Fuji pixels
             if(preg_match("/^fujifilm/i",$data['make'])){
                 $width=$exifdata['Exif']['Photo']['PixelXDimension']*3;
