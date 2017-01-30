@@ -72,7 +72,8 @@
     $exiv2=datapath."/".hash_id($id2)."/".$id2."/".$raw2['filename'].".exif.txt";
 
     if((filesize($exiv1) > 0 ) and (filesize($exiv2) > 0 )){
-        echo "exiv2 output</br><hr>";
+        echo "exiv2 output<br><hr>";
+        echo "<table width='100%'><tr><th>".$id1." : ".$raw1['filename']."</th><th>".$id2." : ".$raw2['filename']."</th></tr></table><hr>";
         echo Diff::toTable(Diff::compareFiles($exiv1, $exiv2));
         echo "<hr>";
     }
@@ -81,7 +82,8 @@
     $exiftool2=datapath."/".hash_id($id2)."/".$id2."/".$raw2['filename'].".exiftool.txt";
 
     if((filesize($exiftool1) > 0 ) and (filesize($exiftool2) > 0 )){
-        echo "exiftool output</br><hr>";
+        echo "exiftool output<br><hr>";
+        echo "<table width='100%'><tr><th>".$id1." : ".$raw1['filename']."</th><th>".$id2." : ".$raw2['filename']."</th></tr></table><hr>";
         echo Diff::toTable(Diff::compareFiles($exiftool1, $exiftool2));
     }
 
