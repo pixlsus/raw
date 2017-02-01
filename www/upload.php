@@ -12,7 +12,9 @@
             $data=raw_getdata($id);
             $dupe=raw_dupecheck($id);
 
-            raw_modify($id,array('validated' => 2));
+            if(dupe!=0) {
+                raw_modify($id,array('validated' => 2));
+            }
             // disable submit button if data is missing
             if($data['make']!="" and $data['model']!="" and $dupe==0){
                 $disabled="";
