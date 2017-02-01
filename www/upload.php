@@ -10,9 +10,11 @@
         $id=raw_add($_FILES['file']['tmp_name'],str_replace(" ","_",$_FILES['file']['name']));
         if($id){
             $data=raw_getdata($id);
+            $dupe=raw_dupecheck($id);
 
+            raw_modify($id,array('validated' => 2));
             // disable submit button if data is missing
-            if($data['make']!="" and $data['model']!=""){
+            if($data['make']!="" and $data['model']!="" and $dupe==0){
                 $disabled="";
             }
         }
@@ -48,6 +50,11 @@
                         Please take a moment to correct or fill-in any missing fields below,
                         then press 'Update':
                     </p>
+                    <?php if($dupe>0) { ?>
+                    <p>
+                        <b>We already have a photo like this! If you meant to do this, please tell us why yours is different.</b>
+                    </p>
+                    <?php } ?>
                     <form action="modify.php" method="post">
                         <input type="hidden" id="id" name="id" value="<?php echo $data['id']?>" />
                         <input type="hidden" id="checksum" name="checksum" value="<?php echo $data['checksum']?>" />
@@ -97,7 +104,7 @@
         <script>
 $(document).ready(function() {
     $(".fcc").keyup(function() {
-        if ( $("#make").val().length !=0  & $("#model").val().length != 0 ) {
+        if ( $("#make").val().length !=0  & $("#model").val().length != 0 <?php if($dupe>0) {?> & $("#remark").val().length != 0 <?php } ?> ) {
             $("#submit").prop('disabled', false);
         } else {
             $("#submit").prop('disabled', true);

@@ -431,6 +431,32 @@
         return($data);
     }
 
+    function raw_dupecheck($id){
+        $data=raw_getdata($id);
+
+        $dbh = db_init();
+        $sth = $dbh->prepare('select count(id) from raws where validated=1 and id!=:id
+                                                                           and make=:make
+                                                                           and model=:model
+                                                                           and mode=:mode
+                                                                           and aspectratio=:aspectratio
+                                                                           and bitspersample=:bitspersample
+                                                                           and pixels=:pixels
+                                                                           and license=:license');
+        $sth->execute(array(':id' => $id,
+                            ':make' => $data['make'],
+                            ':model' => $data['model'],
+                            ':mode' => $data['mode'],
+                            ':aspectratio' => $data['aspectratio'],
+                            ':bitspersample' => $data['bitspersample'],
+                            ':pixels' => $data['pixels'],
+                            ':license' => $data['license']
+                            ));
+
+        $result = $sth->fetchColumn();
+        return($result);
+    }
+
 // notification
     function notify($id,$action,$extra="") {
         $data=raw_getdata($id);
