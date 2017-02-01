@@ -73,6 +73,7 @@
 						<li>Series of images with different ISO, aperture, shutter, wb,
 						lighting, or different lenses</li>
 						<li>DNG files created with Adobe DNG Converter</li>
+						<li>Photographs of people, for legal reasons.</li>
 					</ul>
 
 				</div>
