@@ -8,10 +8,17 @@
         $raws=raw_getalldata();
 
         foreach($raws as $raw){
-            if($raw['validated']=="0"){
-                $validate=" ";
-            } else {
-                $validate="X";
+            switch($raw['validated']){
+                case 0:
+                    $validate=" ";
+                    break;
+                case 1:
+                    $validate="X";
+                    break;
+                case 2:
+                    // dupes
+                    continue;
+                    break;
             }
 
             $filesize=human_filesize($raw['filesize']);
