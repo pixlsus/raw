@@ -120,7 +120,7 @@
 				</table>
 
 			</div>
-        <a href="getfile.php/0/archive/raw_pixls_us_archive.zip">Full archive as zip</a>
+        <a href="getfile.php/0/archive/raw_pixls_us_archive.zip">Full archive as zip</a> - <a href="/data/">Browseable directory</a>
 		</section>
 
 
