@@ -424,7 +424,7 @@
             
             // Phase one
             if(preg_match("/^phase one/i",$data['make'])){
-                $data['mode']=$data['exiftool']['MakerNotes:RawFormat'];
+                $data['mode']=$exifdata['exiftool']['MakerNotes:RawFormat'];
             }
             
 
