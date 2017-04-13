@@ -421,6 +421,12 @@
                 $data['pixels']=round(($width*$height)/1000000.0,2);
                 $data['aspectratio']=aspectratio($width,$height);
             }
+            
+            // Phase one
+            if(preg_match("/^phase one/i",$data['make'])){
+                $data['mode']=$data['exiftool']['MakerNotes:RawFormat'];
+            }
+            
 
             //software created raws
             if(isset($exifdata['Exif']['Image']['Software']) and preg_match('/^HDRMerge/',$exifdata['Exif']['Image']['Software'])){
