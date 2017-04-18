@@ -137,6 +137,10 @@
 					<p class='small' style='max-width: initial;'>
 						Ismael González, Martin Bloss, Reinhard Fetzer, Jens Duttke, Marco Rutz, Rainer Kriewald, Sergej Medvedev, Hans Schrotthofer, Marc Keune, Michi, Wolfram Soens, Ralf Geßner, Wolfgang Nickolay, Wolfgang Peisl, Andreas Pla., Oskar Teichmann, Martin Egger, Markus Schlieper, Peter Carsten, Uwe Mochel, Emil Eschenbach, Francis Willems, Ivaylo Iordanov, Gary Bainbridge, Ludger Jöster, Malcolm Barron, Andreas Norén, Michael Adams, David List, Urs Dünner, Dieter Bethke, Surinder Ram, Alexander Konopka, Udi Fuchs, Hans-Dieter Poppe, Bob Horton, Cyril Brunner, Niels Kristian Bech Jensen, Gerhard Hagen, Benjamin Adler, Jan Borgers, Frank Homann, Dirk Volkmann, Siegfried Henning, John Lightner, Gordon Goodsman, Yves Boyadjian, Paolo Massei, Elia Vecellio, Joerg Hoevel, Peter Gößweiner, Mike Newman, Thomas Lamprecht, Bernard Moschkon, Andrik Sieberichs, Dave Nicholson, Phil Harvey, Elia Vecellio, Suriya Matsuda, Matt Sephton, Tim McCormack, Zach Stuart, Horst Wittenburg, Dr. Falk Langhammer, Benjamin Derge, André Gärtner, Johannes Waschke, Anwar El Bizanti, Tim Beeck, Scott Picton, Adam Bryant, Heiko Kaufhold, Alexey Zilber, Andreas Isenegger, Radek Niec, Jean Glasser, Mats Karlsson, Willi Müller, Simon Schmitz, Till Grigat, Alexander Konopka, Alistair Jackson, Adrien Béraud, Aron Eisenpress, George Stiber, Robert Jackson, Phil Harvey, Sergej Medvedev, Marcel Cuculici, Chi Zhang, Fernando Prado, Prof. SAI GIRIDHAR KAMATH, Anders Torger, Herik Aiolfi, Marcel Wagner, Razil Shaikh, Haiyan Qu, James Wyper and many others.
 					</p>
+                    <hr>
+                    <p>
+                    raw.pixls.us is used by <a href="https://www.darktable.org/">darktable</a> for regression testing of <a href="https://github.com/darktable-org/rawspeed">rawspeed</a> and by <a href="http://rawtherapee.com">RawTherapee</a>.  It is available for any projects that need access to a library of raw files.
+                    </p>
 				</div>
 			</div>
 		</section>
