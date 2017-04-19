@@ -56,6 +56,17 @@
                     readfile($file);
                 }
                 break;
+            case "nice":
+                $file=$datapath."/".$data['filename'];
+                if(file_exists($file)){
+                	$pathinfo=pathinfo($file);
+                	$filename=$matches[3];
+                	header('Content-Type: '.mime_content_type($file));
+                    header('Content-Disposition: attachment; filename="'.$filename.'"');
+                    header('Content-Length: ' . filesize($file));
+                    readfile($file);
+                }
+                break;
             case "preview":
                 $files=scandir($datapath);
                 $preview=current(preg_grep("/.*-preview[0-9]\.jpg$/", $files));

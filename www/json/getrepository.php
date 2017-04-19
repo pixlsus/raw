@@ -39,6 +39,15 @@
             }
             $mode=trim($mode);
 
+            $pathinfo=pathinfo($raw['filename']);
+            $nicename=$make." - ".$model;
+            if($mode!=""){
+                $nicename.=" - ".$mode;
+            }
+            $nicename.=".".$pathinfo['extension'];
+            //maybe if browsers start to complain about :'s etc
+            //$nicename=mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $nicename);
+
             switch($raw['license']){
                 case "CC0":
                     $lic = "<a href='https://creativecommons.org/publicdomain/zero/1.0/' title='Creative Commons 0 - Public Domain' class='cc'>co</a>";
@@ -64,7 +73,7 @@
                           $raw['remark'],
                           $lic,
                           $raw['date'],
-                          "<a href='".baseurl."/getfile.php/".$raw['id']."/raw/".$raw['filename']."'>".$raw['filename']."</a><div class='checksumdata'><span title='SHA1 Checksum'>". $raw['checksum'] ."</span>&nbsp;(".$filesize.")</div>",
+                          "<a href='".baseurl."/getfile.php/".$raw['id']."/nice/".$nicename."'>".$nicename."</a><div class='checksumdata'><span title='SHA1 Checksum'>". $raw['checksum'] ."</span>&nbsp;(".$filesize.")</div>",
                           $exifdata);
         }
     }
