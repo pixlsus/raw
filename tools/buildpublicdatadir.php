@@ -39,8 +39,16 @@
                 mkdir(publicdatapath."/".$make."/".$model);
             }
             symlink(datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'],publicdatapath."/".$make."/".$model."/".$raw['filename']);
+            $sha1table[$make."/".$model."/".$raw['filename']]=$raw['checksum'];
         }
     }
+
+    $fp=fopen(publicdatapath."/filelist.sha1","w");
+    foreach($sha1table as $file=>$sha1) {
+        fprintf($fp,"%s  %s\n",$sha1,$file);
+    }
+    fclose($fp);
+
     file_put_contents(publicdatapath."/timestamp.txt",time());
 
     // Badgegeneration
@@ -50,3 +58,4 @@
     $samples=raw_getnumberofsamples();
     file_put_contents("../www/button-samples.svg", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.svg?maxAge=3600"));
     file_put_contents("../www/button-samples.png", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.png?maxAge=3600"));
+    
