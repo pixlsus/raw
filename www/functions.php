@@ -384,7 +384,14 @@
             }
             if(preg_match("/^(panasonic|leica)/i",$data['make'])) {
                 if(isset($exifdata['Exif']['PanasonicRaw']['ImageWidth']) and isset($exifdata['Exif']['PanasonicRaw']['ImageHeight'])) {
-                    $data['aspectratio']=aspectratio($exifdata['Exif']['PanasonicRaw']['ImageWidth'],$exifdata['Exif']['PanasonicRaw']['ImageHeight']);
+                    if(isset($exifdata['exiftool']['EXIF:CropTop'])){
+                        $w=$exifdata['exiftool']['EXIF:CropRight'] - $exifdata['exiftool']['EXIF:CropLeft'];
+                        $h=$exifdata['exiftool']['EXIF:CropBottom'] - $exifdata['exiftool']['EXIF:CropTop'];
+                    } else {
+                        $w=$exifdata['Exif']['PanasonicRaw']['ImageWidth'];
+                        $h=$exifdata['Exif']['PanasonicRaw']['ImageHeight'];
+                    }
+                    $data['aspectratio']=aspectratio($w,$h);
                 }
             }
 
