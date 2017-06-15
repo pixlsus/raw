@@ -283,6 +283,14 @@
         return($result);
     }
 
+    function raw_gettotalrepositorysize() {
+        $dbh = db_init();
+        $sth = $dbh->prepare('select sum(filesize) from raws where validated=1');
+        $sth->execute();
+        $result = $sth->fetchColumn();
+        return($result);
+    }
+
     function raw_readexif($filename) {
         $exiv2=$filename.".exif.txt";
         $exiftool=$filename.".exiftool.json";
