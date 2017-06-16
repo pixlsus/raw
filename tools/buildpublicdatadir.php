@@ -58,7 +58,7 @@
     $samples=raw_getnumberofsamples();
     file_put_contents("../www/button-samples.svg", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.svg?maxAge=3600"));
     file_put_contents("../www/button-samples.png", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.png?maxAge=3600"));
-    $reposize=raw_getrepositorysize();
+    $reposize=raw_gettotalrepositorysize();
     file_put_contents("../www/button-size.svg", file_get_contents("https://img.shields.io/badge/samples-".$reposize."-green.svg?maxAge=3600"));
     file_put_contents("../www/button-size.png", file_get_contents("https://img.shields.io/badge/samples-".$reposize."-green.png?maxAge=3600"));
     
