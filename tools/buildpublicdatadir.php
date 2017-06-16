@@ -59,12 +59,12 @@
     file_put_contents("../www/button-samples.svg", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.svg?maxAge=3600"));
     file_put_contents("../www/button-samples.png", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.png?maxAge=3600"));
     $reposize=raw_gettotalrepositorysize();
-    file_put_contents("../www/button-size.svg", file_get_contents("https://img.shields.io/badge/samples-".$reposize."-green.svg?maxAge=3600"));
-    file_put_contents("../www/button-size.png", file_get_contents("https://img.shields.io/badge/samples-".$reposize."-green.png?maxAge=3600"));
+    file_put_contents("../www/button-size.svg", file_get_contents("https://img.shields.io/badge/size-".human_filesize($reposize)."-green.svg?maxAge=3600"));
+    file_put_contents("../www/button-size.png", file_get_contents("https://img.shields.io/badge/size-".human_filesize($reposize)."-green.png?maxAge=3600"));
     
     $postdata="rpu,key=cameras value=$cameras\n";
     $postdata.="rpu,key=samples value=$samples\n";
-    $postdata.="rpu,key=reposize value=$reposize\n";
+    $postdata.="rpu,key=reposize value=${reposize}i\n";
     
     $opts = array('http' => array( 'method'  => 'POST', 'header'  => "Content-Type: application/x-www-form-urlencoded\r\n", 'content' => $postdata, 'timeout' => 60 ) );
     $context  = stream_context_create($opts);
