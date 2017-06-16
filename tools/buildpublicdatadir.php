@@ -64,7 +64,7 @@
     
     $postdata="rpu,key=cameras value=$cameras\n";
     $postdata.="rpu,key=samples value=$samples\n";
-    $postdata.="rpu,key=reposize value=$reposize\n";
+    $postdata.="rpu,key=reposize value=".$reposize/1024/1024/1024."\n";
     
     $opts = array('http' => array( 'method'  => 'POST', 'header'  => "Content-Type: application/x-www-form-urlencoded\r\n", 'content' => $postdata, 'timeout' => 60 ) );
     $context  = stream_context_create($opts);
