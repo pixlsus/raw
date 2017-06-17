@@ -18,7 +18,6 @@
                 case 2:
                     // dupes, aborted uploads etc.
                     $validate="Aborted upload";
-                    continue;
                     break;
             }
 
