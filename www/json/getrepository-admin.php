@@ -10,10 +10,10 @@
         foreach($raws as $raw){
             switch($raw['validated']){
                 case 0:
-                    $validate="Validated";
+                    $validate="";
                     break;
                 case 1:
-                    $validate="";
+                    $validate="Validated";
                     break;
                 case 2:
                     // dupes, aborted uploads etc.
