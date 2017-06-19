@@ -14,7 +14,8 @@
 
     $cameradata=parsecamerasxml();
     $data=raw_getalldata();
-
+    $makes=array();
+    
     if(is_dir(publicdatapath)){
         delTree(publicdatapath);
     }
@@ -40,6 +41,10 @@
             }
             symlink(datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'],publicdatapath."/".$make."/".$model."/".$raw['filename']);
             $sha1table[$make."/".$model."/".$raw['filename']]=$raw['checksum'];
+            
+            if(!in_array($make,$makes)){
+                $makes[]=$make;
+            }
         }
     }
 
@@ -55,6 +60,8 @@
     $cameras=raw_getnumberofcameras();
     file_put_contents("../www/button-cameras.svg", file_get_contents("https://img.shields.io/badge/cameras-".$cameras."-green.svg?maxAge=3600"));
     file_put_contents("../www/button-cameras.png", file_get_contents("https://img.shields.io/badge/cameras-".$cameras."-green.png?maxAge=3600"));
+    file_put_contents("../www/button-makes.svg", file_get_contents("https://img.shields.io/badge/makes-".count($makes)."-green.svg?maxAge=3600"));
+    file_put_contents("../www/button-makes.png", file_get_contents("https://img.shields.io/badge/makes-".count($makes)."-green.png?maxAge=3600"));
     $samples=raw_getnumberofsamples();
     file_put_contents("../www/button-samples.svg", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.svg?maxAge=3600"));
     file_put_contents("../www/button-samples.png", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.png?maxAge=3600"));
@@ -67,6 +74,7 @@
     $postdata="rpu,key=cameras value=$cameras\n";
     $postdata.="rpu,key=samples value=$samples\n";
     $postdata.="rpu,key=reposize value=$reposize\n";
+    $postdata.="rpu,key=makes value=".count($makes)."\n";
     
     $opts = array('http' => array( 'method'  => 'POST', 'header'  => "Content-Type: application/x-www-form-urlencoded\r\n", 'content' => $postdata, 'timeout' => 60 ) );
     $context  = stream_context_create($opts);
