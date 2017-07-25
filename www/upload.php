@@ -12,7 +12,7 @@
             $data=raw_getdata($id);
             $dupe=raw_dupecheck($id);
 
-            if(dupe!=0) {
+            if($dupe!=0) {
                 raw_modify($id,array('validated' => 2));
             }
             // disable submit button if data is missing
