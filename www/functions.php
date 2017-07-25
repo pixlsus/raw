@@ -184,6 +184,11 @@
         //extracting best quality jpeg preview
         system('exiv2 -ep$(exiv2 -pp "'.$fullpath.'/'.$filename.'"|grep jpeg |tail -1|sed "s/Preview \([1-9]\{1\}\).*/\\1/g") "'.$fullpath.'/'.$filename.'"');
 
+        $files=scandir($fullpath);
+        if(count(preg_grep("/.*-preview[0-9]\.jpg$/", $files))==0){
+          system('darktable-cli '.$fullpath.'/'.$filename." ".$fullpath.'/'.$filename.'-preview1.jpg --width 1000 --height 1000 2>/dev/null 1>/dev/null');
+        }
+
         $data['checksum']=$checksum;
         $data['make']="";
         $data['model']="";
@@ -436,12 +441,12 @@
                 $data['pixels']=round(($width*$height)/1000000.0,2);
                 $data['aspectratio']=aspectratio($width,$height);
             }
-            
+
             // Phase one
             if(preg_match("/^phase one/i",$data['make'])){
                 $data['mode']=$exifdata['exiftool']['MakerNotes:RawFormat'];
             }
-            
+
 
             //software created raws
             if(isset($exifdata['Exif']['Image']['Software']) and preg_match('/^HDRMerge/',$exifdata['Exif']['Image']['Software'])){
