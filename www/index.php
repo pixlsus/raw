@@ -94,6 +94,7 @@
 								<li>14bit-uncompressed</li>
 								<li>14bit-lossless-compressed</li>
 							</ul>
+						<li><b>Sony</b>: For the full-frame cameras, both the normal raw, and the APS-C crop.</li>
 						<li><b>Canon</b>: RAW, mRAW, sRAW.</li>
 						<li><b>Canon (CHDK)</b>: Both the old-style CRW, and new DNG.</li>
 						<li><b>Leica</b>: Both compressed and uncompressed and all the crops (1:1, 4:3, 3:2, 16:9).</li>
