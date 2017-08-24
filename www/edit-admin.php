@@ -38,6 +38,12 @@
         $validated="";
     }
 
+    if($data['masterset']=="1") {
+        $masterset="checked disabled";
+    } else {
+        $masterset="";
+    }
+
     $rawpath=datapath."/".hash_id($data['id'])."/".$data['id'];
 
     $exifdata="";
@@ -59,6 +65,9 @@
     }
 
     $reparse="<a href='".baseurl."/edit-admin.php?parseexif=true&id=".$data['id']."'>Re-evaluate exif</a>\n";
+
+    //echo "<pre>"; print_r($tmpdata);echo "</pre>";
+    //exit(0);
 ?>
 <!doctype html>
 <html lang="en">
@@ -115,11 +124,16 @@
                     <label for="license">License:</label>
                     <input type="text" id="license" name="license" value="<?php echo $tmpdata['license']?>" />
                 </div>
+                <div>
+                    <label for="masterset">Masterset:</label>
+                    <input type="checkbox" name="masterset" id="masterset" <?php echo $masterset?>><br>
+                </div>
                 <input type="submit" name="submit" id="submit" value="Update" />
             </form>
             <br>
             <?php echo $previewimage?>
             <br>
+<?php if($tmpdata['masterset']==0){ ?>
             <form action="deletefile.php" method="post">
                 <input type="hidden" id="deleteid" name="deleteid" value="<?php echo $tmpdata['id']?>" />
                 <div>
@@ -132,7 +146,7 @@
                 </div>
                 <input type="submit" name="delete" id="delete" value="Delete raw" disabled/>
             </form>
-
+<?php } ?>
         </div>
         <script src="js/jquery.min.js"></script>
         <script src="js/jquery-ui.js"></script>

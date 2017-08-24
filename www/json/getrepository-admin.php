@@ -20,6 +20,9 @@
                     $validate="Aborted upload";
                     break;
             }
+            if($raw['masterset']==1){
+                $validate="Masterset";
+            }
 
             $filesize=human_filesize($raw['filesize']);
 

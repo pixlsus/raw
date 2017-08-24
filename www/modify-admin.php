@@ -16,6 +16,9 @@
     } else {
         $data['validated']=0;
     }
+    if(isset($_POST['masterset'])){
+        $data['masterset']=1;
+    }
     $data['make']=$_POST['make'] ?? '';
     $data['model']=$_POST['model'] ?? '';
     $data['mode']=$_POST['mode'] ?? '';
