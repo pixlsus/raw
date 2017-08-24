@@ -222,8 +222,8 @@
         }
 
         $dbh = db_init();
-        $sth = $dbh->prepare('delete from raws where id=:id');
-        $result = $sth->execute(array(':id' => $id));
+        $sth = $dbh->prepare('delete from raws where id=:id and masterset=:masterset');
+        $result = $sth->execute(array(':id' => $id,':masterset' => 0));
         return($result);
     }
 
