@@ -25,7 +25,18 @@
 
 		<section class="row clearfix">
 			<div class="container">
-
+<?php if(isset($_SERVER['QUERY_STRING'])) switch($_SERVER['QUERY_STRING']) {?>
+<?php   case "unwanted": ?>
+				<div class="column full ui-widget">
+					<h2>Hi, you tried to upload an unwanted file. (jpg, png, or archive)</h2>
+				</div>
+<?php     break; ?>
+<?php   case "thankyou": ?>
+				<div class="column full ui-widget">
+					<h2>Thank you for your submission!</h2>
+				</div>
+<?php     break; ?>
+<?php } ?>
 				<div class="column full ui-widget">
 					<h2 id='submit-a-file'>Submit a file
 						<span class='orview'>(or <a href="#repo" style="">view repo</a>)</span>

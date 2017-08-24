@@ -17,4 +17,4 @@
         $_SESSION['upload']='';
         notify($id,"new");
     }
-    header("Location: ".baseurl);
+    header("Location: ".baseurl."?thankyou");
