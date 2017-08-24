@@ -498,6 +498,7 @@
                 $message.="Make: ".$data['make']."\r\n";
                 $message.="Model: ".$data['model']."\r\n";
                 $message.="Mode: ".$data['mode']."\r\n";
+                $message.="Filename: ".$data['filename']."\r\n";
                 $message.="Remark: ".$data['remark']."\r\n";
                 $message.="Admin: ".baseurl."/edit-admin.php?id=$id\r\n";
                 $message.="Aspect ratio: ".$data['aspectratio']."\r\n";
@@ -528,6 +529,7 @@
                 $message.="Validated: ".$extra['validated']."\r\n";
                 $message.="Aspect ratio: ".$extra['aspectratio']."\r\n";
                 $message.="Bits per sample: ".$extra['bitspersample']."\r\n";
+                $message.="Masterset: ".$extra['masterset']."\r\n";
                 $message.="Remark: ".$extra['remark']."\r\n";
                 $message.="\r\nTo:\r\n";
                 $message.="Make: ".$data['make']."\r\n";
@@ -537,6 +539,7 @@
                 $message.="Remark: ".$data['remark']."\r\n";
                 $message.="Validated: ".$data['validated']."\r\n";
                 $message.="Aspect ratio: ".$data['aspectratio']."\r\n";
+                $message.="Masterset: ".$data['masterset']."\r\n";
                 $message.="Bits per sample: ".$data['bitspersample']."\r\n";
                 break;
         }
