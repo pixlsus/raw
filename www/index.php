@@ -28,12 +28,15 @@
 <?php if(isset($_SERVER['QUERY_STRING'])) switch($_SERVER['QUERY_STRING']) {?>
 <?php   case "unwanted": ?>
 				<div class="column full ui-widget">
-					<h2>Hi, you tried to upload an unwanted file. (jpg, png, or archive)</h2>
+                    <h2>Oops?  Small problem.</h2>
+                    <p>D'oh! You tried to upload an unwanted file. (jpg, png, or archive)<br/>
+                    Please note, we're only looking for raw files here (no archives).</p>
 				</div>
 <?php     break; ?>
 <?php   case "thankyou": ?>
 				<div class="column full ui-widget">
 					<h2>Thank you for your submission!</h2>
+                    <p>Thank you for helping us to improve support for more raw files!</p>
 				</div>
 <?php     break; ?>
 <?php } ?>
