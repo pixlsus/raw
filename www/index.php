@@ -112,6 +112,9 @@
 						<li><b>Pentax</b>: Both PEF and DNG.</li>
 					</ul>
 
+                    <p>If your camera model can produce more than one type of output 
+                    please consider uploading the entire set.</p>
+
 				</div>
 			</div>
 		</section>
