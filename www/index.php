@@ -113,6 +113,7 @@
 						<li><b>Canon (CHDK)</b>: Both the old-style CRW, and new DNG.</li>
 						<li><b>Leica</b>: Both compressed and uncompressed and all the crops (1:1, 4:3, 3:2, 16:9).</li>
 						<li><b>Pentax</b>: Both PEF and DNG.</li>
+                        <li><b>Fujifilm</b>: Both the old uncompressed RAF and new compressed RAF (if supported).</li>
 					</ul>
 
                     <p>If your camera model can produce more than one type of output 
