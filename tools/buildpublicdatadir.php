@@ -48,6 +48,8 @@
         }
     }
 
+    ksort($sha1table, SORT_NATURAL | SORT_FLAG_CASE);
+
     $fp=fopen(publicdatapath."/filelist.sha1","w");
     foreach($sha1table as $file=>$sha1) {
         fprintf($fp,"%s  %s\n",$sha1,$file);
