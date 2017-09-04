@@ -16,7 +16,7 @@
     } else {
         $data['validated']=0;
     }
-    if(isset($_POST['masterset'])){
+    if(isset($_POST['masterset']) and isset($_POST['license']) and $_POST['license'] == 'CC0'){
         $data['masterset']=1;
     }
     $data['make']=$_POST['make'] ?? '';

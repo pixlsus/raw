@@ -39,7 +39,7 @@
     }
 
     if($data['masterset']=="1") {
-        $masterset="checked disabled";
+        $masterset="checked";
     } else {
         $masterset="";
     }
@@ -124,10 +124,14 @@
                     <label for="license">License:</label>
                     <input type="text" id="license" name="license" value="<?php echo $tmpdata['license']?>" />
                 </div>
+<?php if($tmpdata['license']=='CC0'){ ?>
                 <div>
                     <label for="masterset">Masterset:</label>
-                    <input type="checkbox" name="masterset" id="masterset" <?php echo $masterset?>><br>
+                    <input type="checkbox" name="masterset" id="masterset" disabled <?php echo $masterset?>><br>
+                    <label for="mastersetreason">Masterset reason:</label>
+                    <input type="text" id="mastersetreason" name="mastersetreason" />
                 </div>
+<?php } ?>
                 <input type="submit" name="submit" id="submit" value="Update" />
             </form>
             <br>
@@ -157,6 +161,14 @@ $(document).ready(function() {
             $("#delete").prop('disabled', false);
         } else {
             $("#delete").prop('disabled', true);
+        }
+    });
+
+    $("#mastersetreason").keyup(function() {
+        if ( $("#mastersetreason").val().length !=0  ) {
+            $("#masterset").prop('disabled', false);
+        } else {
+            $("#masterset").prop('disabled', true);
         }
     });
 } );
