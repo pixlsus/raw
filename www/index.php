@@ -99,7 +99,7 @@
 
 					<ul>
 						<li><b>Panasonic</b>: all the crops (1:1, 4:3, 3:2, 16:9).</li>
-						<li><b>Nikon &amp; Sony</b>: all the combinations of compression and bitness settings, that is:
+						<li><b>Nikon &amp; Sony</b>: all the combinations of compression and bitness settings, plus all the raw sizes, that is:
 							<ul>
 								<li>12bit-compressed</li>
 								<li>12bit-uncompressed</li>
@@ -107,6 +107,8 @@
 								<li>14bit-compressed</li>
 								<li>14bit-uncompressed</li>
 								<li>14bit-lossless-compressed</li>
+								<li>small NEF</li>
+								<li>medium NEF</li>
 							</ul>
 						<li><b>Sony</b>: For the full-frame cameras, both the normal raw, and the APS-C crop.</li>
 						<li><b>Canon</b>: RAW, mRAW, sRAW.</li>
