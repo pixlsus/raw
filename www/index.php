@@ -81,7 +81,7 @@
 					</ul>
 
 					<p class='small'>
-						We are <em>not</em> looking for:
+						We are <b><em>NOT</em></b> looking for:
 					</p>
 					<ul class='small'>
 						<li>Series of images with different ISO, aperture, shutter, wb,
