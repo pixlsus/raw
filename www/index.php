@@ -96,8 +96,9 @@
 						<li>DNG files created with Adobe DNG Converter</li>
 						<li>Photographs of people, for legal reasons.</li>
 					</ul>
-                    <a href="?noncc0">View</a> only the non-<a href="https://creativecommons.org/share-your-work/public-domain/cc0/" class='cc' style='color: #497bad;' title='Creative Commons Zero - Public Domain Dedication'>co</a> samples:
-
+                    <p class='small'>
+                        <a href="?noncc0">View</a> only the non-<a href="https://creativecommons.org/share-your-work/public-domain/cc0/" class='cc' style='color: #497bad;' title='Creative Commons Zero - Public Domain Dedication'>co</a> samples:
+                    </p>
 				</div>
 
 				<div class='column half'>
