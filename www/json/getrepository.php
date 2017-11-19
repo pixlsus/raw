@@ -4,12 +4,15 @@
     include_once "../../config.php";
     include_once "../functions.php";
 
+    $set=$_GET['set'] ?? "all";
+    echo $set;
+
     $raws=raw_getalldata();
     $cameradata=unserialize(file_get_contents(datapath."/cameradata.serialize"));
 
     $i=0;
     foreach($raws as $raw){
-        if($raw['validated'] == "1" ){
+        if($raw['validated'] == "1") {
 
             $rawpath=datapath."/".hash_id($raw['id'])."/".$raw['id'];
             $filesize=human_filesize($raw['filesize']);
@@ -66,8 +69,9 @@
                 $exifdata="";
             }
 
-            $data[]=array($make,
-                          $model,
+            if ( ($set=="all") or ($set=="noncc0" and $raw['license'] != "CC0")) {
+                $data[]=array($make,
+                              $model,
                           $mode,
                           $raw['pixels'],
                           $raw['remark'],
@@ -75,6 +79,7 @@
                           $raw['date'],
                           "<a href='".baseurl."/getfile.php/".$raw['id']."/nice/".$nicename."'>".$nicename."</a><div class='checksumdata'><span title='SHA1 Checksum'>". $raw['checksum'] ."</span>&nbsp;(".$filesize.")</div>",
                           $exifdata);
+            }
         }
     }
     echo json_encode($data);

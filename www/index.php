@@ -25,7 +25,14 @@
 
 		<section class="row clearfix">
 			<div class="container">
-<?php if(isset($_SERVER['QUERY_STRING'])) switch($_SERVER['QUERY_STRING']) {?>
+<?php
+    $set="all";
+    if(isset($_SERVER['QUERY_STRING'])) switch($_SERVER['QUERY_STRING']) {
+    case "noncc0":
+        $set="noncc0";
+        break;
+?>
+            ?>
 <?php   case "unwanted": ?>
 				<div class="column full ui-widget">
                     <h2>Oops?  Small problem.</h2>
@@ -118,7 +125,7 @@
                         <li><b>Fujifilm</b>: Both the old uncompressed RAF and new compressed RAF (if supported).</li>
 					</ul>
 
-                    <p>If your camera model can produce more than one type of output 
+                    <p>If your camera model can produce more than one type of output
                     please consider uploading the entire set.</p>
 
 				</div>
@@ -173,7 +180,7 @@
 $(document).ready(function() {
     $('#repository').DataTable( {
 		"responsive": true,
-        "ajax": 'json/getrepository.php',
+        "ajax": 'json/getrepository.php?set=<?php echo $set; ?>',
         "aoColumns": [
             null,
             null,
