@@ -5,7 +5,6 @@
     include_once "../functions.php";
 
     $set=$_GET['set'] ?? "all";
-    echo $set;
 
     $raws=raw_getalldata();
     $cameradata=unserialize(file_get_contents(datapath."/cameradata.serialize"));
