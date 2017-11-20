@@ -436,10 +436,20 @@
 
             // Fuji pixels
             if(preg_match("/^fujifilm/i",$data['make'])){
-                $width=$exifdata['Exif']['Photo']['PixelXDimension']*3;
-                $height=$exifdata['Exif']['Photo']['PixelYDimension']*3;
+                $width=$exifdata['exiftool']['RAF:RawImageFullWidth'] ?? $exifdata['Exif']['Photo']['PixelXDimension']*3;
+                $height=$exifdata['exiftool']['RAF:RawImageFullHeight'] ?? $exifdata['Exif']['Photo']['PixelYDimension']*3;
                 $data['pixels']=round(($width*$height)/1000000.0,2);
                 $data['aspectratio']=aspectratio($width,$height);
+                $stripbytecount=$exifdata['exiftool']['RAF:StripByteCounts'] ?? 0;
+                if($stripbytecount and $width and $height) {
+                  if(((8 * $stripbytecount) / ($width * $height)) < 10) {
+                    $data['mode']="compressed";
+                  } else {
+                    $data['mode']="uncompressed";
+                  }
+                } else {
+                    $data['mode']="";
+                }
             }
 
             // Phase one
