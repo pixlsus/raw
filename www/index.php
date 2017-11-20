@@ -96,12 +96,16 @@
 						<li>DNG files created with Adobe DNG Converter</li>
 						<li>Photographs of people, for legal reasons.</li>
 					</ul>
+<?php if($set!="noncc0") { ?>
                     <p class='small'>
-                        <a href="?noncc0">View</a> only the non-<a href="https://creativecommons.org/share-your-work/public-domain/cc0/" class='cc' style='color: #497bad;' title='Creative Commons Zero - Public Domain Dedication'>co</a> samples.
+                        <a href="?noncc0#repo">View</a> only the non-<a href="https://creativecommons.org/share-your-work/public-domain/cc0/" class='cc' style='color: #497bad;' title='Creative Commons Zero - Public Domain Dedication'>co</a> samples.
                     </p>
-<?php if($set=="noncc0") { ?>
+<?php } else { ?>
                     <p class='small'>
                         If your camera is listed here, <i>please</i> contribute the full sample set!
+                    </p>
+                    <p class='small'>
+                        Go back to the <a href="?#repo">full repository</a>.
                     </p>
 <?php } ?>
 				</div>
@@ -144,7 +148,9 @@
 			<div class="column full ui-widget">
 
 				<h2 id='repo'>Repository</h2>
-
+<?php if($set=="noncc0") { ?>
+            <h3>Only the cameras with non-<a href="https://creativecommons.org/share-your-work/public-domain/cc0/" class='cc' style='color: #497bad;' title='Creative Commons Zero - Public Domain Dedication'>co</a> samples are listed here.</h3>
+<?php } ?>
 				<table id="repository" class="display" cellspacing="0" width="100%">
 					<thead>
 						<tr><th>Make</th><th>Model</th>
