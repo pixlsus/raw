@@ -440,6 +440,7 @@
                 $height=$exifdata['exiftool']['RAF:RawImageFullHeight'] ?? $exifdata['Exif']['Photo']['PixelYDimension']*3;
                 $data['pixels']=round(($width*$height)/1000000.0,2);
                 $data['aspectratio']=aspectratio($width,$height);
+                $data['bitspersample']=$exifdata['exiftool']['RAF:BitsPerSample'] ?? '';
                 $stripbytecount=$exifdata['exiftool']['RAF:StripByteCounts'] ?? 0;
                 if($stripbytecount and $width and $height) {
                   if(((8 * $stripbytecount) / ($width * $height)) < 10) {
