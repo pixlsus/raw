@@ -97,8 +97,13 @@
 						<li>Photographs of people, for legal reasons.</li>
 					</ul>
                     <p class='small'>
-                        <a href="?noncc0">View</a> only the non-<a href="https://creativecommons.org/share-your-work/public-domain/cc0/" class='cc' style='color: #497bad;' title='Creative Commons Zero - Public Domain Dedication'>co</a> samples:
+                        <a href="?noncc0">View</a> only the non-<a href="https://creativecommons.org/share-your-work/public-domain/cc0/" class='cc' style='color: #497bad;' title='Creative Commons Zero - Public Domain Dedication'>co</a> samples.
                     </p>
+<?php if($set=="noncc0") { ?>
+                    <p class='small'>
+                        If your camera is listed here, <i>please</i> contribute the full sample set!
+                    </p>
+<?php } ?>
 				</div>
 
 				<div class='column half'>
@@ -142,11 +147,19 @@
 
 				<table id="repository" class="display" cellspacing="0" width="100%">
 					<thead>
-						<tr><th>Make</th><th>Model</th><th>Mode</th><th>Pixls</th><th>Remark</th><th>License</th><th>Date</th><th>Raw</th><th>Exif</th></tr>
+						<tr><th>Make</th><th>Model</th>
+<?php if($set!="noncc0") { ?>
+            <th>Mode</th><th>Pixls</th><th>Remark</th><th>License</th><th>Date</th><th>Raw</th><th>Exif</th>
+<?php } ?>
+            </tr>
 					</thead>
 					<tfoot>
-						<tr><th>Make</th><th>Model</th><th>Mode</th><th>Pixls</th><th>Remark</th><th>License</th><th>Date</th><th>Raw</th><th>Exif</th></tr>
-					</tfoot>
+						<tr><th>Make</th><th>Model</th>
+<?php if($set!="noncc0") { ?>
+            <th>Mode</th><th>Pixls</th><th>Remark</th><th>License</th><th>Date</th><th>Raw</th><th>Exif</th>
+<?php } ?>
+            </tr>
+          </tfoot>
 				</table>
 
 			</div>
@@ -185,14 +198,16 @@ $(document).ready(function() {
         "ajax": 'json/getrepository.php?set=<?php echo $set; ?>',
         "aoColumns": [
             null,
-            null,
-            null,
+            null
+<?php if($set!="noncc0") { ?>
+            , null,
             null,
             null,
             null,
             null,
 			{ 'className': "column-rawfile" ,"bSearchable": false },
             { "bSearchable": false }
+<?php } ?>
 		]
     } );
     $(".fc").click(function() {

@@ -68,7 +68,7 @@
                 $exifdata="";
             }
 
-            if ( ($set=="all") or ($set=="noncc0" and $raw['license'] != "CC0")) {
+            if ($set=="all") {
                 $data[]=array($make,
                               $model,
                           $mode,
@@ -78,6 +78,11 @@
                           $raw['date'],
                           "<a href='".baseurl."/getfile.php/".$raw['id']."/nice/".$nicename."'>".$nicename."</a><div class='checksumdata'><span title='SHA1 Checksum'>". $raw['checksum'] ."</span>&nbsp;(".$filesize.")</div>",
                           $exifdata);
+            } else if ( $set=="noncc0" and $raw['license'] != "CC0") {
+                $camera = array($make, $model);
+                if(!in_array($camera,$data)){
+                  $data[]=$camera;
+                }
             }
         }
     }
