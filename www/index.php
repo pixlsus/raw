@@ -31,6 +31,9 @@
     case "noncc0":
         $set="noncc0";
         break;
+    case "missing":
+        $set="missing";
+        break;
 ?>
             ?>
 <?php   case "unwanted": ?>
@@ -56,7 +59,7 @@
 
 				<div class='column half'>
 
-					<p>If you can provide a raw file from a camera we're currently missing, if the sample we have is not under <a href="https://creativecommons.org/share-your-work/public-domain/cc0/" class='cc' style='color: #497bad;' title='Creative Commons Zero - Public Domain Dedication'>co</a>, or if you can provide a more useful photo from a camera model we already support (e.g. a photo of a color target), please upload that file now.</p>
+					<p>If you can provide a raw file from a camera we're currently <a href="?missing#repo">missing</a>, if the sample we have is not under<a href="?noncc0#repo">co</a>, or if you can provide a more useful photo from a camera model we already support (e.g. a photo of a color target), please upload that file now.</p>
 
 
 					<div class='form-upload'>
@@ -100,11 +103,13 @@
                     <p class='small'>
                         <a href="?noncc0#repo">View</a> only the non-<a href="https://creativecommons.org/share-your-work/public-domain/cc0/" class='cc' style='color: #497bad;' title='Creative Commons Zero - Public Domain Dedication'>co</a> samples.
                     </p>
-<?php } else if($set!="missing") { ?>
+<?php } ?>
+<?php if($set!="missing") { ?>
                     <p class='small'>
                         <a href="?missing#repo">View</a> all the cameras with no samples at all.
                     </p>
-<?php } else { ?>
+<?php } ?>
+<?php if($set!="all") { ?>
                     <p class='small'>
                         If your camera is listed here, <i>please</i> contribute the full sample set!
                     </p>
