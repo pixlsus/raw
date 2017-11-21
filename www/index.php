@@ -100,6 +100,10 @@
                     <p class='small'>
                         <a href="?noncc0#repo">View</a> only the non-<a href="https://creativecommons.org/share-your-work/public-domain/cc0/" class='cc' style='color: #497bad;' title='Creative Commons Zero - Public Domain Dedication'>co</a> samples.
                     </p>
+<?php } else if($set!="missing") { ?>
+                    <p class='small'>
+                        <a href="?missing#repo">View</a> all the cameras with no samples at all.
+                    </p>
 <?php } else { ?>
                     <p class='small'>
                         If your camera is listed here, <i>please</i> contribute the full sample set!
@@ -150,18 +154,20 @@
 				<h2 id='repo'>Repository</h2>
 <?php if($set=="noncc0") { ?>
             <h3>Only the cameras with non-<a href="https://creativecommons.org/share-your-work/public-domain/cc0/" class='cc' style='color: #497bad;' title='Creative Commons Zero - Public Domain Dedication'>co</a> samples are listed here.</h3>
+<?php } else if($set=="missing") { ?>
+            <h3>Only the cameras with no samples at all are listed here.</h3>
 <?php } ?>
 				<table id="repository" class="display" cellspacing="0" width="100%">
 					<thead>
 						<tr><th>Make</th><th>Model</th>
-<?php if($set!="noncc0") { ?>
+<?php if($set=="all") { ?>
             <th>Mode</th><th>Pixls</th><th>Remark</th><th>License</th><th>Date</th><th>Raw</th><th>Exif</th>
 <?php } ?>
             </tr>
 					</thead>
 					<tfoot>
 						<tr><th>Make</th><th>Model</th>
-<?php if($set!="noncc0") { ?>
+<?php if($set=="all") { ?>
             <th>Mode</th><th>Pixls</th><th>Remark</th><th>License</th><th>Date</th><th>Raw</th><th>Exif</th>
 <?php } ?>
             </tr>
@@ -201,11 +207,11 @@
 $(document).ready(function() {
     $('#repository').DataTable( {
 		"responsive": true,
-        "ajax": 'json/getrepository.php?set=<?php echo $set; ?>',
+        "ajax": 'json/getrepository<?php if($set=="missing") echo "-missing"; ?>.php?set=<?php echo $set; ?>',
         "aoColumns": [
             null,
             null
-<?php if($set!="noncc0") { ?>
+<?php if($set=="all") { ?>
             , null,
             null,
             null,
