@@ -59,7 +59,7 @@
 
 				<div class='column half'>
 
-					<p>If you can provide a raw file from a camera we're currently <a href="?missing#repo">missing</a>, if the sample we have is not under<a href="?noncc0#repo">co</a>, or if you can provide a more useful photo from a camera model we already support (e.g. a photo of a color target), please upload that file now.</p>
+					<p>If you can provide a raw file from a camera we're currently <a href="?missing#repo">missing</a>, if the sample we have is <a href="?noncc0#repo">not under <div class='cc' style='color: #497bad;'>co</div></a>, or if you can provide a more useful photo from a camera model we already support (e.g. a photo of a color target), please upload that file now.</p>
 
 
 					<div class='form-upload'>
@@ -69,7 +69,7 @@
 					<form action="upload.php" method="post" enctype="multipart/form-data">
 						<div>
 							<input class="fc" type="checkbox" name="rights" id="rights">
-							<label for="rights">I declare that I own full rights to this file and I hereby release it under the <a href="https://creativecommons.org/share-your-work/public-domain/cc0/" class='cc' style='color: #497bad;' title='Creative Commons Zero - Public Domain Dedication'>co</a> licence into the public domain.</label>
+							<label for="rights">I declare that I own full rights to this file and I hereby release it under the <a href="https://creativecommons.org/share-your-work/public-domain/cc0/" class='cc' style='color: #497bad;' title='Creative Commons Zero - Public Domain Dedication'>co</a> license into the public domain.</label>
 						</div>
 						<div>
 							<input class="fc" type="checkbox" name="edited" id="edited">
