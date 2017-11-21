@@ -58,8 +58,7 @@
 
 
 				<div class='column half'>
-
-					<p>If you can provide a raw file from a camera we're currently <a href="?missing#repo">missing</a>, if the sample we have is <a href="?noncc0#repo">not under <div class='cc' style='color: #497bad;'>co</div></a>, or if you can provide a more useful photo from a camera model we already support (e.g. a photo of a color target), please upload that file now.</p>
+					<p>If you can provide a raw file from a camera we're currently <a href="?missing#repo">missing</a>, if the sample we have is <a href="?noncc0#repo">not under <span class='cc' style='color: #497bad;'>co</span></a>, or if you can provide a more useful photo from a camera model we already support (e.g. a photo of a color target), please upload that file now.</p>
 
 
 					<div class='form-upload'>
