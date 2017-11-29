@@ -15,6 +15,7 @@
     $cameradata=parsecamerasxml();
     $data=raw_getalldata();
     $makes=array();
+    $noncc0samples=0;
     
     if(is_dir(publicdatapath)){
         delTree(publicdatapath);
@@ -45,6 +46,10 @@
             if(!in_array($make,$makes)){
                 $makes[]=$make;
             }
+            
+            if($raw['license']!="CC0"){
+                $noncc0samples++;
+            }
         }
     }
 
@@ -73,9 +78,13 @@
     
     $reposize/=(1024*1024*1024);
     
+    $missingcameras=count(unserialize(file_get_contents(datapath."/missingcameradata.serialize")));
+    
     $postdata="rpu,key=cameras value=$cameras\n";
     $postdata.="rpu,key=samples value=$samples\n";
     $postdata.="rpu,key=reposize value=$reposize\n";
+    $postdata.="rpu,key=noncc0samples value=$noncc0samples\n";
+    $postdata.="rpu,key=missingcameras value=$missingcameras\n";
     $postdata.="rpu,key=makes value=".count($makes)."\n";
     
     $opts = array('http' => array( 'method'  => 'POST', 'header'  => "Content-Type: application/x-www-form-urlencoded\r\n", 'content' => $postdata, 'timeout' => 60 ) );
