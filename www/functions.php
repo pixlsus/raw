@@ -423,7 +423,13 @@
 
             // Sony compressions
             if(preg_match("/^sony/i",$data['make'])){
-                if(isset($exifdata['Exif']['Photo']['CompressedBitsPerPixel'])){
+                if(isset($exifdata['Exif']['SubImage1']['Compression'])){
+                    if($exifdata['Exif']['SubImage1']['Compression']=="(32767)"){
+                        $data['mode']="compressed";
+                    } elseif ($exifdata['Exif']['SubImage1']['Compression']=="Uncompressed" ){
+                        $data['mode']="uncompressed";
+                    }
+                } else if(isset($exifdata['Exif']['Photo']['CompressedBitsPerPixel'])){
                     if($exifdata['Exif']['Photo']['CompressedBitsPerPixel']=="8"){
                         $data['mode']="compressed";
                     } elseif ($exifdata['Exif']['Photo']['CompressedBitsPerPixel']=="16" ){
