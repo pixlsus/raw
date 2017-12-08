@@ -465,6 +465,12 @@
             }
 
 
+            // SAMSUNG
+            if(preg_match("/^samsung/i",$data['make'])){
+                $data['bitspersample']=$exifdata['exiftool']['BitsPerSample'] ?? $data['bitspersample'];
+            }
+
+
             //software created raws
             if(isset($exifdata['Exif']['Image']['Software']) and preg_match('/^HDRMerge/',$exifdata['Exif']['Image']['Software'])){
                 $data['model']=$data['make']." ".$data['model'];
