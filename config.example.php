@@ -10,4 +10,11 @@
     define('datapath','/srv/www/raw.dtstyle.net/data');
     define('hashdepth',3);
 
-    define('baseurl','https://raw.dtstyle.net');
+    define('baseurl','https://raw.pixls.us');
+    define('publicdatapath','/srv/www/raw.dtstyle.net//www/data');
+    define('publicdatapathunique','/srv/www/raw.dtstyle.net/www/data-unique');
+
+    define('influxserver','graph');
+    define('influxdb','rpu');
+
+    define('unwanted','|png|jpg|zip|tar|rar|');
