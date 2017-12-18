@@ -50,12 +50,6 @@
     include("functions.php");
     include("class.Diff.php"); // http://code.stephenmorley.org/php/diff-implementation/
 
-    if(!isset($_SESSION['loggedin'])){
-        $_SESSION['referer']=$_SERVER['REQUEST_URI'];
-        header("Location: ".baseurl."/login.php");
-        exit();
-    }
-
     if(isset($_SERVER['PATH_INFO'])){
         if(preg_match("/\/([0-9]+)\/([0-9]+)/",$_SERVER['PATH_INFO'],$matches)){
             $id1=$matches[1];
