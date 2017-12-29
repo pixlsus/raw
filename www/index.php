@@ -47,6 +47,7 @@
 				<div class="column full ui-widget">
 					<h2>Thank you for your submission!</h2>
                     <p>Thank you for helping us to improve support for more raw files!</p>
+                    <p><b>NOTE</b>: uploading a sample is <i>not</i> all it takes. If there is a new camera support request/bug/problem, do file the actual bug in the appropriate bugtracker, e.g. in <a href="https://redmine.darktable.org/projects/darktable/issues/new">darktable's redmine</p>
 				</div>
 <?php     break; ?>
 <?php } ?>
