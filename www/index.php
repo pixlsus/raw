@@ -47,7 +47,13 @@
 				<div class="column full ui-widget">
 					<h2>Thank you for your submission!</h2>
                     <p>Thank you for helping us to improve support for more raw files!</p>
-                    <p><b>NOTE</b>: uploading a sample is <i>not</i> all it takes. If there is a new camera support request/bug/problem, do file the actual bug in the appropriate bugtracker, e.g. in <a href="https://redmine.darktable.org/projects/darktable/issues/new">darktable's redmine</p>
+<p>
+<b>NOTE</b>: If you uploaded this raw file because you would like support for it added to your open source program, now is the time to open an issue in your program's issue tracker.
+<ul>
+  <li><a href="https://redmine.darktable.org/projects/darktable/issues/new">darktable</p></li>
+  <li><a href="https://github.com/Beep6581/RawTherapee/issues/new">RawTherapee</a></li>
+</ul>
+</p>                    
 				</div>
 <?php     break; ?>
 <?php } ?>
