@@ -60,6 +60,7 @@
                     <?php if($dupe>0) { ?>
                     <p>
                         <b>We already have a photo like this! If you meant to do this, please tell us why yours is different.</b>
+                        <b>If this photo is part of the set you are uploading, <i>please</i> do submit it!</b>
                     </p>
                     <?php } ?>
                     <form action="modify.php" method="post">
