@@ -473,9 +473,9 @@
             
             // PENTAX 
             if(preg_match("/^pentax/i",$data['make'])){
-                if($exifdata['exiftool']['Compression'] == "Pentax PEF Compressed") {
+                if($exifdata['exiftool']['EXIF:Compression'] == "Pentax PEF Compressed") {
                     $data['mode'] = "compressed";
-                } else if($exifdata['exiftool']['Compression'] == "PackBits" or $exifdata['exiftool']['Compression'] == "Uncompressed") {
+                } else if($exifdata['exiftool']['EXIF:Compression'] == "PackBits" or $exifdata['exiftool']['EXIF:Compression'] == "Uncompressed") {
                     $data['mode'] = "uncompressed";
                 }
                 
