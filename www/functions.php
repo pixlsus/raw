@@ -470,6 +470,18 @@
                 $data['bitspersample']=$exifdata['exiftool']['BitsPerSample'] ?? $data['bitspersample'];
             }
 
+            
+            // PENTAX 
+            if(preg_match("/^pentax/i",$data['make'])){
+                if($exifdata['exiftool']['Compression'] == "Pentax PEF Compressed") {
+                    $data['mode'] = "compressed";
+                } else if($exifdata['exiftool']['Compression'] == "PackBits" or $exifdata['exiftool']['Compression'] == "Uncompressed") {
+                    $data['mode'] = "uncompressed";
+                }
+                
+                $data['bitspersample']=$exifdata['exiftool']['BitsPerSample'] ?? $data['bitspersample'];
+            }
+
 
             //software created raws
             if(isset($exifdata['Exif']['Image']['Software']) and preg_match('/^HDRMerge/',$exifdata['Exif']['Image']['Software'])){
