@@ -410,7 +410,11 @@
 
             // Leica compressions
             if(preg_match("/^leica/i",$data['make'])){
-                if(isset($data['bitspersample'])){
+                if($exifdata['Exif']['SubImage1']['Compression']=="Uncompressed"){
+                    $data['mode']="uncompressed";
+                } elseif ($exifdata['Exif']['SubImage1']['Compression']=="JPEG" ){
+                    $data['mode']="compressed";
+                } elseif(isset($data['bitspersample'])){
                     if($data['bitspersample']=="8"){
                         $data['mode']="compressed";
                     } elseif ($data['bitspersample']=="16" ){
