@@ -143,7 +143,7 @@
 								<li>small NEF</li>
 								<li>medium NEF</li>
 							</ul>
-						<li><b>Sony</b>: Both the RAW and cRAW.</li>
+						<li><b>Sony</b>: Both the uncompressed RAW and compressed RAW.</li>
 						<li><b>Sony</b>: For the full-frame cameras, both the normal raw, and the APS-C crop.</li>
 						<li><b>Canon</b>: RAW, mRAW, sRAW.</li>
 						<li><b>Canon (CHDK)</b>: Both the old-style CRW, and new DNG.</li>
