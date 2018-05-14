@@ -90,44 +90,44 @@
                 </div>
                 <div>
                     <label for="make">Make:</label>
-                    <input type="text" id="make" name="make" value="<?php echo $tmpdata['make']?>" /><?php if($parseexif) echo " was : ".$data['make'] ?>
+                    <input type="text" id="make" name="make" value="<?php echo htmlspecialchars($tmpdata['make'])?>" /><?php if($parseexif) echo " was : ".$data['make'] ?>
                 </div>
                 <div>
                     <label for="model">Model:</label>
-                    <input type="text" id="model" name="model" value="<?php echo $tmpdata['model']?>" /><?php if($parseexif) echo " was : ".$data['model'] ?>
+                    <input type="text" id="model" name="model" value="<?php echo htmlspecialchars($tmpdata['model'])?>" /><?php if($parseexif) echo " was : ".$data['model'] ?>
                 </div>
                 <div>
                     <label for="mode">Mode:</label>
-                    <input type="text" id="mode" name="mode" value="<?php echo $tmpdata['mode']?>" /><?php if($parseexif) echo " was : ".$data['mode'] ?>
+                    <input type="text" id="mode" name="mode" value="<?php echo htmlspecialchars($tmpdata['mode'])?>" /><?php if($parseexif) echo " was : ".$data['mode'] ?>
                 </div>
                 <div>
                     <label for="aspectratio">Aspect ratio:</label>
-                    <input type="text" id="aspectratio" name="aspectratio" value="<?php echo $tmpdata['aspectratio']?>" /><?php if($parseexif) echo " was : ".$data['aspectratio'] ?>
+                    <input type="text" id="aspectratio" name="aspectratio" value="<?php echo htmlspecialchars($tmpdata['aspectratio'])?>" /><?php if($parseexif) echo " was : ".$data['aspectratio'] ?>
                 </div>
                 <div>
                     <label for="pixels">Pixels:</label>
-                    <input type="text" id="pixels" name="pixels" value="<?php echo $tmpdata['pixels']?>" /><?php if($parseexif) echo " was : ".$data['pixels'] ?>
+                    <input type="text" id="pixels" name="pixels" value="<?php echo htmlspecialchars($tmpdata['pixels'])?>" /><?php if($parseexif) echo " was : ".$data['pixels'] ?>
                 </div>
                 <div>
                     <label for="bitspersample">Bits per sample:</label>
-                    <input type="text" id="bitspersample" name="bitspersample" value="<?php echo $tmpdata['bitspersample']?>" /><?php if($parseexif) echo " was : ".$data['bitspersample'] ?>
+                    <input type="text" id="bitspersample" name="bitspersample" value="<?php echo htmlspecialchars($tmpdata['bitspersample'])?>" /><?php if($parseexif) echo " was : ".$data['bitspersample'] ?>
                 </div>
                 <div>
                     <label for="checksum">Checksum:</label>
-                    <input type="text" id="checksum" name="checksum" value="<?php echo $tmpdata['checksum']?>" />
+                    <input type="text" id="checksum" name="checksum" value="<?php echo htmlspecialchars($tmpdata['checksum'])?>" />
                 </div>
                 <div>
                     <label for="remark">Comment:</label>
-                    <input type="text" id="remark" name="remark" value="<?php echo $tmpdata['remark']?>" />
+                    <input type="text" id="remark" name="remark" value="<?php echo htmlspecialchars($tmpdata['remark'])?>" />
                 </div>
                 <div>
                     <label for="license">License:</label>
-                    <input type="text" id="license" name="license" value="<?php echo $tmpdata['license']?>" />
+                    <input type="text" id="license" name="license" value="<?php echo htmlspecialchars($tmpdata['license'])?>" />
                 </div>
 <?php if($tmpdata['license']=='CC0'){ ?>
                 <div>
                     <label for="masterset">Masterset:</label>
-                    <input type="checkbox" name="masterset" id="masterset" disabled <?php echo $masterset?>><br>
+                    <input type="checkbox" name="masterset" id="masterset" disabled <?php echo htmlspecialchars($masterset)?>><br>
                     <label for="mastersetreason">Masterset reason:</label>
                     <input type="text" id="mastersetreason" name="mastersetreason" />
                 </div>
