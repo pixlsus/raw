@@ -57,7 +57,10 @@
 
     $fp=fopen(publicdatapath."/filelist.sha1","w");
     foreach($sha1table as $file=>$sha1) {
-        fprintf($fp,"%s  %s\n",$sha1,$file);
+        // There are two schemes:
+        // <hash><space><space><filename>      <- read in text mode
+        // <hash><space><asterisk><filename>   <- read in binary mode
+        fprintf($fp,"%s *%s\n",$sha1,$file);
     }
     fclose($fp);
 
