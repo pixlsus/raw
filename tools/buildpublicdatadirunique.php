@@ -39,7 +39,7 @@
             if(!is_dir(publicdatapathunique."/".$make."/".$model)){
                 mkdir(publicdatapathunique."/".$make."/".$model);
             }
-            link(datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'],publicdatapathunique."/".$make."/".$model."/".$raw['filename']);
+            symlink(datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'],publicdatapathunique."/".$make."/".$model."/".$raw['filename']);
             $sha1table[$make."/".$model."/".$raw['filename']]=$raw['checksum'];
 
             if(!in_array($make,$makes)){
