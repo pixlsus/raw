@@ -21,6 +21,9 @@
     }
     mkdir(publicdatapathunique);
 
+    # Install the CC0 legalcode. THIS IS ONLY APPLICABLE TO THE MASTERSET!
+    copy("../data/LICENSE-CC0-1.0.txt", publicdatapathunique."/LICENSE.txt");
+
     foreach($data as $raw){
         if($raw['masterset']==1){
             $make="unknown";
