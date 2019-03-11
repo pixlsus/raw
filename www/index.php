@@ -48,9 +48,10 @@
 					<h2>Thank you for your submission!</h2>
                     <p>Thank you for helping us to improve support for more raw files!</p>
 <p>
-<b>NOTE</b>: If you uploaded this raw file because you would like support for it added to your open source program, now is the time to open an issue in your program's issue tracker.
+<b>NOTE</b>: If you uploaded this raw file because you would like support for it added to your open source program, now is the time to open an issue in your program's issue tracker.<br/>
+<b>WARNING</b>: If you <i>don't</i> report the issue, nothing will happen. Just uploading a raw is <b>not</b> sufficient to get the issue fixed.
 <ul>
-  <li><a href="https://redmine.darktable.org/projects/darktable/issues/new">darktable</p></li>
+  <li><a href="https://github.com/darktable-org/darktable/issues/new/choose">darktable</p></li>
   <li><a href="https://github.com/Beep6581/RawTherapee/issues/new">RawTherapee</a></li>
 </ul>
 </p>                    
