@@ -190,8 +190,9 @@
 				</table>
 
 			</div>
-        <a href="getfile.php/0/archive/raw_pixls_us_archive.zip">Full archive as zip</a> - <a href="/data/">Browseable directory</a>
-		</section>
+        Full mirror available via rsync or <a href="/data/">https</a>.
+        Use rsync -avL rsync://raw.pixls.us/data/ raw-pixls-us-data/ to make a full mirror.
+    		</section>
 
 
 		<hr/>

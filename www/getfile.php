@@ -13,13 +13,8 @@
     }
 
     if($type=="archive"){
-        $file=datapath."/raw_pixls_us_archive.zip";
-        if(file_exists($file)){
-            header('Content-Type: '.mime_content_type($file));
-            header('Content-Disposition: attachment; filename="'.basename($file).'"');
-            header('Content-Length: ' . filesize($file));
-            readfile($file);
-        }
+        header("410 Gone");
+        echo("Zip archive support is removed. Please use 'rsync -avL rsync://raw.pixls.us/data/ raw-pixls-us-data/' or mirror the data from https://raw.pixls.us/data");
         exit(0);
     }
 
