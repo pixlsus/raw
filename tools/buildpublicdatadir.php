@@ -93,5 +93,5 @@
     $opts = array('http' => array( 'method'  => 'POST', 'header'  => "Content-Type: application/x-www-form-urlencoded\r\n", 'content' => $postdata, 'timeout' => 60 ) );
     $context  = stream_context_create($opts);
     $url = influxserver."/write?db=".influxdb;
-    file_get_contents($url, false, $context, -1, 40000); 
+    file_get_contents($url, false, $context); 
     
