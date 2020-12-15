@@ -54,11 +54,13 @@
             case "nice":
                 $file=$datapath."/".$data['filename'];
                 if(file_exists($file)){
-                	$pathinfo=pathinfo($file);
-                	$filename=$matches[3];
-                	header('Content-Type: '.mime_content_type($file));
+                    $pathinfo=pathinfo($file);
+                    $filename=$matches[3];
+                    $stat=stat($file);
+                    header('Content-Type: '.mime_content_type($file));
                     header('Content-Disposition: attachment; filename="'.$filename.'"');
                     header('Content-Length: ' . filesize($file));
+                    header('Date: ' . date("r",$stat['mtime']));
                     readfile($file);
                 }
                 break;
