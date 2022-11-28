@@ -66,7 +66,7 @@
 
 
 				<div class='column half'>
-					<p>If you can provide a raw file from a camera we're currently <a href="?missing#repo">missing</a>, if the sample we have is <a href="?noncc0#repo">not under <span class='cc' style='color: #497bad;'>co</span></a>, or if you can provide a more useful photo from a camera model we already support (e.g. a photo of a color target), please upload that file now.</p>
+					<p>If you can provide a raw file from a camera we're currently <a href="?missing#repo">missing</a>, if the sample we have is <a href="?noncc0#repo">not under <span class='cc' style='color: #497bad;'>co</span></a>, or if you can provide a more useful photo from a camera model we already support (but <b>NOT</b> a photo of a color target!), please upload that file now.</p>
 
 
 					<div class='form-upload'>
@@ -92,6 +92,8 @@
 						We are looking for shots that are:
 					</p>
 					<ul class='small'>
+						<li>Well-lit, pattern-full, scenery, low ISO. For example, a daylight landscape</li>
+						<li><b>NOT</b> a color target</li>
 						<li>Lens mounted on the camera, cap off</li>
 						<li>Image in focus and properly exposed</li>
 						<li>Landscape orientation</li>
@@ -101,6 +103,7 @@
 						We are <b><em>NOT</em></b> looking for:
 					</p>
 					<ul class='small'>
+						<li>color targets</li>
 						<li>Series of images with different ISO, aperture, shutter, wb,
 						lighting, or different lenses</li>
 						<li>DNG files created with Adobe DNG Converter</li>
