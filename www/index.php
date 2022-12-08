@@ -131,7 +131,7 @@
 
 				<div class='column half'>
 					<p>
-						Of the following brands we like to have:
+						For the following brands we would love to have:
 					</p>
 
 					<ul>
