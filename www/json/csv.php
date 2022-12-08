@@ -1,6 +1,6 @@
 <?php
     header("Content-type: text/csv");
-    header("Content-Disposition: attachement;filename=raw-pixls-us.csv");
+    header("Content-Disposition: attachment;filename=raw-pixls-us.csv");
     include_once "../../config.php";
     include_once "../functions.php";
 
