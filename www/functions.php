@@ -341,7 +341,7 @@
                 foreach($exifdata['Exif'] as $key => $value){
                     //          | default
                     $w1=max($w1,$value['ImageWidth'] ?? 0);
-                    //          | default                | pansonic
+                    //          | default                | panasonic
                     $h1=max($h1,$value['ImageLength'] ?? $value['ImageHeight'] ?? 0);
                 }
             }
