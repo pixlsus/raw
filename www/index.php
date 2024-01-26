@@ -155,6 +155,7 @@
 						<li><b>Leica</b>: Both compressed and uncompressed and all the crops (1:1, 4:3, 3:2, 16:9).</li>
 						<li><b>Pentax</b>: Both PEF and DNG.</li>
 						<li><b>Phase One A/S</b>, <b>Leaf</b> (IIQ): IIQ-L, IIQ-S.</li>
+						<li><b>Hasselblad</b>: Both 3FR and FFF</li>
                         <li><b>Fujifilm</b>: Both the old uncompressed RAF and new compressed RAF (if supported).</li>
 					</ul>
 
