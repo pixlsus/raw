@@ -4,7 +4,7 @@
 // db shizzle
     function db_init() {
         try {
-            $dbh=new pdo(dbdsn,dbuser,dbpw);
+            $dbh=new pdo(dbdsn,dbuser,dbpw,array(PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT));
         } catch (PDOException $e) {
             error_log('Connection failed: ' . $e->getMessage());
             exit(0);
