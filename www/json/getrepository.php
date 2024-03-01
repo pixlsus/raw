@@ -11,6 +11,7 @@
 
     $raws=raw_getalldata();
     $cameradata=unserialize(file_get_contents(datapath."/cameradata.serialize"));
+    $data=array();
 
     $i=0;
     foreach($raws as $raw){
