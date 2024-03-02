@@ -590,7 +590,7 @@
         $result = $sth->fetchAll(PDO::FETCH_ASSOC);
 
         foreach($result as $email) {
-            $headers = ['From' => "rpi@raw.pixls.us",'To' => $email['email'], 'Subject' => $subject , 'Reply-To' => "noreply@raw.pixls.us"];
+            $headers = ['From' => "rpu@raw.pixls.us",'To' => $email['email'], 'Subject' => $subject , 'Reply-To' => "noreply@raw.pixls.us"];
             $smtp = Mail::factory('sendmail');
             $mail = $smtp->send($email['email'] , $headers, $message);
         }
