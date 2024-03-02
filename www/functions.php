@@ -1,5 +1,6 @@
 <?php
     session_start();
+    require_once "Mail.php";
 
 // db shizzle
     function db_init() {
@@ -589,6 +590,8 @@
         $result = $sth->fetchAll(PDO::FETCH_ASSOC);
 
         foreach($result as $email) {
-            mail($email['email'],$subject,$message);
+            $headers = ['From' => "rpi@raw.pixls.us",'To' => $email['email'], 'Subject' => $subject , 'Reply-To' => "noreply@raw.pixls.us"];
+            $smtp = Mail::factory('sendmail');
+            $mail = $smtp->send($email['email'] , $headers, $message);
         }
     }
