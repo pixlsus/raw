@@ -20,7 +20,7 @@
 
     function aspectratio($width,$height,$tolerance=0.1) {
         if($width==0 or $height==0) {
-            return("Unkown");
+            return("NAN");
         }
         $ar=$width/$height;
         if($ar<1) {
