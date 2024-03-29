@@ -19,6 +19,9 @@
     }
 
     function aspectratio($width,$height,$tolerance=0.1) {
+        if($width==0 or $height==0) {
+            return("Unkown");
+        }
         $ar=$width/$height;
         if($ar<1) {
             $ar=1/$ar;
