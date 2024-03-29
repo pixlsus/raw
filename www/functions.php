@@ -309,7 +309,7 @@
             $fp=fopen($exiv2,"r");
 
             while (!feof($fp)) {
-                $buffer=fgets($fp);
+                $buffer=fgets($fp,1024);
                 if (preg_match("/([a-zA-Z0-9-_.\/:]+)\s+(.*)/",$buffer,$matches)) {
                     assignArrayByPath($exifdata,$matches[1],$matches[2],".");
                 }
