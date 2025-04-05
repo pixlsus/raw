@@ -6,6 +6,7 @@
 
     $id = $_POST['id'] ?? '';
     $checksum = $_POST['checksum'] ?? '';
+    $filesize = $_POST['filesize'] ?? '';
 
     $data['make']=$_POST['make'] ?? '';
     $data['model']=$_POST['model'] ?? '';

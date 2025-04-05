@@ -47,7 +47,7 @@
                 if(file_exists($file)){
                     header('Content-Type: '.mime_content_type($file));
                     header('Content-Disposition: attachment; filename="'.basename($file).'"');
-                    header('Content-Length: ' . filesize($file));
+                    header('Content-Length: ' . $data['filesize']);
                     readfile($file);
                 }
                 break;
@@ -59,7 +59,7 @@
                     $stat=stat($file);
                     header('Content-Type: '.mime_content_type($file));
                     header('Content-Disposition: attachment; filename="'.$filename.'"');
-                    header('Content-Length: ' . filesize($file));
+                    header('Content-Length: ' . $data['filesize']);
                     header('Date: ' . date("r",$stat['mtime']));
                     readfile($file);
                 }

@@ -84,6 +84,7 @@
             <form action="modify-admin.php" method="post">
                 <input type="hidden" id="id" name="id" value="<?php echo $tmpdata['id']?>" />
                 <input type="hidden" id="checksum" name="checksum" value="<?php echo $tmpdata['checksum']?>" />
+                <input type="hidden" id="filesize" name="filesize" value="<?php echo $tmpdata['filesize']?>" />
                 <div>
                     <label for="validated">Validated:</label>
                     <input type="checkbox" name="validated" id="validated" <?php echo $validated?>><br>
@@ -115,6 +116,10 @@
                 <div>
                     <label for="checksum">Checksum:</label>
                     <input type="text" id="checksum" name="checksum" value="<?php echo htmlspecialchars($tmpdata['checksum'])?>" />
+                </div>
+                <div>
+                    <label for="filesize">Filesize:</label>
+                    <input type="text" id="filesize" name="filesize" value="<?php echo htmlspecialchars($tmpdata['filesize'])?>" />
                 </div>
                 <div>
                     <label for="remark">Comment:</label>
