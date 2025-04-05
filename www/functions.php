@@ -38,7 +38,7 @@
             $ars="5:4";
         } else {
             // really wierd stuff
-            $ars=$ar;
+            $ars=number_format($ar,2);
         }
         return($ars);
     }
@@ -48,7 +48,7 @@
         $keys = explode($separator, $path);
 
         foreach ($keys as $key) {
-            $arr = &$arr[$key];
+            $arr = &$arr[(string)$key];
         }
 
         $arr = $value;
@@ -301,6 +301,8 @@
     }
 
     function raw_readexif($filename) {
+        $skip=0;
+        
         $exiv2=$filename.".exif.txt";
         $exiftool=$filename.".exiftool.json";
         $exifdata=array();
@@ -310,8 +312,15 @@
 
             while (!feof($fp)) {
                 $buffer=fgets($fp,1024);
-                if (preg_match("/([a-zA-Z0-9-_.\/:]+)\s+(.*)/",$buffer,$matches)) {
+                
+                if ($skip==0 && preg_match("/([a-zA-Z0-9-_.\/:]+)\s+(.*)/",$buffer,$matches)) {
                     assignArrayByPath($exifdata,$matches[1],$matches[2],".");
+                }
+
+                if (strlen($buffer)==1023) {
+                    $skip=1;
+                } else {
+                    $skip=0;
                 }
             }
             fclose($fp);
@@ -377,14 +386,16 @@
             // nikon raw modes
             if(preg_match("/^nikon/i",$data['make'])){
                 $ar="";
-                foreach($exifdata['Exif'] as $key => $value){
-                    if(isset($value['NewSubfileType']) and $value['NewSubfileType']=="Primary image"){
-                        if($value['Compression']=="Nikon NEF Compressed"){
-                            $data['mode']="compressed";
-                        } else if ($value['Compression']=="Uncompressed" ){
-                            $data['mode']="uncompressed";
+                if(isset($exifdata['Exif'])){
+                    foreach($exifdata['Exif'] as $key => $value){
+                        if(isset($value['NewSubfileType']) and $value['NewSubfileType']=="Primary image"){
+                            if($value['Compression']=="Nikon NEF Compressed"){
+                                $data['mode']="compressed";
+                            } else if ($value['Compression']=="Uncompressed" ){
+                                $data['mode']="uncompressed";
+                            }
+                            $data['aspectratio']=aspectratio($value['ImageWidth'],$value['ImageLength']);
                         }
-                        $data['aspectratio']=aspectratio($value['ImageWidth'],$value['ImageLength']);
                     }
                 }
                 if(isset($exifdata['Exif']['Nikon3']['NEFCompression'])){
@@ -414,9 +425,9 @@
 
             // Leica compressions
             if(preg_match("/^leica/i",$data['make'])){
-                if($exifdata['Exif']['SubImage1']['Compression']=="Uncompressed"){
+                if(isset($exifdata['Exif']['SubImage1']) && $exifdata['Exif']['SubImage1']['Compression']=="Uncompressed"){
                     $data['mode']="uncompressed";
-                } elseif ($exifdata['Exif']['SubImage1']['Compression']=="JPEG" ){
+                } elseif (isset($exifdata['Exif']['SubImage1']) && $exifdata['Exif']['SubImage1']['Compression']=="JPEG" ){
                     $data['mode']="compressed";
                 } elseif(isset($data['bitspersample'])){
                     if($data['bitspersample']=="8"){
@@ -450,8 +461,16 @@
 
             // Fuji pixels
             if(preg_match("/^fujifilm/i",$data['make'])){
-                $width=$exifdata['exiftool']['RAF:RawImageFullWidth'] ?? $exifdata['Exif']['Photo']['PixelXDimension']*3;
-                $height=$exifdata['exiftool']['RAF:RawImageFullHeight'] ?? $exifdata['Exif']['Photo']['PixelYDimension']*3;
+                if(isset($exifdata['exiftool']['RAF:RawImageFullWidth'])) {
+                    $width=$exifdata['exiftool']['RAF:RawImageFullWidth'];
+                    $height=$exifdata['exiftool']['RAF:RawImageFullHeight'];
+                } elseif (isset($exifdata['Exif']['Photo']['PixelXDimension'])) {
+                    $width=$exifdata['Exif']['Photo']['PixelXDimension']*3;
+                    $height=$exifdata['Exif']['Photo']['PixelYDimension']*3;
+                } else {
+                    $width=1;
+                    $height=1;
+                }
                 $data['pixels']=round(($width*$height)/1000000.0,2);
                 $data['aspectratio']=aspectratio($width,$height);
                 $data['bitspersample']=$exifdata['exiftool']['RAF:BitsPerSample'] ?? '';
@@ -469,13 +488,17 @@
 
             // Phase one
             if(preg_match("/^phase one/i",$data['make']) || preg_match("/^leaf/i",$data['make'])){
-                $data['mode']=$exifdata['exiftool']['MakerNotes:RawFormat'] ?? $data['mode'];
+                if(isset($exifdata['exiftool']['MakerNotes:RawFormat'])){
+                    $data['mode']=$exifdata['exiftool']['MakerNotes:RawFormat'];
+                }
             }
 
 
             // SAMSUNG
             if(preg_match("/^samsung/i",$data['make'])){
-                $data['bitspersample']=$exifdata['exiftool']['BitsPerSample'] ?? $data['bitspersample'];
+                if(isset($exifdata['exiftool']['BitsPerSample'])) {
+                    $data['bitspersample']=$exifdata['exiftool']['BitsPerSample'];
+                }
             }
 
             
