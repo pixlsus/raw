@@ -161,7 +161,7 @@
 //rawfile functions
     function raw_add($tmpfilename,$filename) {
         $dbh = db_init();
-        $checksum=sha1_file($tmpfilename);
+        $checksum=hash_file('sha256', $tmpfilename);
 
         $sth = $dbh->prepare('insert into raws(filename,validated,checksum)  values(:filename,0,:checksum)');
         $result = $sth->execute(array(':filename' => $filename,':checksum' => $checksum));

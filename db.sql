@@ -5,7 +5,7 @@ CREATE TABLE `raws` (
   `make` char(255) NOT NULL,
   `model` char(255) NOT NULL,
   `remark` mediumtext NOT NULL,
-  `checksum` char(40) NOT NULL,
+  `checksum` char(64) NOT NULL,
   `mode` char(255) NOT NULL,
   `license` char(20) NOT NULL,
   PRIMARY KEY (`id`),

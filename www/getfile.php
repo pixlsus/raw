@@ -72,9 +72,9 @@
                     readfile($datapath."/".$preview);
                 }
                 break;
-            case "sha1sum":
+            case "sha256sum":
                 header('Content-Type: text/plain');
-                //header('Content-Disposition: attachment; filename="'.$data['filename'].".sha1");
+                //header('Content-Disposition: attachment; filename="'.$data['filename'].".sha256");
                 echo $data['checksum']."  ".$data['filename'];
                 break;
         }

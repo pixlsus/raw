@@ -80,7 +80,7 @@
                           $raw['remark'],
                           $lic,
                           $raw['date'],
-                          "<a href='".baseurl."/getfile.php/".$raw['id']."/nice/".$nicename."'>".$nicename."</a><div class='checksumdata'><span title='SHA1 Checksum'>". $raw['checksum'] ."</span>&nbsp;(".$filesize.")</div>",
+                          "<a href='".baseurl."/getfile.php/".$raw['id']."/nice/".$nicename."'>".$nicename."</a><div class='checksumdata'><span title='sha256 Checksum'>". $raw['checksum'] ."</span>&nbsp;(".$filesize.")</div>",
                           $exifdata);
             } else if ( $set=="noncc0" and $raw['license'] != "CC0") {
                 $camera = array($make, $model);
