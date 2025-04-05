@@ -6,6 +6,11 @@
         header("Location: ".baseurl."/login.php");
         exit();
     }
+    $state="all";
+    if(isset($_GET['state'])) {
+        $state=$_GET['state'];
+    }
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -19,6 +24,14 @@
         <h1>Welcome to raw.pixls.us Admin</h1>
         <div class="ui-widget">
             <a href="edit-user.php">Edit Account</a>
+        </div>
+        <div class="ui-widget">
+            <a href="admin.php?state=all">All</a>
+            <a href="admin.php?state=validated">Validated</a>
+            <a href="admin.php?state=new">New</a>
+            <a href="admin.php?state=incomplete">Incomplete</a>
+            <a href="admin.php?state=orphaned">Orphaned</a>
+            <a href="admin.php?state=masterset">Masterset</a>
         </div>
         <div class="ui-widget">
             <table id="repository" class="display" cellspacing="0" width="100%">
@@ -38,7 +51,8 @@
         <script>
 $(document).ready(function() {
     $('#repository').DataTable( {
-        "ajax": 'json/getrepository-admin.php',
+        "ajax": 'json/getrepository-admin.php?state=<?php print $state ?>',
+        "pageLength": 100,
         "aoColumns": [
             null,
             null,
@@ -46,8 +60,8 @@ $(document).ready(function() {
             null,
             null,
             null,
-			null,
-			null,
+            null,
+            null,
             null,
             null,
             null,
