@@ -36,10 +36,10 @@
         <div class="ui-widget">
             <table id="repository" class="display" cellspacing="0" width="100%">
                 <thead>
-                    <tr><th>Status</th><th>Make</th><th>Model</th><th>Mode</th><th>AR</th><th>BPS</th><th>Remark</th><th>License</th><th>Checksum (sha1)</th><th>Size</th><th>Pixels</th><th>Date</th><th>Raw</th><th>Exif</th><th>Edit</th></tr>
+                    <tr><th>Status</th><th>Make</th><th>Model</th><th>Mode</th><th>AR</th><th>BPS</th><th>Remark</th><th>License</th><th>Checksum (sha256)</th><th>Size</th><th>Pixels</th><th>Date</th><th>Raw</th><th>Exif</th><th>Edit</th></tr>
                 </thead>
                 <tfoot>
-                    <tr><th>Status</th><th>Make</th><th>Model</th><th>Mode</th><th>AR</th><th>BPS</th><th>Remark</th><th>License</th><th>Checksum (sha1)</th><th>Size</th><th>Pixels</th><th>Date</th><th>Raw</th><th>Exif</th><th>Edit</th></tr>
+                    <tr><th>Status</th><th>Make</th><th>Model</th><th>Mode</th><th>AR</th><th>BPS</th><th>Remark</th><th>License</th><th>Checksum (sha256)</th><th>Size</th><th>Pixels</th><th>Date</th><th>Raw</th><th>Exif</th><th>Edit</th></tr>
                 </tfoot>
             </table>
         </div>

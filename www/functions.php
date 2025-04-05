@@ -161,10 +161,11 @@
 //rawfile functions
     function raw_add($tmpfilename,$filename) {
         $dbh = db_init();
-        $checksum=sha1_file($tmpfilename);
+        $checksum=hash_file('sha256', $tmpfilename);
+        $filesize=filesize($tmpfilename);
 
-        $sth = $dbh->prepare('insert into raws(filename,validated,checksum)  values(:filename,0,:checksum)');
-        $result = $sth->execute(array(':filename' => $filename,':checksum' => $checksum));
+        $sth = $dbh->prepare('insert into raws(filename,validated,checksum,filesize)  values(:filename,0,:checksum,:filesize)');
+        $result = $sth->execute(array(':filename' => $filename,':checksum' => $checksum,':filesize' => $filesize));
         if (!$result) {
             return(FALSE);
         }
@@ -194,13 +195,13 @@
         }
 
         $data['checksum']=$checksum;
+        $data['filesize']=$filesize;
         $data['make']="";
         $data['model']="";
         $data['remark']="";
         $data['mode']="";
         $data['license']="CC0";
         $data['date']=date("Y-m-d");
-        $data['filesize']=filesize($fullpath."/".$filename);
         raw_modify($id,$data);
 
         $exifdata=raw_readexif($fullpath."/".$filename,"r");

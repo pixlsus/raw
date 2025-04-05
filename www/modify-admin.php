@@ -10,6 +10,7 @@
 
     $id = $_POST['id'] ?? '';
     $checksum = $_POST['checksum'] ?? '';
+    $filesize = $_POST['$filesize'] ?? '';
 
     if(isset($_POST['validated'])){
         $data['validated']=1;

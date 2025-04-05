@@ -41,8 +41,8 @@
                 mkdir(publicdatapath."/".$make."/".$model);
             }
             symlink(datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'],publicdatapath."/".$make."/".$model."/".$raw['filename']);
-            $sha1table[$make."/".$model."/".$raw['filename']]=$raw['checksum'];
-            
+            $sha256table[$make."/".$model."/".$raw['filename']]=$raw['checksum'];
+
             if(!in_array($make,$makes)){
                 $makes[]=$make;
             }
@@ -53,14 +53,14 @@
         }
     }
 
-    ksort($sha1table, SORT_NATURAL | SORT_FLAG_CASE);
+    ksort($sha256table, SORT_NATURAL | SORT_FLAG_CASE);
 
-    $fp=fopen(publicdatapath."/filelist.sha1","w");
-    foreach($sha1table as $file=>$sha1) {
+    $fp=fopen(publicdatapath."/filelist.sha256","w");
+    foreach($sha256table as $file=>$sha256) {
         // There are two schemes:
         // <hash><space><space><filename>      <- read in text mode
         // <hash><space><asterisk><filename>   <- read in binary mode
-        fprintf($fp,"%s *%s\n",$sha1,$file);
+        fprintf($fp,"%s *%s\n",$sha256,$file);
     }
     fclose($fp);
 
