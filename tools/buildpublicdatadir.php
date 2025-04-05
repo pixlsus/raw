@@ -3,15 +3,6 @@
     include("../config.php");
     include("../www/functions.php");
 
-    // found on http://php.net/manual/en/function.rmdir.php
-    function delTree($dir) {
-       $files = array_diff(scandir($dir), array('.','..'));
-        foreach ($files as $file) {
-            (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
-        }
-        return rmdir($dir);
-      }
-
     // We don't really want to race with ourselves, so acquire a lock.
     define('publicdatapath_lock', publicdatapath.'.lock');
     $lock = fopen(publicdatapath_lock, "w");
@@ -23,42 +14,48 @@
     define('timestamp', time());
     define('publicdatapath_timestamped', publicdatapath.".".timestamp);
 
+    define('publicdatagittmppath', publicdatapath."-git");
+    define('publicdatagitrepopath', publicdatapath.".git");
+    define('publicdatagitrepopath_timestamped', publicdatagitrepopath.".".timestamp);
+
     $cameradata=parsecamerasxml();
     $data=raw_getalldata();
     $makes=array();
     $noncc0samples=0;
-    
+
     assert(!file_exists(publicdatapath_timestamped));
     mkdir(publicdatapath_timestamped);
 
+    if(is_dir(publicdatagittmppath)){
+        delTree(publicdatagittmppath);
+    }
+    mkdir(publicdatagittmppath);
+
     foreach($data as $raw){
         if($raw['validated']==1){
-            $make="unknown";
-            $model="unknown";
-            if($raw['make']!=""){
-                $make=$cameradata[$raw['make']][$raw['model']]['make'] ?? $cameradata[$raw['make']]['make'] ?? $raw['make'];
-            }
-            if($raw['model']!=""){
-                $model=$cameradata[$raw['make']][$raw['model']]['model'] ?? $raw['model'];
-            }
-            $make = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $make);
-            $model = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $model);
+            $output_filename = get_raw_pretty_name($raw, $make, $model);
             if(!is_dir(publicdatapath_timestamped."/".$make)){
                 mkdir(publicdatapath_timestamped."/".$make);
             }
             if(!is_dir(publicdatapath_timestamped."/".$make."/".$model)){
                 mkdir(publicdatapath_timestamped."/".$make."/".$model);
             }
-            symlink(datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'],publicdatapath_timestamped."/".$make."/".$model."/".$raw['filename']);
-            $sha256table[$make."/".$model."/".$raw['filename']]=$raw['checksum'];
-
+            symlink(datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'],publicdatapath_timestamped."/".$output_filename);
+            $sha256table[$output_filename]=$raw['checksum'];
             if(!in_array($make,$makes)){
                 $makes[]=$make;
             }
-            
             if($raw['license']!="CC0"){
                 $noncc0samples++;
             }
+
+            if(!is_dir(publicdatagittmppath."/".$make)){
+                mkdir(publicdatagittmppath."/".$make);
+            }
+            if(!is_dir(publicdatagittmppath."/".$make."/".$model)){
+                mkdir(publicdatagittmppath."/".$make."/".$model);
+            }
+            writeGitLFSPointer(publicdatagittmppath."/".$output_filename, $raw);
         }
     }
 
@@ -75,6 +72,14 @@
 
     file_put_contents(publicdatapath_timestamped."/timestamp.txt",time());
 
+    foreach (scandir(publicdatapath_timestamped) as $filename) {
+        if(is_file(publicdatapath_timestamped."/".$filename)) {
+            copy(publicdatapath_timestamped."/".$filename, publicdatagittmppath."/".$filename);
+        }
+    }
+
+    turnIntoAGitLFSRepo(publicdatagittmppath, publicdatagitrepopath_timestamped);
+
     //--------------------------------------------------------------------------
 
     if(file_exists(publicdatapath)) {
@@ -87,16 +92,35 @@
             assert(false);
         }
     }
+    if(file_exists(publicdatagitrepopath)) {
+        if(is_link(publicdatagitrepopath)) {
+            define('publicdatagitrepopath_old', realpath(publicdatagitrepopath));
+            // NOTE: do not delete anything yet.
+        } else if(is_dir(publicdatagitrepopath)) {
+            delTree(publicdatagitrepopath);
+        } else {
+            assert(false);
+        }
+    }
 
     define('publicdatapath_new', publicdatapath.".new");
+    define('publicdatagitrepopath_new', publicdatagitrepopath.".new");
 
     assert(!file_exists(publicdatapath_new));
+    assert(!file_exists(publicdatagitrepopath_new));
     symlink(basename(publicdatapath_timestamped), publicdatapath_new);
+    symlink(basename(publicdatagitrepopath_timestamped), publicdatagitrepopath_new);
     rename(publicdatapath_new, publicdatapath); // replaces old symlink!
+    rename(publicdatagitrepopath_new, publicdatagitrepopath); // replaces old symlink!
 
     if(defined("publicdatapath_old")) {
         delTree(publicdatapath_old);
     }
+    if(defined("publicdatagitrepopath_old")) {
+        delTree(publicdatagitrepopath_old);
+    }
+
+    delTree(publicdatagittmppath);
 
     //--------------------------------------------------------------------------
 

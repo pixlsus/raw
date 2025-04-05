@@ -622,3 +622,65 @@
             $mail = $smtp->send($email['email'] , $headers, $message);
         }
     }
+
+    function get_raw_pretty_name($raw, &$make, &$model) {
+        $make="unknown";
+        $model="unknown";
+        if($raw['make']!=""){
+            $make=$cameradata[$raw['make']][$raw['model']]['make'] ?? $cameradata[$raw['make']]['make'] ?? $raw['make'];
+        }
+        if($raw['model']!=""){
+            $model=$cameradata[$raw['make']][$raw['model']]['model'] ?? $raw['model'];
+        }
+        $make = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $make);
+        $model = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $model);
+        return $make."/".$model."/".$raw['filename'];
+    }
+
+    // found on http://php.net/manual/en/function.rmdir.php
+    function delTree($dir) {
+        $files = array_diff(scandir($dir), array('.','..'));
+        foreach ($files as $file) {
+            (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
+        }
+        return rmdir($dir);
+    }
+
+
+    function writeGitLFSPointer($filename, $raw) {
+        $fp=fopen($filename,"w");
+        fprintf($fp,"version https://git-lfs.github.com/spec/v1\n",);
+        fprintf($fp,"oid sha256:%s\n", $raw['checksum']);
+        fprintf($fp,"size %u\n", $raw['filesize']);
+        fclose($fp);
+    }
+
+    function turnIntoAGitLFSRepo($checkout, $bare) {
+        $fp=fopen($checkout."/.lfsconfig","w");
+        fprintf($fp,"[lfs]\n", );
+        fprintf($fp,"\turl = %s/git-lfs.php\n", baseurl);
+        fclose($fp);
+
+        $fp=fopen($checkout."/.gitattributes","w");
+        fprintf($fp,"%s filter=lfs diff=lfs merge=lfs -text\n", "*");
+        foreach (scandir($checkout) as $filename) {
+            if(is_file($checkout."/".$filename)) {
+                fprintf($fp,"%s !filter !diff !merge text\n", $filename);
+            }
+        }
+        fclose($fp);
+
+        $env = array(
+            'GIT_AUTHOR_NAME' => GIT_AUTHOR_NAME,
+            'GIT_AUTHOR_EMAIL' => GIT_AUTHOR_EMAIL,
+            'GIT_AUTHOR_DATE' => timestamp,
+            'GIT_COMMITTER_NAME' => GIT_AUTHOR_NAME,
+            'GIT_COMMITTER_EMAIL' => GIT_AUTHOR_EMAIL,
+            'GIT_COMMITTER_DATE' => timestamp,
+        );
+        proc_close(proc_open(array('git', 'init', '--quiet', '--initial-branch=master'), [], $pipes, $checkout, $env));
+        proc_close(proc_open(array('git', 'add', '.'), [], $pipes, $checkout, $env));
+        proc_close(proc_open(array('git', 'commit', '--quiet', '--message=Raw.Pixls.Us public data dump as of '.date('c', timestamp).'', '--no-signoff', '--no-gpg-sign'), [], $pipes, $checkout, $env));
+        proc_close(proc_open(array('git', 'clone', '--quiet', '--mirror', $checkout, $bare), [], $pipes, $checkout, $env));
+        proc_close(proc_open(array('git', 'repack', '--quiet', '-a', '-d', '-f', '-F'), [], $pipes, $bare, $env));
+    }
