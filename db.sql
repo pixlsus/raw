@@ -5,10 +5,16 @@ CREATE TABLE `raws` (
   `make` char(255) NOT NULL,
   `model` char(255) NOT NULL,
   `remark` mediumtext NOT NULL,
-  `filesize` bigint(64) UNSIGNED NOT NULL,
   `checksum` char(64) NOT NULL,
   `mode` char(255) NOT NULL,
   `license` char(20) NOT NULL,
+  `aspectratio` char(6) DEFAULT NULL,
+  `bitspersample` tinyint(4) DEFAULT NULL,
+  `pixels` float DEFAULT NULL,
+  `masterset` tinyint(4) DEFAULT NULL,
+  `state` char(10) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `filesize` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `checksum` (`checksum`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
