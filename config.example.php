@@ -14,7 +14,7 @@
 
     define('baseurl','https://raw.pixls.us');
     define('publicdatapath','/srv/www/raw.dtstyle.net//www/data');
-    define('publicdatapathunique','/srv/www/raw.dtstyle.net/www/data-unique');
+    define('publicdatauniquepath','/srv/www/raw.dtstyle.net/www/data-unique');
 
     define('influxserver','graph');
     define('influxdb','rpu');
