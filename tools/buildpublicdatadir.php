@@ -12,15 +12,24 @@
         return rmdir($dir);
       }
 
+    // We don't really want to race with ourselves, so acquire a lock.
+    define('publicdatapath_lock', publicdatapath.'.lock');
+    $lock = fopen(publicdatapath_lock, "w");
+    if(!flock($lock, LOCK_EX | LOCK_NB)) {
+        echo 'Unable to obtain lock';
+        exit(-1);
+    }
+
+    define('timestamp', time());
+    define('publicdatapath_timestamped', publicdatapath.".".timestamp);
+
     $cameradata=parsecamerasxml();
     $data=raw_getalldata();
     $makes=array();
     $noncc0samples=0;
     
-    if(is_dir(publicdatapath)){
-        delTree(publicdatapath);
-    }
-    mkdir(publicdatapath);
+    assert(!file_exists(publicdatapath_timestamped));
+    mkdir(publicdatapath_timestamped);
 
     foreach($data as $raw){
         if($raw['validated']==1){
@@ -34,13 +43,13 @@
             }
             $make = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $make);
             $model = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $model);
-            if(!is_dir(publicdatapath."/".$make)){
-                mkdir(publicdatapath."/".$make);
+            if(!is_dir(publicdatapath_timestamped."/".$make)){
+                mkdir(publicdatapath_timestamped."/".$make);
             }
-            if(!is_dir(publicdatapath."/".$make."/".$model)){
-                mkdir(publicdatapath."/".$make."/".$model);
+            if(!is_dir(publicdatapath_timestamped."/".$make."/".$model)){
+                mkdir(publicdatapath_timestamped."/".$make."/".$model);
             }
-            symlink(datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'],publicdatapath."/".$make."/".$model."/".$raw['filename']);
+            symlink(datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'],publicdatapath_timestamped."/".$make."/".$model."/".$raw['filename']);
             $sha256table[$make."/".$model."/".$raw['filename']]=$raw['checksum'];
 
             if(!in_array($make,$makes)){
@@ -55,7 +64,7 @@
 
     ksort($sha256table, SORT_NATURAL | SORT_FLAG_CASE);
 
-    $fp=fopen(publicdatapath."/filelist.sha256","w");
+    $fp=fopen(publicdatapath_timestamped."/filelist.sha256","w");
     foreach($sha256table as $file=>$sha256) {
         // There are two schemes:
         // <hash><space><space><filename>      <- read in text mode
@@ -64,7 +73,32 @@
     }
     fclose($fp);
 
-    file_put_contents(publicdatapath."/timestamp.txt",time());
+    file_put_contents(publicdatapath_timestamped."/timestamp.txt",time());
+
+    //--------------------------------------------------------------------------
+
+    if(file_exists(publicdatapath)) {
+        if(is_link(publicdatapath)) {
+            define('publicdatapath_old', realpath(publicdatapath));
+            // NOTE: do not delete anything yet.
+        } else if(is_dir(publicdatapath)) {
+            delTree(publicdatapath);
+        } else {
+            assert(false);
+        }
+    }
+
+    define('publicdatapath_new', publicdatapath.".new");
+
+    assert(!file_exists(publicdatapath_new));
+    symlink(basename(publicdatapath_timestamped), publicdatapath_new);
+    rename(publicdatapath_new, publicdatapath); // replaces old symlink!
+
+    if(defined("publicdatapath_old")) {
+        delTree(publicdatapath_old);
+    }
+
+    //--------------------------------------------------------------------------
 
     // Badgegeneration
     $cameras=raw_getnumberofcameras();
@@ -95,3 +129,7 @@
     $url = influxserver."/write?db=".influxdb;
     file_get_contents($url, false, $context); 
     
+    // We're done, release the lock.
+    unlink(publicdatapath_lock);
+    flock($lock, LOCK_UN);
+    fclose($lock);

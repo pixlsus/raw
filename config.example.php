@@ -6,6 +6,8 @@
 
     define('dbdsn','mysql:dbname='.dbname.';host='.dbhost.';charset=UTF8');
 
+    // NOTE: none of the paths should end with a slash!
+
     //It's recommende to put the data dir outside the document root to prevent abuse.
     define('datapath','/srv/www/raw.dtstyle.net/data');
     define('hashdepth',3);
