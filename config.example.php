@@ -12,9 +12,17 @@
     define('datapath','/srv/www/raw.dtstyle.net/data');
     define('hashdepth',3);
 
+    define('basepath','/srv/www/raw.dtstyle.net/www');
     define('baseurl','https://raw.pixls.us');
-    define('publicdatapath','/srv/www/raw.dtstyle.net//www/data');
-    define('publicdatapathunique','/srv/www/raw.dtstyle.net/www/data-unique');
+
+    define('publicdatapath',basepath.'/data');
+    define('publicdataurl',baseurl.'/data');
+
+    define('publicdatauniquepath',basepath.'/data-unique');
+    define('publicdatauniqueurl',baseurl.'/data-unique');
+
+    define('GIT_AUTHOR_NAME', 'Raw.Pixls.Us Bot');
+    define('GIT_AUTHOR_EMAIL', 'rpu@raw.pixls.us');
 
     define('influxserver','graph');
     define('influxdb','rpu');

@@ -1,3 +1,4 @@
+<?php include "../config.php"; ?>
 <!doctype html>
 <html lang="en">
     <head>
@@ -194,8 +195,8 @@
 				</table>
 
 			</div>
-        Full mirror available via rsync or <a href="/data/">https</a>.
-        Use 'rsync -avL rsync://raw.pixls.us/data/ raw-pixls-us-data/' to make a full mirror.
+        Full mirror available via <a href="/data/">https</a> or git LFS:
+        use 'git clone <?php echo publicdataurl; ?>.git' to make a full mirror (requires <a href="https://git-lfs.com/">Git LFS</a> extension to be installed).
     		</section>
 
 

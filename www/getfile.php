@@ -14,7 +14,7 @@
 
     if($type=="archive"){
         header("410 Gone");
-        echo("Zip archive support is removed. Please use 'rsync -avL rsync://raw.pixls.us/data/ raw-pixls-us-data/' or mirror the data from https://raw.pixls.us/data");
+        echo("Zip archive support is removed. Please use 'git clone ".publicdataurl.".git' to make a full mirror (requires Git LFS extension to be installed) or mirror the data from ".publicdataurl."/");
         exit(0);
     }
 
