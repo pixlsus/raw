@@ -655,10 +655,10 @@
         fclose($fp);
     }
 
-    function turnIntoAGitLFSRepo($checkout, $bare) {
+    function turnIntoAGitLFSRepo($checkout, $bare, $namespace) {
         $fp=fopen($checkout."/.lfsconfig","w");
         fprintf($fp,"[lfs]\n", );
-        fprintf($fp,"\turl = %s/git-lfs.php\n", baseurl);
+        fprintf($fp,"\turl = %s/git-lfs.php/$namespace\n", baseurl);
         fclose($fp);
 
         $fp=fopen($checkout."/.gitattributes","w");

@@ -15,15 +15,25 @@ if (
 
 header("Content-Type: " . CONTENT_TYPE);
 
+list(, $namespace, $path) = explode("/", $_SERVER["PATH_INFO"] ?? "", 3);
+
+if (!in_array($namespace, ["data", "data-unique"])) {
+    header("HTTP/1.1 400 Bad Request (invalid namespace)");
+    echo json_encode([
+        "message" => "Bad Request (the queried namespace is invalid)",
+    ]);
+    exit();
+}
+
 // We do not support Locking API.
-if (($_SERVER["PATH_INFO"] ?? "") == "/locks/verify") {
+if ($path == "locks/verify") {
     header("HTTP/1.1 403 Read-only Git LFS server");
     echo json_encode(["message" => "This is a read-only Git LFS server"]);
     exit();
 }
 
 // This implements Git LFS Batch API, only accept appropriate URI.
-if (($_SERVER["PATH_INFO"] ?? "") != "/objects/batch") {
+if ($path != "objects/batch") {
     header("HTTP/1.1 400 Bad Request (unsupported URI)");
     echo json_encode([
         "message" => "Bad Request (the queried URI is not supported)",
