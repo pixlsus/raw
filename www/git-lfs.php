@@ -17,12 +17,19 @@ header("Content-Type: " . CONTENT_TYPE);
 
 list(, $namespace, $path) = explode("/", $_SERVER["PATH_INFO"] ?? "", 3);
 
-if (!in_array($namespace, ["data", "data-unique"])) {
-    header("HTTP/1.1 400 Bad Request (invalid namespace)");
-    echo json_encode([
-        "message" => "Bad Request (the queried namespace is invalid)",
-    ]);
-    exit();
+switch($namespace) {
+    case "data":
+        define("publicurl", publicdataurl);
+        break;
+    case "data-unique":
+        define("publicurl", publicdatauniqueurl);
+        break;
+    default:
+        header("HTTP/1.1 400 Bad Request (invalid namespace)");
+        echo json_encode([
+            "message" => "Bad Request (the queried namespace is invalid)",
+        ]);
+        exit();
 }
 
 // We do not support Locking API.
@@ -143,7 +150,7 @@ foreach ($request["objects"] as $object) {
     if (array_key_exists($key, $raws)) {
         $uri = $raws[$key];
         $objectResponse["authenticated"] = true;
-        $actions["download"] = ["href" => publicdataurl . "/" . $uri];
+        $actions["download"] = ["href" => publicurl . "/" . $uri];
     } else {
         $actions["error"] = [
             "code" => 404,
