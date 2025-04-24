@@ -699,3 +699,13 @@
         // Output the 36 character UUID.
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
+
+    function parseHashsumsFile($fname) {
+        define("MAGIC", 64);
+        $arr = [];
+        foreach (file($fname, FILE_IGNORE_NEW_LINES) as $line) {
+            assert(strlen($line) >= MAGIC + 2 + 1);
+            $arr[substr($line, 0, MAGIC)] = substr($line, MAGIC + 2);
+        }
+        return $arr;
+    }

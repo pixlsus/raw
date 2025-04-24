@@ -1,0 +1,14 @@
+RewriteEngine On
+
+# However, if we have been redirected from download-counter.php already,
+# then unmangle the filename, and cause the file download.
+# NOTE: note the [END] on the RewriteRule! Avoid endless recursion!
+RewriteCond "%{REQUEST_URI}" "^/download/"
+RewriteRule "^download/(.+)$" "$1" [END]
+
+# If we haven't been to the download-counter.php yet,
+# then rewrite the request to trigger that script.
+RewriteCond "%{REQUEST_FILENAME}" -f
+RewriteCond "%{REQUEST_URI}" "^/data(-unique)?/" [OR]
+RewriteCond "%{REQUEST_URI}" "^/data(-unique)?.git/info/refs"
+RewriteRule "^(.+)$" "/download-counter.php%{REQUEST_URI}" [L]
