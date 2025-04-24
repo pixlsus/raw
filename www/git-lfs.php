@@ -38,6 +38,7 @@ function GitLFSServer() {
     }
 
     list(, $namespace, $path) = explode("/", $_SERVER["PATH_INFO"] ?? "", 3);
+    $session = guidv4();
 
     switch($namespace) {
         case "data":
@@ -172,7 +173,12 @@ function GitLFSServer() {
         if (array_key_exists($key, $raws)) {
             $uri = $raws[$key];
             $objectResponse["authenticated"] = true;
-            $actions["download"] = ["href" => publicurl . "/" . $uri];
+            $actions["download"] = [
+                "href" => publicurl . "/" . $uri,
+                "header" => [
+                    "X-RPU-Git-LFS-Session-ID" => $session,
+                ],
+            ];
         } else {
             $actions["error"] = [
                 "code" => 404,
