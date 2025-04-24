@@ -28,7 +28,7 @@ function make_response($code, $message) {
 // A very specific content type headers must be present.
 define("CONTENT_TYPE", "application/vnd.git-lfs+json");
 
-function GitLFSServer() {
+function GitLFSServer($namespace, $path, $session) {
     if (
         explode(";", $_SERVER["CONTENT_TYPE"] ?? "")[0] != CONTENT_TYPE ||
         explode(";", $_SERVER["HTTP_ACCEPT"] ?? "")[0] != CONTENT_TYPE
@@ -36,9 +36,6 @@ function GitLFSServer() {
         $ret = make_response(406, "The Accept header needs to be " . CONTENT_TYPE . ".");
         return $ret;
     }
-
-    list(, $namespace, $path) = explode("/", $_SERVER["PATH_INFO"] ?? "", 3);
-    $session = guidv4();
 
     switch($namespace) {
         case "data":
@@ -195,7 +192,10 @@ function GitLFSServer() {
     return $ret;
 }
 
-$response = GitLFSServer();
+list(, $namespace, $path) = explode("/", $_SERVER["PATH_INFO"] ?? "", 3);
+$session = guidv4();
+
+$response = GitLFSServer($namespace, $path, $session);
 
 header("HTTP/1.1 ".$response->httpstatus->code." ".$response->httpstatus->message);
 
@@ -203,3 +203,9 @@ if(!is_null($response->response)) {
    header("Content-Type: " . CONTENT_TYPE);
    echo json_encode($response->response);
 }
+
+$postdata="git-lfs,namespace=".$namespace.",code=".$response->httpstatus->code." session=\"".$session."\"\n";
+$opts = array('http' => array( 'method'  => 'POST', 'header'  => "Content-Type: application/x-www-form-urlencoded\r\n", 'content' => $postdata, 'timeout' => 60 ) );
+$context  = stream_context_create($opts);
+$url = influxserver."/write?db=".influxdb;
+file_get_contents($url, false, $context);
