@@ -655,10 +655,10 @@
         fclose($fp);
     }
 
-    function turnIntoAGitLFSRepo($checkout, $bare) {
+    function turnIntoAGitLFSRepo($checkout, $bare, $namespace) {
         $fp=fopen($checkout."/.lfsconfig","w");
         fprintf($fp,"[lfs]\n", );
-        fprintf($fp,"\turl = %s/git-lfs.php\n", baseurl);
+        fprintf($fp,"\turl = %s/git-lfs.php/$namespace\n", baseurl);
         fclose($fp);
 
         $fp=fopen($checkout."/.gitattributes","w");
@@ -683,4 +683,29 @@
         proc_close(proc_open(array('git', 'commit', '--quiet', '--message=Raw.Pixls.Us public data dump as of '.date('c', timestamp).'', '--no-signoff', '--no-gpg-sign'), [], $pipes, $checkout, $env));
         proc_close(proc_open(array('git', 'clone', '--quiet', '--mirror', $checkout, $bare), [], $pipes, $checkout, $env));
         proc_close(proc_open(array('git', 'repack', '--quiet', '-a', '-d', '-f', '-F'), [], $pipes, $bare, $env));
+    }
+
+    // https://stackoverflow.com/questions/2040240/php-function-to-generate-v4-uuid/15875555#15875555
+    function guidv4($data = null) {
+        // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
+        $data = $data ?? random_bytes(16);
+        assert(strlen($data) == 16);
+
+        // Set version to 0100
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+        // Set bits 6-7 to 10
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+
+        // Output the 36 character UUID.
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    }
+
+    function parseHashsumsFile($fname) {
+        define("MAGIC", 64);
+        $arr = [];
+        foreach (file($fname, FILE_IGNORE_NEW_LINES) as $line) {
+            assert(strlen($line) >= MAGIC + 2 + 1);
+            $arr[substr($line, 0, MAGIC)] = substr($line, MAGIC + 2);
+        }
+        return $arr;
     }

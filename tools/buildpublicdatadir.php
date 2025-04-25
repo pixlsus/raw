@@ -78,7 +78,7 @@
         }
     }
 
-    turnIntoAGitLFSRepo(publicdatagittmppath, publicdatagitrepopath_timestamped);
+    turnIntoAGitLFSRepo(publicdatagittmppath, publicdatagitrepopath_timestamped, 'data');
 
     //--------------------------------------------------------------------------
 
