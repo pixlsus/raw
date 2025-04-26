@@ -164,9 +164,12 @@
         $checksum=hash_file('sha256', $tmpfilename);
         $filesize=filesize($tmpfilename);
 
-        $sth = $dbh->prepare('insert into raws(filename,validated,checksum,filesize)  values(:filename,0,:checksum,:filesize)');
+        $sth = $dbh->prepare('insert into raws(filename,validated,make,model,remark,checksum,mode,license,filesize,masterset,state)  values(:filename,0,"","","",:checksum,"","CC0",:filesize,0,"created")');
         $result = $sth->execute(array(':filename' => $filename,':checksum' => $checksum,':filesize' => $filesize));
         if (!$result) {
+            $error=$sth->errorInfo();
+            print_r($error);
+            exit(0);
             return(FALSE);
         }
         $sth = $dbh->prepare('select last_insert_id()');

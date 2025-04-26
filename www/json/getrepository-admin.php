@@ -18,9 +18,17 @@
                 case "orphaned":
                     $validate="Orphaned";
                     break;
-                case 2:
-                    // dupes, aborted uploads etc.
+                case "created":
+                    // new upload, but didn't click update in modifiy.php
                     $validate="Aborted upload";
+                    break;
+                case "dupe":
+                    // dupe, and didn't click update in modify.php
+                    $validate="Aborted dupe";
+                    break;
+                case "new":
+                    // dupes, aborted uploads etc.
+                    $validate="New";
                     break;
             }
             if($raw['masterset']==1){

@@ -1,5 +1,4 @@
 <?php
-
     include("../config.php");
     include("functions.php");
 
@@ -19,12 +18,16 @@
             $dupe=raw_dupecheck($id);
 
             if($dupe!=0) {
-                raw_modify($id,array('validated' => 2));
+                raw_modify($id,array('state' => 'dupe'));
             }
             // disable submit button if data is missing
             if($data['make']!="" and $data['model']!="" and $dupe==0){
                 $disabled="";
             }
+        } else {
+            echo "WTF!";
+            error_log("DIT IS NIET GOED!");
+            exit(0);
         }
 
         $_SESSION['upload']=$data['checksum'];
