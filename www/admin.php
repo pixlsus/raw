@@ -48,6 +48,7 @@
         <script type="text/javascript" src="js/jquery-ui.js"></script>
         <script type="text/javascript" src="js/datatables.min.js"></script>
         <script type="text/javascript" src="js/file-size.js"></script>
+        <script type="text/javascript" src="js/ellipsis.js"></script>
         <script>
 $(document).ready(function() {
     $('#repository').DataTable( {
@@ -72,6 +73,7 @@ $(document).ready(function() {
 		],
         "columnDefs": [
             { "type": "file-size", targets: 9 },
+            { targets: 8, render: $.fn.DataTable.render.ellipsis( 16 ) },
         ]
 
     } );
