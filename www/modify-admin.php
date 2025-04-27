@@ -14,9 +14,10 @@
 
     if(isset($_POST['validated'])){
         $data['validated']=1;
+        $data['state']='validated';
     } else {
         $data['validated']=0;
-        $data['state']='validated';
+        $data['state']='new';
     }
     if(isset($_POST['masterset']) and isset($_POST['license']) and $_POST['license'] == 'CC0'){
         $data['masterset']=1;
