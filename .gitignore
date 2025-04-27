@@ -1,7 +1,13 @@
 config.php
 www/button-cameras.png
 www/button-cameras.svg
+www/button-makes.png
+www/button-makes.svg
 www/button-samples.png
 www/button-samples.svg
-www/data-unique/
-www/data/
+www/button-size.png
+www/button-size.svg
+www/data
+www/data.*
+www/data-unique
+www/data-unique.*
