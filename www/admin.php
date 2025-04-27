@@ -31,7 +31,6 @@
             <button onclick="location.href='admin.php?state=new'" type="button">New</button>
             <button onclick="location.href='admin.php?state=created'" type="button">Incomplete New</button>
             <button onclick="location.href='admin.php?state=dupe'" type="button">Incomplete Dupes</button>
-            <button onclick="location.href='admin.php?state=orphaned'" type="button">Orphaned</button>
             <button onclick="location.href='admin.php?state=masterset'" type="button">Masterset</button>
         </div>
         <div class="ui-widget">

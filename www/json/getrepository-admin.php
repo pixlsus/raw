@@ -5,7 +5,8 @@
     include_once "../functions.php";
     
     $state=$_GET['state'] ?? "all";
-
+    $data=array();
+    
     if(isset($_SESSION['loggedin'])){
         $raws=raw_getalldata();
 
@@ -14,9 +15,6 @@
             switch($raw['state']){
                 case "validated":
                     $validate="Validated";
-                    break;
-                case "orphaned":
-                    $validate="Orphaned";
                     break;
                 case "created":
                     // new upload, but didn't click update in modifiy.php
