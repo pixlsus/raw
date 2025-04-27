@@ -66,7 +66,7 @@
                     $session = "";
                     $namespace = "data";
                     $filename = get_raw_pretty_name($data, $make, $model);
-                    $postdata="downloads,namespace=".$namespace.",filename=\"".$filename."\",filesha256hash=\"".$data['checksum']."\" filesize=".$data['filesize'].",session=\"".$session."\"\n";
+                    $postdata="downloads,namespace=".$namespace.",filename=\"".urlencode($filename)."\",filesha256hash=\"".$data['checksum']."\" filesize=".$data['filesize'].",session=\"".$session."\"\n";
                     $opts = array('http' => array( 'method'  => 'POST', 'header'  => "Content-Type: application/x-www-form-urlencoded\r\n", 'content' => $postdata, 'timeout' => 60 ) );
                     $context  = stream_context_create($opts);
                     $url = influxserver."/write?db=".influxdb;

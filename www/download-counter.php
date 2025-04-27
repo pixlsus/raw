@@ -51,7 +51,7 @@ foreach($hashsumsfile as $k => $v) {
 }
 
 $session = $_SERVER["HTTP_X_RPU_GIT_LFS_SESSION_ID"] ?? "";
-$postdata="downloads,namespace=".$namespace.",filename=\"".$filename."\",filesha256hash=\"".$sha256."\" filesize=".filesize($file).",session=\"".$session."\"\n";
+$postdata="downloads,namespace=".$namespace.",filename=\"".urlencode($filename)."\",filesha256hash=\"".$sha256."\" filesize=".filesize($file).",session=\"".$session."\"\n";
 $opts = array('http' => array( 'method'  => 'POST', 'header'  => "Content-Type: application/x-www-form-urlencoded\r\n", 'content' => $postdata, 'timeout' => 60 ) );
 $context  = stream_context_create($opts);
 $url = influxserver."/write?db=".influxdb;
