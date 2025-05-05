@@ -27,13 +27,13 @@
         </div>
         </br>
         <div class="ui-widget">
-            <button class="ui-button ui-corner-all" onclick="location.href='admin.php?state=all'" type="button">All (<?=$stats['all']?>)</button>
-            <button class="ui-button ui-corner-all" onclick="location.href='admin.php?state=validated'" type="button">Validated (<?=$stats['validated']?>)</button>
-            <button class="ui-button ui-corner-all" onclick="location.href='admin.php?state=masterset'" type="button">Masterset (<?=$stats['masterset']?>)</button> | 
-            <button class="ui-button ui-corner-all" style="color: <?= $stats['new']==0? "green":"red"?>" onclick="location.href='admin.php?state=new'" type="button">New (<?=$stats['new']?>)</button>
-            <button class="ui-button ui-corner-all" style="color: <?= $stats['newdupe']==0? "green":"red"?>" onclick="location.href='admin.php?state=newdupe'" type="button">Dupe (<?=$stats['newdupe']?>)</button>
-            <button class="ui-button ui-corner-all" style="color: <?= $stats['created']==0? "green":"red"?>" onclick="location.href='admin.php?state=created'" type="button">Incomplete New (<?=$stats['created']?>)</button>
-            <button class="ui-button ui-corner-all" style="color: <?= $stats['dupe']==0? "green":"red"?>" onclick="location.href='admin.php?state=dupe'" type="button">Incomplete Dupes (<?=$stats['dupe']?>)</button>
+            <button class="ui-button ui-corner-all" style="font-weight: <?= $state=="all"?"bold":"normal"?>" onclick="location.href='admin.php?state=all'" type="button">All (<?=$stats['all']?>)</button>
+            <button class="ui-button ui-corner-all" style="font-weight: <?= $state=="validated"?"bold":"normal"?>" onclick="location.href='admin.php?state=validated'" type="button">Validated (<?=$stats['validated']?>)</button>
+            <button class="ui-button ui-corner-all" style="font-weight: <?= $state=="masterset"?"bold":"normal"?>" onclick="location.href='admin.php?state=masterset'" type="button">Masterset (<?=$stats['masterset']?>)</button> | 
+            <button class="ui-button ui-corner-all" style="font-weight: <?= $state=="new"?"bold":"normal"?>; color: <?= $stats['new']==0? "green":"red"?>" onclick="location.href='admin.php?state=new'" type="button">New (<?=$stats['new']?>)</button>
+            <button class="ui-button ui-corner-all" style="font-weight: <?= $state=="newdupe"?"bold":"normal"?>; color: <?= $stats['newdupe']==0? "green":"red"?>" onclick="location.href='admin.php?state=newdupe'" type="button">Dupe (<?=$stats['newdupe']?>)</button>
+            <button class="ui-button ui-corner-all" style="font-weight: <?= $state=="created"?"bold":"normal"?>; color: <?= $stats['created']==0? "green":"red"?>" onclick="location.href='admin.php?state=created'" type="button">Incomplete New (<?=$stats['created']?>)</button>
+            <button class="ui-button ui-corner-all" style="font-weight: <?= $state=="dupe"?"bold":"normal"?>; color: <?= $stats['dupe']==0? "green":"red"?>" onclick="location.href='admin.php?state=dupe'" type="button">Incomplete Dupes (<?=$stats['dupe']?>)</button>
         </div>
         </br>
         <div class="ui-widget">
