@@ -28,10 +28,11 @@
         <div class="ui-widget">
             <button onclick="location.href='admin.php?state=all'" type="button">All</button>
             <button onclick="location.href='admin.php?state=validated'" type="button">Validated</button>
+            <button onclick="location.href='admin.php?state=masterset'" type="button">Masterset</button> | 
             <button onclick="location.href='admin.php?state=new'" type="button">New</button>
+            <button onclick="location.href='admin.php?state=newdupe'" type="button">Dupe</button>
             <button onclick="location.href='admin.php?state=created'" type="button">Incomplete New</button>
             <button onclick="location.href='admin.php?state=dupe'" type="button">Incomplete Dupes</button>
-            <button onclick="location.href='admin.php?state=masterset'" type="button">Masterset</button>
         </div>
         <div class="ui-widget">
             <table id="repository" class="display" cellspacing="0" width="100%">
