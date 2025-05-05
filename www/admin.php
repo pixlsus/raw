@@ -10,7 +10,7 @@
     if(isset($_GET['state'])) {
         $state=$_GET['state'];
     }
-
+    $stats=raw_stats();
 ?>
 <!doctype html>
 <html lang="en">
@@ -23,17 +23,19 @@
     <body>
         <h1>Welcome to raw.pixls.us Admin</h1>
         <div class="ui-widget">
-            <a href="edit-user.php">Edit Account</a>
+            <button class="ui-button ui-corner-all" onclick="location.href='edit-user.php'" type="button">Edit Account</button>
         </div>
+        </br>
         <div class="ui-widget">
-            <button onclick="location.href='admin.php?state=all'" type="button">All</button>
-            <button onclick="location.href='admin.php?state=validated'" type="button">Validated</button>
-            <button onclick="location.href='admin.php?state=masterset'" type="button">Masterset</button> | 
-            <button onclick="location.href='admin.php?state=new'" type="button">New</button>
-            <button onclick="location.href='admin.php?state=newdupe'" type="button">Dupe</button>
-            <button onclick="location.href='admin.php?state=created'" type="button">Incomplete New</button>
-            <button onclick="location.href='admin.php?state=dupe'" type="button">Incomplete Dupes</button>
+            <button class="ui-button ui-corner-all" onclick="location.href='admin.php?state=all'" type="button">All (<?=$stats['all']?>)</button>
+            <button class="ui-button ui-corner-all" onclick="location.href='admin.php?state=validated'" type="button">Validated (<?=$stats['validated']?>)</button>
+            <button class="ui-button ui-corner-all" onclick="location.href='admin.php?state=masterset'" type="button">Masterset (<?=$stats['masterset']?>)</button> | 
+            <button class="ui-button ui-corner-all" style="color: <?= $stats['new']==0? "green":"red"?>" onclick="location.href='admin.php?state=new'" type="button">New (<?=$stats['new']?>)</button>
+            <button class="ui-button ui-corner-all" style="color: <?= $stats['newdupe']==0? "green":"red"?>" onclick="location.href='admin.php?state=newdupe'" type="button">Dupe (<?=$stats['newdupe']?>)</button>
+            <button class="ui-button ui-corner-all" style="color: <?= $stats['created']==0? "green":"red"?>" onclick="location.href='admin.php?state=created'" type="button">Incomplete New (<?=$stats['created']?>)</button>
+            <button class="ui-button ui-corner-all" style="color: <?= $stats['dupe']==0? "green":"red"?>" onclick="location.href='admin.php?state=dupe'" type="button">Incomplete Dupes (<?=$stats['dupe']?>)</button>
         </div>
+        </br>
         <div class="ui-widget">
             <table id="repository" class="display" cellspacing="0" width="100%">
                 <thead>

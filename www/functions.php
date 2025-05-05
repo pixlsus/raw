@@ -553,6 +553,32 @@
         return($result);
     }
 
+    function raw_stats(){
+        $stats['validated']=0;
+        $stats['masterset']=0;
+        $stats['new']=0;
+        $stats['newdupe']=0;
+        $stats['created']=0;
+        $stats['dupe']=0;
+        $stats['all']=0;
+        
+        $dbh = db_init();
+        $sth = $dbh->prepare('select state,count(state) from raws group by state');
+        $sth->execute();
+        $result=$sth->fetchAll();
+        foreach($result as $row) {
+            $stats['all'] = $stats['all'] + $row[1];
+            $stats[$row[0]] = $row[1];
+        }
+
+        $sth = $dbh->prepare('select count(masterset) from raws where masterset=1');
+        $sth->execute();
+        $result=$sth->fetchColumn();
+        $stats['masterset']=$result;
+        
+        return($stats);
+    }
+
 // notification
     function notify($id,$action,$extra="") {
         $data=raw_getdata($id);
@@ -650,6 +676,7 @@
     }
 
 
+//gitlfs 
     function writeGitLFSPointer($filename, $raw) {
         $fp=fopen($filename,"w");
         fprintf($fp,"version https://git-lfs.github.com/spec/v1\n",);
