@@ -12,19 +12,48 @@
     }
 
     define('timestamp', time());
-    define('publicdatapath_timestamped', publicdatapath.".".timestamp);
+
+    class RefCountedDir
+    {
+        public $name;
+        public $old = NULL;
+        public $staging;
+
+        public function __construct(string $name_) {
+            $this->name = $name_;
+            $this->staging = $this->name.".".timestamp;
+
+            if(file_exists($this->name)) {
+                assert(is_link($this->name));
+                $this->old = realpath($this->name);
+            }
+
+            assert(!file_exists($this->staging));
+            mkdir($this->staging);
+        }
+
+        public function commit() {
+            $new = $this->name.".new";
+            assert(!file_exists($new));
+            symlink(basename($this->staging), $new);
+            rename($new, $this->name); // replaces old symlink!
+            if($this->old != NULL) {
+                delTree($this->old);
+            }
+        }
+    }
 
     define('publicdatagittmppath', publicdatapath."-git");
-    define('publicdatagitrepopath', publicdatapath.".git");
-    define('publicdatagitrepopath_timestamped', publicdatagitrepopath.".".timestamp);
+
+    $RCDs = [
+                "publicdatapath" => new RefCountedDir(publicdatapath),
+                "publicdatagitrepopath" => new RefCountedDir(publicdatapath.".git"),
+            ];
 
     $cameradata=parsecamerasxml();
     $data=raw_getalldata();
     $makes=array();
     $noncc0samples=0;
-
-    assert(!file_exists(publicdatapath_timestamped));
-    mkdir(publicdatapath_timestamped);
 
     if(is_dir(publicdatagittmppath)){
         delTree(publicdatagittmppath);
@@ -34,13 +63,13 @@
     foreach($data as $raw){
         if($raw['validated']==1){
             $output_filename = get_raw_pretty_name($raw, $make, $model);
-            if(!is_dir(publicdatapath_timestamped."/".$make)){
-                mkdir(publicdatapath_timestamped."/".$make);
+            if(!is_dir($RCDs["publicdatapath"]->staging."/".$make)){
+                mkdir($RCDs["publicdatapath"]->staging."/".$make);
             }
-            if(!is_dir(publicdatapath_timestamped."/".$make."/".$model)){
-                mkdir(publicdatapath_timestamped."/".$make."/".$model);
+            if(!is_dir($RCDs["publicdatapath"]->staging."/".$make."/".$model)){
+                mkdir($RCDs["publicdatapath"]->staging."/".$make."/".$model);
             }
-            symlink(datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'],publicdatapath_timestamped."/".$output_filename);
+            symlink(datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'],$RCDs["publicdatapath"]->staging."/".$output_filename);
             $sha256table[$output_filename]=$raw['checksum'];
             if(!in_array($make,$makes)){
                 $makes[]=$make;
@@ -61,7 +90,7 @@
 
     ksort($sha256table, SORT_NATURAL | SORT_FLAG_CASE);
 
-    $fp=fopen(publicdatapath_timestamped."/filelist.sha256","w");
+    $fp=fopen($RCDs["publicdatapath"]->staging."/filelist.sha256","w");
     foreach($sha256table as $file=>$sha256) {
         // There are two schemes:
         // <hash><space><space><filename>      <- read in text mode
@@ -70,54 +99,20 @@
     }
     fclose($fp);
 
-    file_put_contents(publicdatapath_timestamped."/timestamp.txt",time());
+    file_put_contents($RCDs["publicdatapath"]->staging."/timestamp.txt",time());
 
-    foreach (scandir(publicdatapath_timestamped) as $filename) {
-        if(is_file(publicdatapath_timestamped."/".$filename)) {
-            copy(publicdatapath_timestamped."/".$filename, publicdatagittmppath."/".$filename);
+    foreach (scandir($RCDs["publicdatapath"]->staging) as $filename) {
+        if(is_file($RCDs["publicdatapath"]->staging."/".$filename)) {
+            copy($RCDs["publicdatapath"]->staging."/".$filename, publicdatagittmppath."/".$filename);
         }
     }
 
-    turnIntoAGitLFSRepo(publicdatagittmppath, publicdatagitrepopath_timestamped, 'data');
+    turnIntoAGitLFSRepo(publicdatagittmppath, $RCDs["publicdatagitrepopath"]->staging, 'data');
 
     //--------------------------------------------------------------------------
 
-    if(file_exists(publicdatapath)) {
-        if(is_link(publicdatapath)) {
-            define('publicdatapath_old', realpath(publicdatapath));
-            // NOTE: do not delete anything yet.
-        } else if(is_dir(publicdatapath)) {
-            delTree(publicdatapath);
-        } else {
-            assert(false);
-        }
-    }
-    if(file_exists(publicdatagitrepopath)) {
-        if(is_link(publicdatagitrepopath)) {
-            define('publicdatagitrepopath_old', realpath(publicdatagitrepopath));
-            // NOTE: do not delete anything yet.
-        } else if(is_dir(publicdatagitrepopath)) {
-            delTree(publicdatagitrepopath);
-        } else {
-            assert(false);
-        }
-    }
-
-    define('publicdatapath_new', publicdatapath.".new");
-    define('publicdatagitrepopath_new', publicdatagitrepopath.".new");
-
-    assert(!file_exists(publicdatapath_new));
-    assert(!file_exists(publicdatagitrepopath_new));
-    symlink(basename(publicdatapath_timestamped), publicdatapath_new);
-    symlink(basename(publicdatagitrepopath_timestamped), publicdatagitrepopath_new);
-    rename(publicdatapath_new, publicdatapath); // replaces old symlink!
-    rename(publicdatagitrepopath_new, publicdatagitrepopath); // replaces old symlink!
-
-    if(defined("publicdatapath_old")) {
-        delTree(publicdatapath_old);
-    }
-    if(defined("publicdatagitrepopath_old")) {
-        delTree(publicdatagitrepopath_old);
+    foreach($RCDs as $RCD) {
+        $RCD->commit();
     }
 
     delTree(publicdatagittmppath);
@@ -136,12 +131,12 @@
     $reposize=raw_gettotalrepositorysize();
     file_put_contents("../www/button-size.svg", file_get_contents("https://img.shields.io/badge/size-".human_filesize($reposize)."-green.svg?maxAge=3600"));
     file_put_contents("../www/button-size.png", file_get_contents("https://img.shields.io/badge/size-".human_filesize($reposize)."-green.png?maxAge=3600"));
-    
+
     $reposize/=(1024*1024*1024);
-    
+
     $missingcameras=count(unserialize(file_get_contents(datapath."/missingcameradata.serialize")));
-    
-    
+
+
     influxPoints([
         influxPointSerialize("rpu", ["key"=>"cameras"], ["value"=>$cameras]),
         influxPointSerialize("rpu", ["key"=>"samples"], ["value"=>$samples]),
