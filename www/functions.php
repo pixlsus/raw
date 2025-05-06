@@ -746,6 +746,9 @@
         });
 
         $headers = [];
+        if(defined("influxtoken")) {
+            $headers[] = "Authorization: Token " . influxtoken;
+        }
         $headers[] = "Content-Type: application/x-www-form-urlencoded";
 
         $header = array_reduce($headers, function($carry, $item) {
