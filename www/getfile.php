@@ -48,12 +48,16 @@
                     $session = "";
                     $namespace = "data";
                     $filename = get_raw_pretty_name($data, $make, $model);
-                    $postdata="downloads,namespace=".$namespace.",filename=\"".$filename."\",filesha256hash=\"".$data['checksum']."\" filesize=".$data['filesize'].",session=\"".$session."\"\n";
-                    $opts = array('http' => array( 'method'  => 'POST', 'header'  => "Content-Type: application/x-www-form-urlencoded\r\n", 'content' => $postdata, 'timeout' => 60 ) );
-                    $context  = stream_context_create($opts);
-                    $url = influxserver."/write?db=".influxdb;
-                    file_get_contents($url, false, $context);
-
+                    influxPoint("downloads",
+                                [
+                                    "namespace" => $namespace,
+                                    "filename" => '"'.$filename.'"',
+                                    "filesha256hash" => '"'.$data['checksum'].'"',
+                                ],
+                                [
+                                    "filesize" => $data['filesize'],
+                                    "session" => '"'.$session.'"'
+                                ]);
                     header('Content-Type: '.mime_content_type($file));
                     header('Content-Disposition: attachment; filename="'.basename($file).'"');
                     header('Content-Length: ' . $data['filesize']);
@@ -66,12 +70,16 @@
                     $session = "";
                     $namespace = "data";
                     $filename = get_raw_pretty_name($data, $make, $model);
-                    $postdata="downloads,namespace=".$namespace.",filename=\"".urlencode($filename)."\",filesha256hash=\"".$data['checksum']."\" filesize=".$data['filesize'].",session=\"".$session."\"\n";
-                    $opts = array('http' => array( 'method'  => 'POST', 'header'  => "Content-Type: application/x-www-form-urlencoded\r\n", 'content' => $postdata, 'timeout' => 60 ) );
-                    $context  = stream_context_create($opts);
-                    $url = influxserver."/write?db=".influxdb;
-                    file_get_contents($url, false, $context);
-
+                    influxPoint("downloads",
+                                [
+                                    "namespace" => $namespace,
+                                    "filename" => '"'.$filename.'"',
+                                    "filesha256hash" => '"'.$data['checksum'].'"',
+                                ],
+                                [
+                                    "filesize" => $data['filesize'],
+                                    "session" => '"'.$session.'"'
+                                ]);
                     $pathinfo=pathinfo($file);
                     $filename=$matches[3];
                     $stat=stat($file);

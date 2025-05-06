@@ -20,11 +20,13 @@ list(, $namespace, ) = explode("/", $_SERVER["PATH_INFO"] ?? "", 3);
 
 // git http transport does not support redirects. Handle the download ourselves.
 if (in_array($_SERVER["PATH_INFO"], ["/data.git/info/refs", "/data-unique.git/info/refs"], true)) {
-  $postdata="gitrepo,namespace=".$namespace." dummyfield=false\n";
-  $opts = array('http' => array( 'method'  => 'POST', 'header'  => "Content-Type: application/x-www-form-urlencoded\r\n", 'content' => $postdata, 'timeout' => 60 ) );
-  $context  = stream_context_create($opts);
-  $url = influxserver."/write?db=".influxdb;
-  file_get_contents($url, false, $context);
+  influxPoint("gitrepo",
+              [
+                "namespace" => $namespace
+              ],
+              [
+                "dummyfield" => "false"
+              ]);
 
   header('HTTP/1.1 200 OK');
   header("Last-Modified: ". date('r',filemtime($file)));
@@ -51,11 +53,17 @@ foreach($hashsumsfile as $k => $v) {
 }
 
 $session = $_SERVER["HTTP_X_RPU_GIT_LFS_SESSION_ID"] ?? "";
-$postdata="downloads,namespace=".$namespace.",filename=\"".urlencode($filename)."\",filesha256hash=\"".$sha256."\" filesize=".filesize($file).",session=\"".$session."\"\n";
-$opts = array('http' => array( 'method'  => 'POST', 'header'  => "Content-Type: application/x-www-form-urlencoded\r\n", 'content' => $postdata, 'timeout' => 60 ) );
-$context  = stream_context_create($opts);
-$url = influxserver."/write?db=".influxdb;
-file_get_contents($url, false, $context);
+
+influxPoint("downloads",
+            [
+              "namespace" => $namespace,
+              "filename" => '"'.$filename.'"',
+              "filesha256hash" => '"'.$sha256.'"',
+            ],
+            [
+              "filesize" => filesize($file),
+              "session" => '"'.$session.'"'
+            ]);
 
 header('HTTP/1.1 301');
 header('Location: /download'.$_SERVER["PATH_INFO"]);

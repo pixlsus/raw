@@ -739,3 +739,39 @@
         }
         return $arr;
     }
+
+    function influxPoints($lines) {
+        $content = array_reduce($lines, function($carry, $item) {
+            return $carry . $item . "\n";
+        });
+
+        $headers = [];
+        $headers[] = "Content-Type: application/x-www-form-urlencoded";
+
+        $header = array_reduce($headers, function($carry, $item) {
+            return $carry . $item . "\r\n";
+        });
+
+        $opts = array('http' => array('method' => 'POST', 'header' => $header, 'content' => $content, 'timeout' => 60));
+        $context = stream_context_create($opts);
+        $url = influxserver."/write?db=".influxdb;
+        file_get_contents($url, false, $context);
+    }
+
+    function influxSetSerialize($set) {
+        $arr = [];
+        foreach($set as $k => $v) {
+            $arr[] = $k."=".$v;
+        }
+        return implode(",", $arr);
+    }
+
+    function influxPointSerialize($measurement_str, $tagset, $fieldset) {
+        $tags = influxSetSerialize($tagset);
+        $fields = influxSetSerialize($fieldset);
+        return implode(",", [$measurement_str, $tags]) . " " . $fields;
+    }
+
+    function influxPoint($measurement_str, $tagset, $fieldset) {
+        influxPoints([influxPointSerialize($measurement_str, $tagset, $fieldset)]);
+    }
