@@ -13,50 +13,6 @@
 
     define('timestamp', time());
 
-    class RefCountedDir
-    {
-        public $name;
-        public $old = NULL;
-        public $staging;
-
-        public function __construct(string $name_) {
-            $this->name = $name_;
-            $this->staging = $this->name.".".timestamp;
-
-            if(file_exists($this->name)) {
-                assert(is_link($this->name));
-                $this->old = realpath($this->name);
-            }
-
-            assert(!file_exists($this->staging));
-            mkdir($this->staging);
-        }
-
-        public function gc() {
-            foreach(glob($this->name.".*") as $e) {
-                if($e == $this->staging) {
-                    continue; // Keep the newly created staging directory.
-                }
-                if($this->old != NULL && $e == $this->old) {
-                    continue; // Keep the current symlinks valid for now.
-                }
-                // Delete all other stale timestamped directories.
-                if (preg_match("/". str_replace("/", "\/", $this->name) ."\.[0-9]+/", $e)) {
-                    delTree($e);
-                }
-            }
-        }
-
-        public function commit() {
-            $new = $this->name.".new";
-            assert(!file_exists($new));
-            symlink(basename($this->staging), $new);
-            rename($new, $this->name); // replaces old symlink!
-            // NOTE: we intentionally leave the old dir around.
-            //       The next run of this script will `gc()` it.
-        }
-    }
-
     define('publicdatagittmppath', publicdatapath."-git");
 
     $RCDs = [
