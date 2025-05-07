@@ -210,5 +210,5 @@ influxPoint("git-lfs",
                 "code" => $response->httpstatus->code
             ],
             [
-                "session" => '"'.$session.'"'
+                "session" => $session
             ]);

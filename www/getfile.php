@@ -56,7 +56,7 @@
                                 ],
                                 [
                                     "filesize" => $data['filesize'],
-                                    "session" => '"'.$session.'"'
+                                    "session" => $session
                                 ]);
                     header('Content-Type: '.mime_content_type($file));
                     header('Content-Disposition: attachment; filename="'.basename($file).'"');
@@ -78,7 +78,7 @@
                                 ],
                                 [
                                     "filesize" => $data['filesize'],
-                                    "session" => '"'.$session.'"'
+                                    "session" => $session
                                 ]);
                     $pathinfo=pathinfo($file);
                     $filename=$matches[3];

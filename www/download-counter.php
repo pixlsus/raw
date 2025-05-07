@@ -25,7 +25,7 @@ if (in_array($_SERVER["PATH_INFO"], ["/data.git/info/refs", "/data-unique.git/in
                 "namespace" => $namespace
               ],
               [
-                "dummyfield" => "false"
+                "dummyfield" => false
               ]);
 
   header('HTTP/1.1 200 OK');
@@ -62,7 +62,7 @@ influxPoint("downloads",
             ],
             [
               "filesize" => filesize($file),
-              "session" => '"'.$session.'"'
+              "session" => $session
             ]);
 
 header('HTTP/1.1 301');
