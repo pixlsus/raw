@@ -19,7 +19,7 @@ assert(file_exists($file));
 list(, $namespace, ) = explode("/", $_SERVER["PATH_INFO"] ?? "", 3);
 
 // git http transport does not support redirects. Handle the download ourselves.
-if (in_array($_SERVER["PATH_INFO"], ["/data.git/info/refs", "/data-unique.git/info/refs"], true)) {
+if (in_array($_SERVER["PATH_INFO"], ["/data.lfs.git/info/refs", "/data-unique.lfs.git/info/refs"], true)) {
   influxPoint("gitrepo",
               [
                 "namespace" => $namespace

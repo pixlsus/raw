@@ -10,5 +10,5 @@ RewriteRule "^download/(.+)$" "$1" [END]
 # then rewrite the request to trigger that script.
 RewriteCond "%{REQUEST_FILENAME}" -f
 RewriteCond "%{REQUEST_URI}" "^/data(-unique)?/" [OR]
-RewriteCond "%{REQUEST_URI}" "^/data(-unique)?.git/info/refs"
+RewriteCond "%{REQUEST_URI}" "^/data(-unique)?.lfs.git/info/refs"
 RewriteRule "^(.+)$" "/download-counter.php%{REQUEST_URI}" [L]

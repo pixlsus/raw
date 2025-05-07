@@ -13,11 +13,11 @@
 
     define('timestamp', time());
 
-    define('publicdatagittmppath', publicdatapath."-git");
+    define('publicdatagitlfstmppath', publicdatapath."-git-lfs");
 
     $RCDs = [
                 "publicdatapath" => new RefCountedDir(publicdatapath),
-                "publicdatagitrepopath" => new RefCountedDir(publicdatapath.".git"),
+                "publicdatagitlfsrepopath" => new RefCountedDir(publicdatapath.".lfs.git"),
             ];
 
     foreach($RCDs as $RCD) {
@@ -29,10 +29,10 @@
     $makes=array();
     $noncc0samples=0;
 
-    if(is_dir(publicdatagittmppath)){
-        delTree(publicdatagittmppath);
+    if(is_dir(publicdatagitlfstmppath)){
+        delTree(publicdatagitlfstmppath);
     }
-    mkdir(publicdatagittmppath);
+    mkdir(publicdatagitlfstmppath);
 
     foreach($data as $raw){
         if($raw['validated']==1){
@@ -52,13 +52,13 @@
                 $noncc0samples++;
             }
 
-            if(!is_dir(publicdatagittmppath."/".$make)){
-                mkdir(publicdatagittmppath."/".$make);
+            if(!is_dir(publicdatagitlfstmppath."/".$make)){
+                mkdir(publicdatagitlfstmppath."/".$make);
             }
-            if(!is_dir(publicdatagittmppath."/".$make."/".$model)){
-                mkdir(publicdatagittmppath."/".$make."/".$model);
+            if(!is_dir(publicdatagitlfstmppath."/".$make."/".$model)){
+                mkdir(publicdatagitlfstmppath."/".$make."/".$model);
             }
-            writeGitLFSPointer(publicdatagittmppath."/".$output_filename, $raw);
+            writeGitLFSPointer(publicdatagitlfstmppath."/".$output_filename, $raw);
         }
     }
 
@@ -77,11 +77,11 @@
 
     foreach (scandir($RCDs["publicdatapath"]->staging) as $filename) {
         if(is_file($RCDs["publicdatapath"]->staging."/".$filename)) {
-            copy($RCDs["publicdatapath"]->staging."/".$filename, publicdatagittmppath."/".$filename);
+            copy($RCDs["publicdatapath"]->staging."/".$filename, publicdatagitlfstmppath."/".$filename);
         }
     }
 
-    turnIntoAGitLFSRepo(publicdatagittmppath, $RCDs["publicdatagitrepopath"]->staging, 'data');
+    turnIntoAGitLFSRepo(publicdatagitlfstmppath, $RCDs["publicdatagitlfsrepopath"]->staging, 'data');
 
     //--------------------------------------------------------------------------
 
@@ -89,7 +89,7 @@
         $RCD->commit();
     }
 
-    delTree(publicdatagittmppath);
+    delTree(publicdatagitlfstmppath);
 
     //--------------------------------------------------------------------------
 
@@ -109,7 +109,6 @@
     $reposize/=(1024*1024*1024);
 
     $missingcameras=count(unserialize(file_get_contents(datapath."/missingcameradata.serialize")));
-
 
     influxPoints([
         influxPointSerialize("rpu", ["key"=>"cameras"], ["value"=>$cameras]),
