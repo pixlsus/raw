@@ -685,6 +685,28 @@
         fclose($fp);
     }
 
+    function turnIntoAGitRepo($checkout, $branch) {
+        $env = array(
+            'GIT_AUTHOR_NAME' => GIT_AUTHOR_NAME,
+            'GIT_AUTHOR_EMAIL' => GIT_AUTHOR_EMAIL,
+            'GIT_AUTHOR_DATE' => timestamp,
+            'GIT_COMMITTER_NAME' => GIT_AUTHOR_NAME,
+            'GIT_COMMITTER_EMAIL' => GIT_AUTHOR_EMAIL,
+            'GIT_COMMITTER_DATE' => timestamp,
+        );
+        proc_close(proc_open(array('git', 'init', '--quiet', '--initial-branch='.$branch), [], $pipes, $checkout, $env));
+        proc_close(proc_open(array('git', 'add', '.'), [], $pipes, $checkout, $env));
+        proc_close(proc_open(array('git', 'commit', '--quiet', '--message=Raw.Pixls.Us public data dump as of '.date('c', timestamp).'', '--no-signoff', '--no-gpg-sign'), [], $pipes, $checkout, $env));
+    }
+
+    function assembleGitRepo($bare, $branches) {
+        proc_close(proc_open(array('git', 'init', '--quiet', '--bare', '--initial-branch=master'), [], $pipes, $bare));
+        foreach($branches as $branch) {
+            proc_close(proc_open(array('git', 'push', '--quiet', '--no-signed', '--all', $bare), [], $pipes, $branch));
+        }
+        proc_close(proc_open(array('git', 'repack', '--quiet', '-a', '-d', '-f', '-F'), [], $pipes, $bare));
+    }
+
     function turnIntoAGitLFSRepo($checkout, $bare, $namespace) {
         $fp=fopen($checkout."/.lfsconfig","w");
         fprintf($fp,"[lfs]\n", );
@@ -700,19 +722,8 @@
         }
         fclose($fp);
 
-        $env = array(
-            'GIT_AUTHOR_NAME' => GIT_AUTHOR_NAME,
-            'GIT_AUTHOR_EMAIL' => GIT_AUTHOR_EMAIL,
-            'GIT_AUTHOR_DATE' => timestamp,
-            'GIT_COMMITTER_NAME' => GIT_AUTHOR_NAME,
-            'GIT_COMMITTER_EMAIL' => GIT_AUTHOR_EMAIL,
-            'GIT_COMMITTER_DATE' => timestamp,
-        );
-        proc_close(proc_open(array('git', 'init', '--quiet', '--initial-branch=master'), [], $pipes, $checkout, $env));
-        proc_close(proc_open(array('git', 'add', '.'), [], $pipes, $checkout, $env));
-        proc_close(proc_open(array('git', 'commit', '--quiet', '--message=Raw.Pixls.Us public data dump as of '.date('c', timestamp).'', '--no-signoff', '--no-gpg-sign'), [], $pipes, $checkout, $env));
-        proc_close(proc_open(array('git', 'clone', '--quiet', '--mirror', $checkout, $bare), [], $pipes, $checkout, $env));
-        proc_close(proc_open(array('git', 'repack', '--quiet', '-a', '-d', '-f', '-F'), [], $pipes, $bare, $env));
+        turnIntoAGitRepo($checkout, "master");
+        assembleGitRepo($bare, [$checkout]);
     }
 
     // https://stackoverflow.com/questions/2040240/php-function-to-generate-v4-uuid/15875555#15875555
