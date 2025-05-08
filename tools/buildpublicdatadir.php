@@ -32,6 +32,21 @@
             mkdir($this->staging);
         }
 
+        public function gc() {
+            foreach(glob($this->name.".*") as $e) {
+                if($e == $this->staging) {
+                    continue; // Keep the newly created staging directory.
+                }
+                if($this->old != NULL && $e == $this->old) {
+                    continue; // Keep the current symlinks valid for now.
+                }
+                // Delete all other stale timestamped directories.
+                if (preg_match("/". str_replace("/", "\/", $this->name) ."\.[0-9]+/", $e)) {
+                    delTree($e);
+                }
+            }
+        }
+
         public function commit() {
             $new = $this->name.".new";
             assert(!file_exists($new));
@@ -49,6 +64,10 @@
                 "publicdatapath" => new RefCountedDir(publicdatapath),
                 "publicdatagitrepopath" => new RefCountedDir(publicdatapath.".git"),
             ];
+
+    foreach($RCDs as $RCD) {
+        $RCD->gc();
+    }
 
     $cameradata=parsecamerasxml();
     $data=raw_getalldata();
