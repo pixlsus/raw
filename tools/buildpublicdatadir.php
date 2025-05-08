@@ -24,15 +24,21 @@
         $RCD->gc();
     }
 
+    $tempdirs = [
+        publicdatagitlfstmppath,
+    ];
+
     $cameradata=parsecamerasxml();
     $data=raw_getalldata();
     $makes=array();
     $noncc0samples=0;
 
-    if(is_dir(publicdatagitlfstmppath)){
-        delTree(publicdatagitlfstmppath);
+    foreach($tempdirs as $tempdir) {
+        if(is_dir($tempdir)){
+            delTree($tempdir);
+        }
+        mkdir($tempdir);
     }
-    mkdir(publicdatagitlfstmppath);
 
     $raws = [];
     foreach($data as $raw){
@@ -106,7 +112,9 @@
         $RCD->commit();
     }
 
-    delTree(publicdatagitlfstmppath);
+    foreach($tempdirs as $tempdir) {
+        delTree($tempdir);
+    }
 
     //--------------------------------------------------------------------------
 
