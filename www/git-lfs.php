@@ -204,8 +204,11 @@ if(!is_null($response->response)) {
    echo json_encode($response->response);
 }
 
-$postdata="git-lfs,namespace=".$namespace.",code=".$response->httpstatus->code." session=\"".$session."\"\n";
-$opts = array('http' => array( 'method'  => 'POST', 'header'  => "Content-Type: application/x-www-form-urlencoded\r\n", 'content' => $postdata, 'timeout' => 60 ) );
-$context  = stream_context_create($opts);
-$url = influxserver."/write?db=".influxdb;
-file_get_contents($url, false, $context);
+influxPoint("git-lfs",
+            [
+                "namespace" => $namespace,
+                "code" => $response->httpstatus->code
+            ],
+            [
+                "session" => $session
+            ]);

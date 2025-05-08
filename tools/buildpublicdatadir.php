@@ -141,18 +141,16 @@
     
     $missingcameras=count(unserialize(file_get_contents(datapath."/missingcameradata.serialize")));
     
-    $postdata="rpu,key=cameras value=$cameras\n";
-    $postdata.="rpu,key=samples value=$samples\n";
-    $postdata.="rpu,key=reposize value=$reposize\n";
-    $postdata.="rpu,key=noncc0samples value=$noncc0samples\n";
-    $postdata.="rpu,key=missingcameras value=$missingcameras\n";
-    $postdata.="rpu,key=makes value=".count($makes)."\n";
     
-    $opts = array('http' => array( 'method'  => 'POST', 'header'  => "Content-Type: application/x-www-form-urlencoded\r\n", 'content' => $postdata, 'timeout' => 60 ) );
-    $context  = stream_context_create($opts);
-    $url = influxserver."/write?db=".influxdb;
-    file_get_contents($url, false, $context); 
-    
+    influxPoints([
+        influxPointSerialize("rpu", ["key"=>"cameras"], ["value"=>$cameras]),
+        influxPointSerialize("rpu", ["key"=>"samples"], ["value"=>$samples]),
+        influxPointSerialize("rpu", ["key"=>"reposize"], ["value"=>$reposize]),
+        influxPointSerialize("rpu", ["key"=>"noncc0samples"], ["value"=>$noncc0samples]),
+        influxPointSerialize("rpu", ["key"=>"missingcameras"], ["value"=>$missingcameras]),
+        influxPointSerialize("rpu", ["key"=>"makes"], ["value"=>count($makes)]),
+    ]);
+
     // We're done, release the lock.
     unlink(publicdatapath_lock);
     flock($lock, LOCK_UN);

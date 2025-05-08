@@ -739,3 +739,99 @@
         }
         return $arr;
     }
+
+    function escapeSpecifiedCharacters($str, $chars) {
+        foreach($chars as $char) {
+            $str = str_replace($char, "\\".$char, $str);
+        }
+        return $str;
+    }
+
+    function influxSanitizeMeasurement($str) {
+        assert(is_string($str));
+        assert(strlen($str) != 0);
+        return escapeSpecifiedCharacters($str, [",",      " "]);
+    }
+    function influxSanitizeTagKey($str) {
+        assert(is_string($str));
+        assert(strlen($str) != 0);
+        return escapeSpecifiedCharacters($str, [",", "=", " "]);
+    }
+    function influxSanitizeTagValue($str) {
+        assert(is_string($str));
+        assert(strlen($str) != 0);
+        return escapeSpecifiedCharacters($str, [",", "=", " "]);
+    }
+    function influxSanitizeFieldKey($str) {
+        assert(is_string($str));
+        assert(strlen($str) != 0);
+        return escapeSpecifiedCharacters($str, [",", "=", " "]);
+    }
+    function influxSanitizeFieldValue($str) {
+        if(!is_string($str)) {
+            if(is_int($str)) {
+                return $str;
+            }
+            if(is_bool($str)) {
+                return $str ? "true" : "false";
+            }
+            if(is_float($str)) {
+                return $str;
+            }
+        }
+        $str = escapeSpecifiedCharacters($str, ["\\", "\""]);
+        $str = '"' . $str . '"';
+        return $str;
+    }
+
+    function influxPoints($lines) {
+        $content = array_reduce($lines, function($carry, $item) {
+            return $carry . $item . "\n";
+        });
+
+        $headers = [];
+        if(defined("influxtoken")) {
+            $headers[] = "Authorization: Token " . influxtoken;
+        }
+        $headers[] = "Content-Type: application/x-www-form-urlencoded";
+
+        $header = array_reduce($headers, function($carry, $item) {
+            return $carry . $item . "\r\n";
+        });
+
+        $opts = array('http' => array('method' => 'POST', 'header' => $header, 'content' => $content, 'timeout' => 60));
+        $context = stream_context_create($opts);
+        $url = influxserver."/write?db=".influxdb;
+        file_get_contents($url, false, $context);
+    }
+
+    function influxSetSerialize($set, $keySanitizer, $valueSanitizer) {
+        $arr = [];
+        foreach($set as $k => $v) {
+            $arr[] = $keySanitizer($k)."=".$valueSanitizer($v);
+        }
+        return implode(",", $arr);
+    }
+
+    function influxTagSetSerialize($tagset) {
+        return influxSetSerialize($tagset, 'influxSanitizeTagKey', 'influxSanitizeTagValue');
+    }
+    function influxFieldSetSerialize($tagset) {
+        return influxSetSerialize($tagset, 'influxSanitizeFieldKey', 'influxSanitizeFieldValue');
+    }
+
+    function influxPointSerialize($measurement_str, $tagset, $fieldset) {
+        assert(is_string($measurement_str));
+        assert(is_array($tagset));
+        assert(is_array($fieldset));
+        assert(count($fieldset) != 0);
+
+        $measurement = influxSanitizeMeasurement($measurement_str);
+        $tags = influxTagSetSerialize($tagset);
+        $fields = influxFieldSetSerialize($fieldset);
+        return implode(",", [$measurement_str, $tags]) . " " . $fields;
+    }
+
+    function influxPoint($measurement_str, $tagset, $fieldset) {
+        influxPoints([influxPointSerialize($measurement_str, $tagset, $fieldset)]);
+    }

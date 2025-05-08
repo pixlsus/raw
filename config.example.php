@@ -26,5 +26,6 @@
 
     define('influxserver','graph');
     define('influxdb','rpu');
+    // define('influxtoken',''); // Only on Influx v2+
 
     define('unwanted','|png|jpg|zip|tar|rar|');
