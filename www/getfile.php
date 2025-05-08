@@ -47,7 +47,7 @@
                 if(file_exists($file)){
                     $session = "";
                     $namespace = "data";
-                    $filename = get_raw_pretty_name($data, $make, $model);
+                    $filename = (new RawEntry($data))->getOutputPath();
                     influxPoint("downloads",
                                 [
                                     "namespace" => $namespace,
@@ -69,7 +69,7 @@
                 if(file_exists($file)){
                     $session = "";
                     $namespace = "data";
-                    $filename = get_raw_pretty_name($data, $make, $model);
+                    $filename = (new RawEntry($data))->getOutputPath();
                     influxPoint("downloads",
                                 [
                                     "namespace" => $namespace,

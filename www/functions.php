@@ -652,18 +652,49 @@
         }
     }
 
-    function get_raw_pretty_name($raw, &$make, &$model) {
-        $make="unknown";
-        $model="unknown";
-        if($raw['make']!=""){
-            $make=$cameradata[$raw['make']][$raw['model']]['make'] ?? $cameradata[$raw['make']]['make'] ?? $raw['make'];
+    class RawEntry
+    {
+        public $make;
+        public $model;
+        public $filename;
+
+        public $raw;
+
+        public function __construct(array $raw_) {
+            $this->raw = $raw_;
+
+            $this->make="unknown";
+            $this->model="unknown";
+            $this->filename = $this->raw['filename'];
+
+            if($this->raw['make']!=""){
+                $this->make=$cameradata[$this->raw['make']][$this->raw['model']]['make'] ?? $cameradata[$this->raw['make']]['make'] ?? $this->raw['make'];
+            }
+            if($this->raw['model']!=""){
+                $this->model=$cameradata[$this->raw['make']][$this->raw['model']]['model'] ?? $this->raw['model'];
+            }
+            $this->make = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $this->make);
+            $this->model = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $this->model);
         }
-        if($raw['model']!=""){
-            $model=$cameradata[$raw['make']][$raw['model']]['model'] ?? $raw['model'];
+
+        public function getOutputPath() {
+            return implode("/", [$this->make, $this->model, $this->filename]);
         }
-        $make = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $make);
-        $model = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $model);
-        return $make."/".$model."/".$raw['filename'];
+    }
+
+    function get_as_leafless_tree($arr, $key_getter) {
+        $tree = [];
+        foreach($arr as $elt) {
+            $keys = $key_getter($elt);
+            $branch = &$tree;
+            foreach($keys as $key) {
+                if(!array_key_exists($key, $branch)) {
+                    $branch[$key] = [];
+                }
+                $branch = &$branch[$key];
+            }
+        }
+        return $tree;
     }
 
     // found on http://php.net/manual/en/function.rmdir.php

@@ -34,31 +34,48 @@
     }
     mkdir(publicdatagitlfstmppath);
 
+    $raws = [];
     foreach($data as $raw){
         if($raw['validated']==1){
-            $output_filename = get_raw_pretty_name($raw, $make, $model);
-            if(!is_dir($RCDs["publicdatapath"]->staging."/".$make)){
-                mkdir($RCDs["publicdatapath"]->staging."/".$make);
-            }
-            if(!is_dir($RCDs["publicdatapath"]->staging."/".$make."/".$model)){
-                mkdir($RCDs["publicdatapath"]->staging."/".$make."/".$model);
-            }
-            symlink(datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'],$RCDs["publicdatapath"]->staging."/".$output_filename);
-            $sha256table[$output_filename]=$raw['checksum'];
-            if(!in_array($make,$makes)){
-                $makes[]=$make;
-            }
-            if($raw['license']!="CC0"){
-                $noncc0samples++;
-            }
+            $raws[] = new RawEntry($raw);
+        }
+    }
+    $tree = get_as_leafless_tree($raws, function($raw) {
+        return [$raw->make, $raw->model];
+    });
 
-            if(!is_dir(publicdatagitlfstmppath."/".$make)){
-                mkdir(publicdatagitlfstmppath."/".$make);
+    foreach([
+                $RCDs["publicdatapath"]->staging,
+                publicdatagitlfstmppath
+            ] as $prefix) {
+        foreach(array_keys($tree) as $make) {
+            mkdir($prefix."/".$make);
+            foreach(array_keys($tree[$make]) as $model) {
+                mkdir($prefix."/".$make."/".$model);
             }
-            if(!is_dir(publicdatagitlfstmppath."/".$make."/".$model)){
-                mkdir(publicdatagitlfstmppath."/".$make."/".$model);
-            }
-            writeGitLFSPointer(publicdatagitlfstmppath."/".$output_filename, $raw);
+        }
+    }
+
+    foreach($raws as $raw) {
+        $prefix = $RCDs["publicdatapath"]->staging;
+        $link = $prefix."/".$raw->getOutputPath();
+        $raw = $raw->raw;
+        $target = datapath."/".hash_id($raw['id'])."/".$raw['id']."/".$raw['filename'];
+        symlink($target, $link);
+    }
+
+    foreach($raws as $raw) {
+        $prefix = publicdatagitlfstmppath;
+        writeGitLFSPointer($prefix."/".$raw->getOutputPath(), $raw->raw);
+    }
+
+    foreach($raws as $raw) {
+        $sha256table[$raw->getOutputPath()] = $raw->raw['checksum'];
+    }
+
+    foreach($raws as $raw) {
+        if($raw->raw['license']!="CC0"){
+            $noncc0samples++;
         }
     }
 
@@ -97,8 +114,8 @@
     $cameras=raw_getnumberofcameras();
     file_put_contents("../www/button-cameras.svg", file_get_contents("https://img.shields.io/badge/cameras-".$cameras."-green.svg?maxAge=3600"));
     file_put_contents("../www/button-cameras.png", file_get_contents("https://img.shields.io/badge/cameras-".$cameras."-green.png?maxAge=3600"));
-    file_put_contents("../www/button-makes.svg", file_get_contents("https://img.shields.io/badge/makes-".count($makes)."-green.svg?maxAge=3600"));
-    file_put_contents("../www/button-makes.png", file_get_contents("https://img.shields.io/badge/makes-".count($makes)."-green.png?maxAge=3600"));
+    file_put_contents("../www/button-makes.svg", file_get_contents("https://img.shields.io/badge/makes-".count(array_keys($tree))."-green.svg?maxAge=3600"));
+    file_put_contents("../www/button-makes.png", file_get_contents("https://img.shields.io/badge/makes-".count(array_keys($tree))."-green.png?maxAge=3600"));
     $samples=raw_getnumberofsamples();
     file_put_contents("../www/button-samples.svg", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.svg?maxAge=3600"));
     file_put_contents("../www/button-samples.png", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.png?maxAge=3600"));
@@ -116,7 +133,7 @@
         influxPointSerialize("rpu", ["key"=>"reposize"], ["value"=>$reposize]),
         influxPointSerialize("rpu", ["key"=>"noncc0samples"], ["value"=>$noncc0samples]),
         influxPointSerialize("rpu", ["key"=>"missingcameras"], ["value"=>$missingcameras]),
-        influxPointSerialize("rpu", ["key"=>"makes"], ["value"=>count($makes)]),
+        influxPointSerialize("rpu", ["key"=>"makes"], ["value"=>count(array_keys($tree))]),
     ]);
 
     // We're done, release the lock.
