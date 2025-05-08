@@ -52,9 +52,8 @@
             assert(!file_exists($new));
             symlink(basename($this->staging), $new);
             rename($new, $this->name); // replaces old symlink!
-            if($this->old != NULL) {
-                delTree($this->old);
-            }
+            // NOTE: we intentionally leave the old dir around.
+            //       The next run of this script will `gc()` it.
         }
     }
 
