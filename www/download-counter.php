@@ -55,6 +55,23 @@ if (in_array($namespace, ["data", "data-unique"], true)) {
     }
   }
   assert($sha256 != NULL);
+} else if (in_array($namespace, ["data.annex.git", "data-unique.annex.git"], true)) {
+  $key = explode("/", $_SERVER["PATH_INFO"]);
+  $key = end($key);
+  list($fields, $sha256) = explode("--", $key, 2);
+  $fields = explode("-", $fields);
+  assert($fields[0] == "SHA256");
+
+  list($base_namespace, ) = explode(".", $namespace, 2);
+  $hashsumsfile = parseHashsumsFile($base_namespace."/filelist.sha256");
+  $filename = NULL;
+  foreach($hashsumsfile as $k => $v) {
+    if($k == $sha256) { // TOCTOU
+      $filename = $v;
+      break;
+    }
+  }
+  assert($filename != NULL);
 } else assert(false);
 
 $session = $_SERVER["HTTP_X_RPU_GIT_LFS_SESSION_ID"] ?? "";
