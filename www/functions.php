@@ -674,7 +674,7 @@
                 $this->model=$cameradata[$this->raw['make']][$this->raw['model']]['model'] ?? $this->raw['model'];
             }
             $this->make = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $this->make);
-            $this->model = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $this->model);
+            $this->model = mb_ereg_replace("([^\w\s\d\-\+_~,;\[\]\(\).])", '', $this->model);
         }
 
         public function getOutputPath() {
