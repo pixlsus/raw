@@ -706,6 +706,23 @@
         return rmdir($dir);
     }
 
+    class GitAnnexEntry
+    {
+        public $dirs;
+        public $key;
+
+        public $raw;
+
+        public function __construct($raw_) {
+            $this->raw = $raw_;
+
+            $this->key = "SHA256-s".$this->raw->raw['filesize']."--".$this->raw->raw['checksum'];
+            $key_hash = md5($this->key);
+            $NUM_HASH_LEVELS = 2;
+            $this->dirs = array_slice(str_split($key_hash, 3), 0, $NUM_HASH_LEVELS);
+        }
+    }
+
 
 //gitlfs 
     function writeGitLFSPointer($filename, $raw) {
