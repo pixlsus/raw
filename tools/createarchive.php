@@ -42,7 +42,7 @@
             $allexistingsamples[] = $thecamera;
 
             $make = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $make);
-            $model = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $model);
+            $model = mb_ereg_replace("([^\w\s\d\-_+~,;\[\]\(\).])", '', $model);
         }
     }
     $allmissingcameras = array();
