@@ -652,18 +652,49 @@
         }
     }
 
-    function get_raw_pretty_name($raw, &$make, &$model) {
-        $make="unknown";
-        $model="unknown";
-        if($raw['make']!=""){
-            $make=$cameradata[$raw['make']][$raw['model']]['make'] ?? $cameradata[$raw['make']]['make'] ?? $raw['make'];
+    class RawEntry
+    {
+        public $make;
+        public $model;
+        public $filename;
+
+        public $raw;
+
+        public function __construct(array $raw_) {
+            $this->raw = $raw_;
+
+            $this->make="unknown";
+            $this->model="unknown";
+            $this->filename = $this->raw['filename'];
+
+            if($this->raw['make']!=""){
+                $this->make=$cameradata[$this->raw['make']][$this->raw['model']]['make'] ?? $cameradata[$this->raw['make']]['make'] ?? $this->raw['make'];
+            }
+            if($this->raw['model']!=""){
+                $this->model=$cameradata[$this->raw['make']][$this->raw['model']]['model'] ?? $this->raw['model'];
+            }
+            $this->make = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $this->make);
+            $this->model = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $this->model);
         }
-        if($raw['model']!=""){
-            $model=$cameradata[$raw['make']][$raw['model']]['model'] ?? $raw['model'];
+
+        public function getOutputPath() {
+            return implode("/", [$this->make, $this->model, $this->filename]);
         }
-        $make = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $make);
-        $model = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $model);
-        return $make."/".$model."/".$raw['filename'];
+    }
+
+    function get_as_leafless_tree($arr, $key_getter) {
+        $tree = [];
+        foreach($arr as $elt) {
+            $keys = $key_getter($elt);
+            $branch = &$tree;
+            foreach($keys as $key) {
+                if(!array_key_exists($key, $branch)) {
+                    $branch[$key] = [];
+                }
+                $branch = &$branch[$key];
+            }
+        }
+        return $tree;
     }
 
     // found on http://php.net/manual/en/function.rmdir.php
@@ -673,6 +704,23 @@
             (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
         }
         return rmdir($dir);
+    }
+
+    class GitAnnexEntry
+    {
+        public $dirs;
+        public $key;
+
+        public $raw;
+
+        public function __construct($raw_) {
+            $this->raw = $raw_;
+
+            $this->key = "SHA256-s".$this->raw->raw['filesize']."--".$this->raw->raw['checksum'];
+            $key_hash = md5($this->key);
+            $NUM_HASH_LEVELS = 2;
+            $this->dirs = array_slice(str_split($key_hash, 3), 0, $NUM_HASH_LEVELS);
+        }
     }
 
 
@@ -685,21 +733,7 @@
         fclose($fp);
     }
 
-    function turnIntoAGitLFSRepo($checkout, $bare, $namespace) {
-        $fp=fopen($checkout."/.lfsconfig","w");
-        fprintf($fp,"[lfs]\n", );
-        fprintf($fp,"\turl = %s/git-lfs.php/$namespace\n", baseurl);
-        fclose($fp);
-
-        $fp=fopen($checkout."/.gitattributes","w");
-        fprintf($fp,"%s filter=lfs diff=lfs merge=lfs -text\n", "*");
-        foreach (scandir($checkout) as $filename) {
-            if(is_file($checkout."/".$filename)) {
-                fprintf($fp,"%s !filter !diff !merge text\n", $filename);
-            }
-        }
-        fclose($fp);
-
+    function turnIntoAGitRepo($checkout, $branch) {
         $env = array(
             'GIT_AUTHOR_NAME' => GIT_AUTHOR_NAME,
             'GIT_AUTHOR_EMAIL' => GIT_AUTHOR_EMAIL,
@@ -708,11 +742,17 @@
             'GIT_COMMITTER_EMAIL' => GIT_AUTHOR_EMAIL,
             'GIT_COMMITTER_DATE' => timestamp,
         );
-        proc_close(proc_open(array('git', 'init', '--quiet', '--initial-branch=master'), [], $pipes, $checkout, $env));
+        proc_close(proc_open(array('git', 'init', '--quiet', '--initial-branch='.$branch), [], $pipes, $checkout, $env));
         proc_close(proc_open(array('git', 'add', '.'), [], $pipes, $checkout, $env));
         proc_close(proc_open(array('git', 'commit', '--quiet', '--message=Raw.Pixls.Us public data dump as of '.date('c', timestamp).'', '--no-signoff', '--no-gpg-sign'), [], $pipes, $checkout, $env));
-        proc_close(proc_open(array('git', 'clone', '--quiet', '--mirror', $checkout, $bare), [], $pipes, $checkout, $env));
-        proc_close(proc_open(array('git', 'repack', '--quiet', '-a', '-d', '-f', '-F'), [], $pipes, $bare, $env));
+    }
+
+    function assembleGitRepo($bare, $branches) {
+        proc_close(proc_open(array('git', 'init', '--quiet', '--bare', '--initial-branch=master'), [], $pipes, $bare));
+        foreach($branches as $branch) {
+            proc_close(proc_open(array('git', 'push', '--quiet', '--no-signed', '--all', $bare), [], $pipes, $branch));
+        }
+        proc_close(proc_open(array('git', 'repack', '--quiet', '-a', '-d', '-f', '-F'), [], $pipes, $bare));
     }
 
     // https://stackoverflow.com/questions/2040240/php-function-to-generate-v4-uuid/15875555#15875555
@@ -834,4 +874,48 @@
 
     function influxPoint($measurement_str, $tagset, $fieldset) {
         influxPoints([influxPointSerialize($measurement_str, $tagset, $fieldset)]);
+    }
+
+    class RefCountedDir
+    {
+        public $name;
+        public $old = NULL;
+        public $staging;
+
+        public function __construct(string $name_) {
+            $this->name = $name_;
+            $this->staging = $this->name.".".timestamp;
+
+            if(file_exists($this->name)) {
+                assert(is_link($this->name));
+                $this->old = realpath($this->name);
+            }
+
+            assert(!file_exists($this->staging));
+            mkdir($this->staging);
+        }
+
+        public function gc() {
+            foreach(glob($this->name.".*") as $e) {
+                if($e == $this->staging) {
+                    continue; // Keep the newly created staging directory.
+                }
+                if($this->old != NULL && $e == $this->old) {
+                    continue; // Keep the current symlinks valid for now.
+                }
+                // Delete all other stale timestamped directories.
+                if (preg_match("/". str_replace("/", "\/", $this->name) ."\.[0-9]+/", $e)) {
+                    delTree($e);
+                }
+            }
+        }
+
+        public function commit() {
+            $new = $this->name.".new";
+            assert(!file_exists($new));
+            symlink(basename($this->staging), $new);
+            rename($new, $this->name); // replaces old symlink!
+            // NOTE: we intentionally leave the old dir around.
+            //       The next run of this script will `gc()` it.
+        }
     }

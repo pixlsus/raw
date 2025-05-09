@@ -17,9 +17,11 @@
 
     define('publicdatapath',basepath.'/data');
     define('publicdataurl',baseurl.'/data');
+    define('publicdataannexuuid','68c56513-e388-4db1-930f-53e789b8f683');
 
     define('publicdatauniquepath',basepath.'/data-unique');
     define('publicdatauniqueurl',baseurl.'/data-unique');
+    define('publicdatauniqueannexuuid','001759f1-2621-4e50-a493-952ebeeb825b');
 
     define('GIT_AUTHOR_NAME', 'Raw.Pixls.Us Bot');
     define('GIT_AUTHOR_EMAIL', 'rpu@raw.pixls.us');

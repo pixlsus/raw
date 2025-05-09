@@ -55,7 +55,7 @@
   <li><a href="https://github.com/darktable-org/darktable/issues/new/choose">darktable</p></li>
   <li><a href="https://github.com/Beep6581/RawTherapee/issues/new">RawTherapee</a></li>
 </ul>
-</p>                    
+</p>
 				</div>
 <?php     break; ?>
 <?php } ?>
@@ -195,8 +195,9 @@
 				</table>
 
 			</div>
-        Full mirror available via <a href="/data/">https</a> or git LFS:
-        use 'git clone <?php echo publicdataurl; ?>.git' to make a full mirror (requires <a href="https://git-lfs.com/">Git LFS</a> extension to be installed).
+        Full mirror available via <a href="/data/">https</a>, git LFS and git-annex:
+        to make a full mirror, use 'git clone <?php echo publicdataurl; ?>.lfs.git' (requires <a href="https://git-lfs.com/">Git LFS</a> extension to be installed),
+        or use 'git clone <?php echo publicdataurl; ?>.annex.git && cd data.annex.git && git annex get .' (requires <a href="https://git-annex.branchable.com/">git-annex</a> extension to be installed).
     		</section>
 
 
@@ -221,7 +222,7 @@
 					<p>
 						raw.pixls.us uses the excellent <a href="https://www.exiv2.org/">exiv2</a> and <a href="https://exiftool.org/">exiftool</a> for extracting the metadata of the raw files. Go read Robin Mills' <a href="https://clanmills.com/exiv2/book/">book</a> about Exiv2.
 					</p>
-					
+
 
 				</div>
 			</div>

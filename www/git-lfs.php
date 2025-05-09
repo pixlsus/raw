@@ -152,11 +152,8 @@ function GitLFSServer($namespace, $path, $session) {
     $raws = [];
     foreach ($allraws as $raw) {
         if ($raw["validated"] == "1") {
-            $raws[$raw["checksum"] . "/" . $raw["filesize"]] = get_raw_pretty_name(
-                $raw,
-                $make,
-                $model
-            );
+            $filename = (new RawEntry($raw))->getOutputPath();
+            $raws[$raw["checksum"] . "/" . $raw["filesize"]] = $filename;
         }
     }
 

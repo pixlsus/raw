@@ -19,7 +19,13 @@ assert(file_exists($file));
 list(, $namespace, ) = explode("/", $_SERVER["PATH_INFO"] ?? "", 3);
 
 // git http transport does not support redirects. Handle the download ourselves.
-if (in_array($_SERVER["PATH_INFO"], ["/data.git/info/refs", "/data-unique.git/info/refs"], true)) {
+if (in_array($_SERVER["PATH_INFO"],
+              [
+                "/data.annex.git/info/refs",
+                "/data.lfs.git/info/refs",
+                "/data-unique.annex.git/info/refs",
+                "/data-unique.lfs.git/info/refs",
+              ], true)) {
   influxPoint("gitrepo",
               [
                 "namespace" => $namespace
@@ -37,20 +43,36 @@ if (in_array($_SERVER["PATH_INFO"], ["/data.git/info/refs", "/data-unique.git/in
 }
 
 // Otherwise, let the web server deal with this.
-if (!in_array($namespace, ["data", "data-unique"], true)) {
-  assert(false); // Unreachable.
-}
+if (in_array($namespace, ["data", "data-unique"], true)) {
+  list(, , $filename) = explode("/", $_SERVER["PATH_INFO"], 3);
 
-list(, , $filename) = explode("/", $_SERVER["PATH_INFO"], 3);
-
-$hashsumsfile = parseHashsumsFile($namespace."/filelist.sha256");
-$sha256 = NULL;
-foreach($hashsumsfile as $k => $v) {
-  if($v == $filename) { // TOCTOU
-    $sha256 = $k;
-    break;
+  $hashsumsfile = parseHashsumsFile($namespace."/filelist.sha256");
+  $sha256 = NULL;
+  foreach($hashsumsfile as $k => $v) {
+    if($v == $filename) { // TOCTOU
+      $sha256 = $k;
+      break;
+    }
   }
-}
+  assert($sha256 != NULL);
+} else if (in_array($namespace, ["data.annex.git", "data-unique.annex.git"], true)) {
+  $key = explode("/", $_SERVER["PATH_INFO"]);
+  $key = end($key);
+  list($fields, $sha256) = explode("--", $key, 2);
+  $fields = explode("-", $fields);
+  assert($fields[0] == "SHA256");
+
+  list($base_namespace, ) = explode(".", $namespace, 2);
+  $hashsumsfile = parseHashsumsFile($base_namespace."/filelist.sha256");
+  $filename = NULL;
+  foreach($hashsumsfile as $k => $v) {
+    if($k == $sha256) { // TOCTOU
+      $filename = $v;
+      break;
+    }
+  }
+  assert($filename != NULL);
+} else assert(false);
 
 $session = $_SERVER["HTTP_X_RPU_GIT_LFS_SESSION_ID"] ?? "";
 
