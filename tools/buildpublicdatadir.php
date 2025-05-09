@@ -24,11 +24,15 @@
             $raws[] = new RawEntry($raw);
         }
     }
-    $tree = get_as_leafless_tree($raws, function($raw) {
-        return [$raw->make, $raw->model];
-    });
 
     buildpublicdatadir($raws, [], timestamp, publicdatapath, publicdataurl, publicdataannexuuid, 'data');
+
+    $makes = [];
+    foreach($raws as $raw) {
+        if(!in_array($raw->make, $makes)) {
+            $makes[] = $raw->make;
+        }
+    }
 
     foreach($raws as $raw) {
         if($raw->raw['license']!="CC0"){
@@ -40,8 +44,8 @@
     $cameras=raw_getnumberofcameras();
     file_put_contents("../www/button-cameras.svg", file_get_contents("https://img.shields.io/badge/cameras-".$cameras."-green.svg?maxAge=3600"));
     file_put_contents("../www/button-cameras.png", file_get_contents("https://img.shields.io/badge/cameras-".$cameras."-green.png?maxAge=3600"));
-    file_put_contents("../www/button-makes.svg", file_get_contents("https://img.shields.io/badge/makes-".count(array_keys($tree))."-green.svg?maxAge=3600"));
-    file_put_contents("../www/button-makes.png", file_get_contents("https://img.shields.io/badge/makes-".count(array_keys($tree))."-green.png?maxAge=3600"));
+    file_put_contents("../www/button-makes.svg", file_get_contents("https://img.shields.io/badge/makes-".count($makes)."-green.svg?maxAge=3600"));
+    file_put_contents("../www/button-makes.png", file_get_contents("https://img.shields.io/badge/makes-".count($makes)."-green.png?maxAge=3600"));
     $samples=raw_getnumberofsamples();
     file_put_contents("../www/button-samples.svg", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.svg?maxAge=3600"));
     file_put_contents("../www/button-samples.png", file_get_contents("https://img.shields.io/badge/samples-".$samples."-green.png?maxAge=3600"));
@@ -59,7 +63,7 @@
         influxPointSerialize("rpu", ["key"=>"reposize"], ["value"=>$reposize]),
         influxPointSerialize("rpu", ["key"=>"noncc0samples"], ["value"=>$noncc0samples]),
         influxPointSerialize("rpu", ["key"=>"missingcameras"], ["value"=>$missingcameras]),
-        influxPointSerialize("rpu", ["key"=>"makes"], ["value"=>count(array_keys($tree))]),
+        influxPointSerialize("rpu", ["key"=>"makes"], ["value"=>count($makes)]),
     ]);
 
     // We're done, release the lock.
