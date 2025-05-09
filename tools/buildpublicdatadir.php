@@ -28,7 +28,7 @@
         return [$raw->make, $raw->model];
     });
 
-    buildpublicdatadir($raws, timestamp, publicdatapath, publicdataurl, publicdataannexuuid, 'data');
+    buildpublicdatadir($raws, [], timestamp, publicdatapath, publicdataurl, publicdataannexuuid, 'data');
 
     foreach($raws as $raw) {
         if($raw->raw['license']!="CC0"){

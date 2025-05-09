@@ -1,6 +1,6 @@
 <?php
 
-function buildpublicdatadir($raws, $timestamp, $publicdatapath, $publicdataurl, $publicdataannexuuid, $namespace) {
+function buildpublicdatadir($raws, $extra_files, $timestamp, $publicdatapath, $publicdataurl, $publicdataannexuuid, $namespace) {
     $publicdatagitlfstmppath = $publicdatapath."-git-lfs";
     $publicdatagitannexmastertmppath = $publicdatapath."-git-annex-branch-master";
     $publicdatagitannexgitannextmppath = $publicdatapath."-git-annex-branch-git-annex";
@@ -31,6 +31,10 @@ function buildpublicdatadir($raws, $timestamp, $publicdatapath, $publicdataurl, 
     $tree = get_as_leafless_tree($raws, function($raw) {
         return [$raw->make, $raw->model];
     });
+
+    foreach($extra_files as $s => $t) {
+        copy($s, $RCDs["publicdatapath"]->staging."/".$t);
+    }
 
     foreach([
                 $RCDs["publicdatapath"]->staging,
