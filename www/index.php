@@ -195,9 +195,19 @@
 				</table>
 
 			</div>
-        Full mirror available via <a href="/data/">https</a>, git LFS and git-annex:
-        to make a full mirror, use 'git clone <?php echo publicdataurl; ?>.lfs.git' (requires <a href="https://git-lfs.com/">Git LFS</a> extension to be installed),
-        or use 'git clone <?php echo publicdataurl; ?>.annex.git && cd data.annex.git && git annex get .' (requires <a href="https://git-annex.branchable.com/">git-annex</a> extension to be installed).
+			<p>
+        Full mirror available via:
+				<ul>
+					
+				<li><a href="/data/">https</a></li>
+					<li>git LFS:
+         'git clone <?php echo publicdataurl; ?>.lfs.git' (requires <a href="https://git-lfs.com/">Git LFS</a> extension to be installed)
+        </li>
+					<li>git-annex:
+        
+        'git clone <?php echo publicdataurl; ?>.annex.git && cd data.annex && git annex get .' (requires <a href="https://git-annex.branchable.com/">git-annex</a> extension to be installed).</li>
+		</ul>
+				</p>
     		</section>
 
 
