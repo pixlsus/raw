@@ -100,7 +100,11 @@
 
     foreach (scandir($RCDs["publicdatapath"]->staging) as $filename) {
         if(is_file($RCDs["publicdatapath"]->staging."/".$filename)) {
-            copy($RCDs["publicdatapath"]->staging."/".$filename, publicdatagitlfstmppath."/".$filename);
+            foreach ([
+                        publicdatagitlfstmppath,
+                     ] as $o) {
+                copy($RCDs["publicdatapath"]->staging."/".$filename, $o."/".$filename);
+            }
         }
     }
 
