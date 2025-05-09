@@ -54,6 +54,7 @@ if (in_array($namespace, ["data", "data-unique"], true)) {
       break;
     }
   }
+  assert($sha256 != NULL);
 } else assert(false);
 
 $session = $_SERVER["HTTP_X_RPU_GIT_LFS_SESSION_ID"] ?? "";
