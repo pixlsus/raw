@@ -90,7 +90,22 @@ function buildpublicdatadir($raws, $extra_files, $timestamp, $publicdatapath, $p
         }
     }
 
-    turnIntoAGitLFSRepo($publicdatagitlfstmppath, $RCDs["publicdatagitlfsrepopath"]->staging, $namespace);
+    $fp=fopen($RCDs["publicdatagitlfsrepopath"]->staging."/.lfsconfig","w");
+    fprintf($fp,"[lfs]\n", );
+    fprintf($fp,"\turl = %s/git-lfs.php/$namespace\n", baseurl);
+    fclose($fp);
+
+    $fp=fopen($RCDs["publicdatagitlfsrepopath"]->staging."/.gitattributes","w");
+    fprintf($fp,"%s filter=lfs diff=lfs merge=lfs -text\n", "*");
+    foreach (scandir($RCDs["publicdatagitlfsrepopath"]->staging) as $filename) {
+        if(is_file($RCDs["publicdatagitlfsrepopath"]->staging."/".$filename)) {
+            fprintf($fp,"%s !filter !diff !merge text\n", $filename);
+        }
+    }
+    fclose($fp);
+
+    turnIntoAGitRepo($RCDs["publicdatagitlfsrepopath"]->staging, "master");
+    assembleGitRepo($publicdatagitlfstmppath, [$RCDs["publicdatagitlfsrepopath"]->staging]);
 
     //--------------------------------------------------------------------------
 

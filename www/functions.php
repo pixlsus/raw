@@ -755,25 +755,6 @@
         proc_close(proc_open(array('git', 'repack', '--quiet', '-a', '-d', '-f', '-F'), [], $pipes, $bare));
     }
 
-    function turnIntoAGitLFSRepo($checkout, $bare, $namespace) {
-        $fp=fopen($checkout."/.lfsconfig","w");
-        fprintf($fp,"[lfs]\n", );
-        fprintf($fp,"\turl = %s/git-lfs.php/$namespace\n", baseurl);
-        fclose($fp);
-
-        $fp=fopen($checkout."/.gitattributes","w");
-        fprintf($fp,"%s filter=lfs diff=lfs merge=lfs -text\n", "*");
-        foreach (scandir($checkout) as $filename) {
-            if(is_file($checkout."/".$filename)) {
-                fprintf($fp,"%s !filter !diff !merge text\n", $filename);
-            }
-        }
-        fclose($fp);
-
-        turnIntoAGitRepo($checkout, "master");
-        assembleGitRepo($bare, [$checkout]);
-    }
-
     // https://stackoverflow.com/questions/2040240/php-function-to-generate-v4-uuid/15875555#15875555
     function guidv4($data = null) {
         // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
