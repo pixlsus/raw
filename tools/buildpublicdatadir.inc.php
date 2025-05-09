@@ -107,10 +107,10 @@ function buildpublicdatadir($raws, $extra_files, $timestamp, $publicdatapath, $p
     }
 
     $fp=fopen($publicdatagitannexmastertmppath."/.gitattributes","w");
-    fprintf($fp,"%s annex.backend=SHA256 -text\n", "*");
+    fprintf($fp,"%s filter=annex diff=annex merge=annex annex.backend=SHA256 -text\n", "*");
     foreach (scandir($publicdatagitannexmastertmppath) as $filename) {
         if(is_file($publicdatagitannexmastertmppath."/".$filename)) {
-           fprintf($fp,"%s !annex.backend text\n", $filename);
+           fprintf($fp,"%s !filter !diff !merge !annex.backend text\n", $filename);
         }
     }
     fclose($fp);
