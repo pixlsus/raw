@@ -104,8 +104,8 @@ function buildpublicdatadir($raws, $extra_files, $timestamp, $publicdatapath, $p
     }
     fclose($fp);
 
-    turnIntoAGitRepo($RCDs["publicdatagitlfsrepopath"]->staging, "master");
-    assembleGitRepo($publicdatagitlfstmppath, [$RCDs["publicdatagitlfsrepopath"]->staging]);
+    turnIntoAGitRepo($publicdatagitlfstmppath, "master");
+    assembleGitRepo($RCDs["publicdatagitlfsrepopath"]->staging, [$publicdatagitlfstmppath]);
 
     //--------------------------------------------------------------------------
 
