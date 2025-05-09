@@ -43,20 +43,18 @@ if (in_array($_SERVER["PATH_INFO"],
 }
 
 // Otherwise, let the web server deal with this.
-if (!in_array($namespace, ["data", "data-unique"], true)) {
-  assert(false); // Unreachable.
-}
+if (in_array($namespace, ["data", "data-unique"], true)) {
+  list(, , $filename) = explode("/", $_SERVER["PATH_INFO"], 3);
 
-list(, , $filename) = explode("/", $_SERVER["PATH_INFO"], 3);
-
-$hashsumsfile = parseHashsumsFile($namespace."/filelist.sha256");
-$sha256 = NULL;
-foreach($hashsumsfile as $k => $v) {
-  if($v == $filename) { // TOCTOU
-    $sha256 = $k;
-    break;
+  $hashsumsfile = parseHashsumsFile($namespace."/filelist.sha256");
+  $sha256 = NULL;
+  foreach($hashsumsfile as $k => $v) {
+    if($v == $filename) { // TOCTOU
+      $sha256 = $k;
+      break;
+    }
   }
-}
+} else assert(false);
 
 $session = $_SERVER["HTTP_X_RPU_GIT_LFS_SESSION_ID"] ?? "";
 
