@@ -14,7 +14,7 @@
 
     if($type=="archive"){
         header("410 Gone");
-        echo("Zip archive support is removed. To make a full mirror, please use either 'git clone ".publicdataurl.".lfs.git' (requires Git LFS extension to be installed), 'git clone ".publicdataurl.".annex.git && cd data.annex.git && git annex get .' (requires git-annex extension to be installed), or mirror the data from ".publicdataurl."/");
+        echo("Zip archive support is removed. To make a full mirror, please use either 'git clone ".publicdataurl.".lfs.git' (requires Git LFS extension to be installed), 'git clone ".publicdataurl.".annex.git && cd data.annex && git annex get .' (requires git-annex extension to be installed), or mirror the data from ".publicdataurl."/");
         exit(0);
     }
 
