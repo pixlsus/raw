@@ -88,5 +88,5 @@ influxPoint("downloads",
             ]);
 
 header('HTTP/1.1 301');
-header('Location: /download'.$_SERVER["PATH_INFO"]);
+header('Location: /download'.$_SERVER["REQUEST_URI"]);
 exit();
