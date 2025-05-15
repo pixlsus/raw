@@ -136,6 +136,10 @@ function buildpublicdatadir($raws, $extra_files, $timestamp, $publicdatapath, $p
     fprintf($fp,"%s %s timestamp=%s"."s\n", $publicdataannexuuid, $publicdataurl.".annex.git", $timestamp);
     fclose($fp);
 
+    $fp = fopen($publicdatagitannexgitannextmppath."/difference.log","w");
+    fprintf($fp,"%s fromList [ObjectHashLower] timestamp=%s"."s\n", $publicdataannexuuid, $timestamp);
+    fclose($fp);
+
     foreach($gitannexentries as $e) {
         $dir = $publicdatagitannexgitannextmppath;
         foreach($e->dirs as $p) {
@@ -157,7 +161,10 @@ function buildpublicdatadir($raws, $extra_files, $timestamp, $publicdatapath, $p
     $fp = fopen($RCDs["publicdatagitannexrepopath"]->staging."/config", "w+");
     fprintf($fp,"[annex]\n".
                 "\tuuid = %s\n".
-                "\tversion = %s\n", $publicdataannexuuid, 10);
+                "\tversion = %s\n".
+                "[annex \"tune\"]\n".
+                "\tobjecthashlower = true\n",
+                $publicdataannexuuid, 10);
     fclose($fp);
 
     foreach($gitannexentries as $e) {
