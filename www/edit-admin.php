@@ -75,8 +75,20 @@
         <meta charset="utf-8">
 	<title>raw.pixls.us</title>
 	<link href="css/jquery-ui.css" rel="stylesheet">
+  <style type="text/css">
+img {
+  display: block;
+  max-width:100vw;
+  max-height:95vh;
+  width: auto;
+  height: auto;
+}
+  </style>
     </head>
     <body>
+        <table>
+        <tr>
+        <td>
         <div class="ui-widget">
             rawfile: <?php echo $rawfile?><br>
             exif: <?php echo $exifdata?><br>
@@ -140,8 +152,6 @@
                 <input type="submit" name="submit" id="submit" value="Update" />
             </form>
             <br>
-            <?php echo $previewimage?>
-            <br>
 <?php if($tmpdata['masterset']==0){ ?>
             <form action="deletefile.php" method="post">
                 <input type="hidden" id="deleteid" name="deleteid" value="<?php echo $tmpdata['id']?>" />
@@ -157,6 +167,12 @@
             </form>
 <?php } ?>
         </div>
+        </td>
+        <td class="preview">
+        <?php echo $previewimage?>
+        </td>
+        </tr>
+        </table>
         <script src="js/jquery.min.js"></script>
         <script src="js/jquery-ui.js"></script>
         <script>
